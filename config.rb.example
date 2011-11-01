@@ -1,0 +1,9 @@
+#!/usr/bin/ruby
+$host = 'localhost'
+$user = 'username'
+$password = 'password'
+$database = 'freenet2'
+$workingdir = '/home/sacarlson/ruby/'
+
+#con = Mysql.new($host,$user,$password,$database)
+
