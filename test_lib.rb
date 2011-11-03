@@ -33,7 +33,7 @@ require './freenet_lib.rb'
 #puts get_bytes_start("2")
 #puts get_bytes_ordered("2")
 
-ip = "192.168.2.174"
+ip = "192.168.2.164"
 #puts set_bytes_ordered("2", 0)
 #puts check_byte_account("2")
 #puts get_active_customers_id()
@@ -49,6 +49,7 @@ ip = "192.168.2.174"
 #puts get_bytes_xx_ip(ip,tx=1,con=nil)
 #puts get_bytes_rx_ip_max(ip,con=nil)
 verible = 'bytes_rx'
+#verible = 'fairnat_kbit'
 #puts get_ip_value(ip, verible, con=nil)
 #puts get_bytes_last_tot_ip(ip,con=nil)
 #puts make_fairnat_config(triger_slow=nil, triger_mid=nil, iptables_data_file=nil)
@@ -79,5 +80,9 @@ mbytes = 100
 #sleep 1
 #puts set_active_customers_id(con=nil)
 #puts check_fairnat_speed(ip,con=nil)
-set_fairnat_speed(ip, "3")
+#set_fairnat_speed(ip, "3")
+#get_ip_value(ip, verible, con=nil)
+#puts get_fairnat_kbit(ip)
+#puts get_fairnat_kbit_start(ip)
+puts make_fairnat_users(triger_slow=nil, triger_mid=nil, iptables_data_file=nil, force=false)
 

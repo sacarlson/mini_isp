@@ -251,6 +251,18 @@ def get_bytes_tx_ip_max(ip,con=nil)
   return get_ip_value(ip,'bytes_tx_max',con)
 end
 
+def get_fairnat_kbit_start(ip,con=nil)
+  return get_ip_value(ip, 'fairnat_kbit_start', con)
+end
+
+def get_fairnat_kbit(ip,con=nil)
+  return get_ip_value(ip, 'fairnat_kbit', con)
+end
+
+def get_fairnat_speed(ip,con=nil)
+  return get_ip_value(ip, 'fairnat_speed', con)
+end
+
 def get_bytes_xx_user_id(user_id,tx=0,con=nil)
   # return recorded byte count for user_id as seen in ip_links data in mysql
   # tx = 1  for tx byte count 0 for rx byte count
@@ -283,12 +295,12 @@ end
 
 def get_bytes_tx_user_id(user_id,con=nil)
   tx = 1
-  return get_bytes_xx_user_id(user_id,tx,con=nil)
+  return get_bytes_xx_user_id(user_id,tx,con)
 end
 
 def get_bytes_rx_user_id(user_id,con=nil)
   tx = 0
-  return get_bytes_xx_user_id(user_id,tx,con=nil)
+  return get_bytes_xx_user_id(user_id,tx,con)
 end
 
 def get_bytes_total_user_id(user_id,con=nil)
@@ -312,12 +324,12 @@ end
 
 def get_bytes_start(user_id,con=nil)
   # get customers_bytes_start from mysql customers table
-  return Integer(get_customers(user_id,"customers_bytes_start",con=nil))
+  return Integer(get_customers(user_id,"customers_bytes_start",con))
 end
 
 def get_bytes_ordered(user_id,con=nil)
   # get customers_bytes_ordered from mysql customers table
-  return Integer(get_customers(user_id,"customers_bytes_ordered",con=nil))
+  return Integer(get_customers(user_id,"customers_bytes_ordered",con))
 end
 
 def set_bytes_start(user_id, bytes, con=nil)
@@ -674,7 +686,16 @@ def set_fairnat_speed(ip, value, con=nil)
   return con.query(qstring)
 end
 
-def check_fairnat_speed(ip,con=nil)
+def set_fairnat_kbit(ip, value, con=nil)
+  #set the byte count in customers_bytes_start to present value in records of ip_links table
+  con = openMysql(con)  
+  qstring = "UPDATE ip_links SET fairnat_kbit=#{value} WHERE ip_address='#{ip}'"
+  return con.query(qstring)
+end
+
+
+#use get_fairnat_speed instead 
+def check_fairnat_speed2(ip,con=nil)
   #get customer first name from user_id number
    con = openMysql(con)
    qstring = "SELECT fairnat_speed
@@ -687,17 +708,21 @@ def check_fairnat_speed(ip,con=nil)
 end
 
 def make_fairnat_users(triger_slow=nil, triger_mid=nil, iptables_data_file=nil, force=false)
-  #create the USERS= string needed to append o fairnat.config.template to control bandwidth of users
+  #create the USERS= string needed to append to fairnat.config.template to control bandwidth of users
   #iptables_data_file name is what was created with readtables(filename = "#{$workingdir}userusage.txt")
   #triger_slow is the value that trigers puting a user into slow_speed b/w mode if this value is greater than get_bytes_last_tot
   #triger_mid is the same as triger_slow above this value will put user in mid_speed b/w mode
   #force will force it to gen users return even if no changes detected
   # return true if any changes detected in fairnat settings
-  slow_speed = "@800kbit|800kbit"
-  mid_speed = "@1200kbit|1200kbit"
-  high_speed = "@2mbit|2mbit"
-  triger_detected=force
-  change_detected = false
+  #slow_speed = "@800kbit|800kbit"
+  #mid_speed = "@1200kbit|1200kbit"
+  #high_speed = "@2000kbit|2000kbit"
+  slow_mult = 0.4
+  mid_mult = 0.6
+  high_mult = 1
+  min_speed = 500
+  mult = 1
+  change_detected = force
   if iptables_data_file == nil then
     iptables_data_file = "#{$workingdir}userusage.txt"
   end
@@ -712,33 +737,48 @@ def make_fairnat_users(triger_slow=nil, triger_mid=nil, iptables_data_file=nil, 
   list = get_whitelist()
   users = "USERS=" + '"'
   list.each do |ip|
+    bytes_last_tot_ip = get_bytes_last_tot_ip(ip)
+    fairnat_kbit = get_fairnat_kbit(ip)
+    fairnat_kbit_start = get_fairnat_kbit_start(ip)
+    puts "fairnat_kbit_start = #{fairnat_kbit_start} for ip #{ip}"  
     columns = ip.split(".")
     puts "ip = #{ip}"
     puts "columns[3] = #{columns[3]}"
-    puts "bytes used in last sample for ip #{ip}) = #{get_bytes_last_tot_ip(ip)}"
-   
-    if ( get_bytes_last_tot_ip(ip) > triger_slow) then
+    puts "bytes used in last sample for ip #{ip}) = #{bytes_last_tot_ip}"
+    speed = Integer(fairnat_kbit_start * slow_mult)
+    if ( bytes_last_tot_ip > triger_slow) then
       puts "ip #{ip} set to slow"
-      users = users + columns[3] + slow_speed + " "
-      if check_fairnat_speed(ip,con=nil) != 1 then
+      speed = Integer(fairnat_kbit_start * slow_mult)
+      #users = users + columns[3] + slow_speed + " "
+      if fairnat_kbit != speed then
         change_detected = true
-        set_fairnat_speed(ip,"1")
+        set_fairnat_kbit(ip, speed)
+      else
+        if speed > min_speed then
+          speed = speed - 100
+          change_detected = true
+          set_fairnat_kbit(ip, speed)
+        end
       end
-    elsif ( get_bytes_last_tot_ip(ip) > triger_mid) then
+    elsif ( bytes_last_tot_ip > triger_mid) then
       puts "ip #{ip} set to mid"
-      users = users + columns[3] + mid_speed + " "
-      if check_fairnat_speed(ip,con=nil) != 2 then
+      speed = Integer(fairnat_kbit_start * mid_mult)
+      #users = users + columns[3] + mid_speed + " "
+      if (fairnat_kbit != speed) then
         change_detected = true
-        set_fairnat_speed(ip,"2")
+        set_fairnat_kbit(ip, speed)
       end
     else
       puts "ip #{ip} set to high"
-      users = users + columns[3] + high_speed + " "
-      if check_fairnat_speed(ip,con=nil) != 3 then
+      speed = Integer(fairnat_kbit_start * high_mult)
+      #users = users + columns[3] + high_speed + " "
+      if fairnat_kbit != speed then
         change_detected = true
-        set_fairnat_speed(ip,"3")
+        set_fairnat_kbit(ip, speed)
       end
-    end     
+    end
+    speedstring = "@#{speed}kbit|#{speed}kbit"
+    users = users + columns[3] + speedstring + " "     
   end
   users = users + '"'
   puts users
