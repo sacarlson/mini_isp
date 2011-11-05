@@ -53,10 +53,7 @@ def zerocounter()
   system("sudo iptables -Z")
 end
 
-def record_bytes_rx(ip,bytes,con=nil)
-  if con==nil then
-    flagclose = true
-  end
+def record_bytes_rx(ip,bytes,con=nil) 
   #add number of bytes used to present records of ip_link account of ip address to mysql freenet3 data
   con = openMysql(con)
   qstring = "UPDATE ip_links SET bytes_rx=bytes_rx+#{bytes} WHERE ip_address='#{ip}'"
@@ -67,15 +64,9 @@ def record_bytes_rx(ip,bytes,con=nil)
     qstring = "UPDATE ip_links SET bytes_rx_max=#{bytes} WHERE ip_address='#{ip}'"
     con.query(qstring)
   end
-  if flagclose then
-    con.close
-  end
 end
 
 def record_bytes_tx(ip,bytes,con=nil)
-  if con==nil then
-    flagclose = true
-  end
   #add number of bytes used to present records of ip_link account of ip address to mysql freenet3 data
   con = openMysql(con)
   qstring = "UPDATE ip_links SET bytes_tx=bytes_tx+#{bytes} WHERE ip_address='#{ip}'"
@@ -86,26 +77,17 @@ def record_bytes_tx(ip,bytes,con=nil)
     qstring = "UPDATE ip_links SET bytes_tx_max=#{bytes} WHERE ip_address='#{ip}'"
     con.query(qstring)
   end
-  if flagclose then
-    con.close
-  end
 end
 
 
 
 def get_ip_list(con=nil)
   #return list of ip address in ip_link of mysql freenet3
-  if con == nil then 
-    closeflag = true
-  end
   con = openMysql(con)
   qstring = "SELECT * FROM ip_links "
   rs = con.query(qstring)
   list = []
   rs.each_hash { |h| list.push( h['ip_address'])}
-  if closeflag then 
-    con.close
-  end
   return list
 end
 
@@ -162,6 +144,7 @@ end
 def set_active_id(user_id,con=nil)
   # set active bit true in ip_links table for user_id
   # if no change detected return false, if bit changed set bit to 1 and return true
+  puts "set user_id #{user_id} active ***"
   if !check_active_id(user_id) then
     set_ip_links_value(user_id, "active", 1)
     return true
@@ -173,6 +156,7 @@ end
 def set_not_active_id(user_id,con=nil)
   # set active bit true in ip_links table for user_id
   # if no change detected return false, if change needed set bit to 0 and return true
+  puts "set user_id #{user_id} inactive"
   if check_active_id(user_id) then
     set_ip_links_value(user_id, "active", 0)
     return true
@@ -181,10 +165,14 @@ def set_not_active_id(user_id,con=nil)
   return false
 end
 
-def set_active_customers_id(con=nil)
-  # set the active bit in each active ip in ip_links list
-  # return false if no changes were made in any of the list, true if one or more changes in status were set.
-  change_detected = false
+def check_ip(ip,active_list)
+  #check to see that an ip is in the active user list array
+  user_id = get_user_id_ip(ip)
+  return active_list.include?(user_id)
+end
+
+def get_active_customers_id(con=nil)
+  #return array with list of customers_id that are not time expired
   con = openMysql(con)
   #reset_active(con)
   qstring = "SELECT `customers_id`
@@ -194,14 +182,29 @@ def set_active_customers_id(con=nil)
   list = []
   listfinal = []
   rs.each_hash { |h| list.push( h['customers_id'])}
-  list.each do |user_id|
-    puts "user_id = #{user_id})"
-    if check_byte_account(user_id,con)
-      puts "set user_id active"
-      if set_active_id(user_id) then
-        change_detected = true
+  return list
+end
+
+def set_active_ip(con=nil)
+  # set the active bit in each active ip in ip_links list
+  # return false if no changes were made in any of the list, true if one or more changes in status were set.
+  change_detected = false
+  con = openMysql(con)
+  ip_list = get_ip_list(con)
+  active_list = get_active_customers_id(con)
+  ip_list.each do |ip|
+    puts "ip = #{ip}"
+    user_id = get_user_id_ip(ip)
+    if check_ip(ip,active_list)     
+      if check_byte_account(user_id,con)
+        if set_active_id(user_id) then
+          change_detected = true
+        end
+      else
+        if set_not_active_id(user_id) then
+          change_detected = true
+        end
       end
-      listfinal.push(user_id)
     else
       if set_not_active_id(user_id) then
         change_detected = true
@@ -240,7 +243,7 @@ def get_bytes_rx_ip(ip,con=nil)
 end
 
 def get_bytes_tx_ip(ip,con=nil)
-  return get_bytes_xx_ip(ip,tx=1,con)
+  return get_ip_value(ip,'bytes_tx',con)
 end
 
 def get_bytes_rx_ip_max(ip,con=nil)
@@ -318,7 +321,6 @@ def get_customers(user_id,verible,con=nil)
   rs = con.query(qstring)
   list = []
   rs.each_hash { |h| list.push( h[verible])}  
-  con.close
   return list[0]
 end
 
@@ -427,16 +429,13 @@ end
 
 def get_user_id_ip(ip,con=nil)
   #get the user_id linked to ip address in ip_links table
-  if con == nil then flag = true end  
   con = openMysql(con)
   qstring = "SELECT `user_ID`
                FROM `ip_links`
                WHERE ip_address= '#{ip}'"
-  puts "con2 = #{con}"
   rs = con.query(qstring)
   list = []
   rs.each_hash { |h| list.push( h['user_ID'])}
-  if flag then con.close end
   return list[0]
 end
 
@@ -449,7 +448,6 @@ def get_customers_id(ip,con=nil)
   rs = con.query(qstring)
   list = []
   rs.each_hash { |h| list.push( h['customers_id'])}
-  con.close
   return list[0]
 end
 
@@ -462,7 +460,6 @@ def get_customers_name(ip,con=nil)
   rs = con.query(qstring)
   list = []
   rs.each_hash { |h| list.push( h['customers_firstname'])}
-  con.close
   return list[0]
 end
 
@@ -487,7 +484,6 @@ def check_mac(ip,con=nil)
   rs = con.query(qstring)
   list = []
   rs.each_hash { |h| list.push( h['mac_address'])}
-  con.close
   return list[0]
 end
 
@@ -507,7 +503,6 @@ def set_mac(ip,mac,con=nil)
   qstring = "UPDATE ip_links SET mac_address='#{mac}' WHERE ip_address='#{ip}'" 
   puts qstring                
   rs = con.query(qstring)
-  con.close
 end
 
 def make_dhcpd_conf(fileout="#{$workingdir}dhcpd.conf")
@@ -609,7 +604,6 @@ def ip_add(ip, user_id=nil)
   con = openMysql()                
   rs = con.query(qstring)
   puts rs
-  con.close
 end
 
 def update_tracker()
@@ -632,7 +626,7 @@ end
 
 
 def update_track_record()
-  list = get_ip_list()
+  list = get_whitelist() 
   readtables()
   sleep 1
   data = get_iptables_data()
