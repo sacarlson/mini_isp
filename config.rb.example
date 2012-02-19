@@ -4,6 +4,9 @@ $user = 'username'
 $password = 'password'
 $database = 'freenet2'
 $workingdir = '/home/sacarlson/ruby/'
+$vuzehost = '192.168.2.250'
+$vuzeuser = 'username'
+$vuzepass = 'password'
+$vuzebwlimit = 300
 
-#con = Mysql.new($host,$user,$password,$database)
 

@@ -18,6 +18,7 @@
 
 require 'rubygems'
 require 'mysql'
+require 'net/telnet'
 require './config.rb'  
 
 
@@ -567,6 +568,145 @@ def bytesXX(ip,filedata,colnum)
   return 0
 end
 
+def bytesAllNot(notip,filedata)
+  #total of all trafic except notip, so I can filter out my internaly generated trafic
+  #filedata is from get_iptables_data
+  #This was writen to find out if anyone else on the network is using much bandwidth
+  #to determine if it's a good time to continue torrent trafic in internal infrastructure
+  totbytes = 0
+  list = get_whitelist() 
+  list.each do |ip|
+    next if ip == notip    
+    puts "#{ip}"
+    totbytes=totbytes+bytesTotal(ip,filedata)
+  end
+  puts totbytes
+  return totbytes
+end
+
+def vuzeControl(command,show=nil,hostaddress=$vuzehost,user=$vuzeuser,password=$vuzepass)
+  #start and stop all torrents found in instance of vuze
+  #uses telnet to control vuze so plugin telnet must be installed in vuze to operate
+  #user and password are settings of telnet of vuze, hostaddress is ip of vuze server
+  #commands at present are start or stop, start will start all torrents found in vuze 
+  #stop will stop all torrents found in vuze
+  # show is needed from vuzeControl("show") if command is start or stop
+  vuze = Net::Telnet::new("Host" => hostaddress,                          
+                          "Output_log"=>"vuze_log.log",
+                          "Port" => 6870,
+                          "Timeout" => 10,
+                          "Telnetmode" => true)
+  vuze.waitfor("Match" => /Enter.username../n){|c| print c }
+  vuze.cmd("String" => user,
+           "Match" => /Enter.password../n) { |c| print c }
+  vuze.cmd("String" => password,
+           "Match" => /.*.[>]/n) { |c| print c } 
+  if command == "stop" or command == "start" then
+    puts "it IS stop or start"
+    #show = vuzeControl("show")
+    puts "command = #{command}"
+    if command == "stop" then
+      if !show.include?("()") then
+        puts "already stoped nothing to be done to vuze"
+        vuze.cmd("String" => "quit",
+                    "Match" => /.*.[>]/n) { |c| print c }
+        vuze.close
+        return show
+      end
+    else
+      if !show.include?("stopped") then
+        puts "already started nothing to be done to vuze"
+        vuze.cmd("String" => "quit",
+                    "Match" => /.*.[>]/n) { |c| print c }
+        vuze.close
+        return show
+      end
+    end
+    torrentcount = show.lines.count-3
+    puts "torrentcount = #{torrentcount}"
+    srtstp = command
+    for i in (0..torrentcount)
+      command = "#{srtstp} #{i}"
+      puts command
+      stuf = vuze.cmd("String" => command,
+                      "Match" => /.*.[>]/n) { |c| print c }
+    end
+  else
+    puts "NOT stop or start"
+    stuf = vuze.cmd("String" => command,
+                    "Match" => /.*.[>]/n) { |c| print c }
+  end
+  vuze.cmd("String" => "quit",
+                    "Match" => /.*.[>]/n) { |c| print c }
+  vuze.close
+  return stuf
+end
+
+def vuzelimit(bwlimit=$vuzebwlimit,notip = $vuzehost)
+  #limit vuze activity only when lan trafic is bellow bwlimit in megbytes threshold
+  #filedata = get_iptables_data
+  readtables()
+  filedata = get_iptables_data()
+  #filedata = get_iptables_data("#{$workingdir}userusagetest.txt")
+  bytesnow = bytesAllNot(notip,filedata)
+  puts "bytesnow = #{bytesnow}"
+  if bytesnow > bwlimit*1000000 then
+    puts "over bwlimit theshold will shut down vuze"
+    show = vuzeControl("show")
+    vuzeControl("stop",show)
+  else
+   puts "bwlimit within theshold will make sure vuze is started"
+   show = vuzeControl("show")
+   vuzeControl("start",show)
+  end
+end
+
+def qbtlimit(bwlimit=$vuzebwlimit,notip = $vuzehost)
+  #limit vuze activity only when lan trafic is bellow bwlimit in megbytes threshold
+  #filedata = get_iptables_data
+  readtables()
+  filedata = get_iptables_data()
+  #filedata = get_iptables_data("#{$workingdir}userusagetest.txt")
+  bytesnow = bytesAllNot(notip,filedata)
+  puts "bytesnow = #{bytesnow}"
+  if bytesnow > bwlimit*1000000 then
+    puts "over bwlimit theshold will shut down qBittorrent"
+    qbtControl("stop")
+  else
+   puts "bwlimit within theshold will make sure qBittorrent is started"
+   qbtControl("start")
+  end
+end
+
+def qbtControl(command,show=nil,hostaddress=$vuzehost,user=$vuzeuser,password=$vuzepass)
+  #start and stop all torrents found in instance of qBittorent on remote server
+  #commands are start or stop, at this time I setup ssh without passwords so password is not needed at this time
+  if command == "start" then
+    system("ssh -p2222 #{user}@#{hostaddress} '~/start_qbt.sh'")
+  elsif command == "run" then
+    system("ssh -p2222 #{user}@#{hostaddress} '~/run_qbt.sh'")
+  else 
+    system("ssh -p2222 #{user}@#{hostaddress} '~/stop_qbt.sh'")
+  end
+end
+
+def tablelookup(tabledata,searchstring,searchcolnum,returncolnum)
+  #tabledata is data from get_iptables_data or something like it
+  #return value of number in returncolnum where colum number searchcolnum contains a matching
+  # string equal to searchstring.
+  tabledata.each do |row|
+    columns = row.split(" ")
+    if columns[searchcolnum].include?(searchstring.strip) then
+      return Integer(columns[returncolnum])
+    end  
+  end
+  return 0
+end
+
+def bytesNetTotal(filedata)
+  #return total network bandwidth seen in filedata from get_iptables_data
+end
+
 def bytesTX(ip,filedata)
   colnum = 6
   return bytesXX(ip,filedata,colnum)
@@ -721,10 +861,10 @@ def make_fairnat_users(triger_slow=nil, triger_mid=nil, iptables_data_file=nil, 
     iptables_data_file = "#{$workingdir}userusage.txt"
   end
   if triger_slow == nil then
-    triger_slow = 450000000
+    triger_slow = 360000000
   end
   if triger_mid == nil then
-    triger_mid = 300000000
+    triger_mid = 220000000
   end
   puts "triger_slow = #{triger_slow}"
   puts "triger_mid = #{triger_mid}"
@@ -865,4 +1005,19 @@ def set_perm_ip()
     system("sudo /etc/init.d/dhcp3-server restart")
   end  
 end
+
+def play_sound(filename)
+    #I tried to find a way to play mp3 wav and other sound files in the standard ruby lib
+    #to try to minimize problems with cross platform but failed to find one for linux so this will have to do for now.
+    # this is intended to play alarm sound files. example play_sound("./sounds/alarm.mp3")
+    # you will have to provide the full file path or relitive from were you are.
+    # I'm not sure if play came with Ubuntu but that's what it's running on for me.
+    # this will not exit until the sound has completed.
+    puts "play soundfilename = #{filename}"
+    if filename == nil then
+      puts "no sound file to play. will return nothing done."
+      return nil
+    end
+    system("play "+filename)
+  end
 

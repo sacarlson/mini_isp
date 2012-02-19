@@ -33,8 +33,8 @@ subnet 192.168.2.0 netmask 255.255.255.0 {
   range 192.168.2.111 192.168.2.150;
   option broadcast-address 192.168.2.255;
   option domain-name-servers freenet_dns;
-  option routers freenet_router2;
-  #option routers freenet_router;
+  option routers freenet_router;
+  #option routers freenet_router2;
 }
 
 

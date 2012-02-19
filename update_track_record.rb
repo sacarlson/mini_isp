@@ -3,7 +3,8 @@
 Dir.chdir(File.dirname($PROGRAM_NAME))
 require './freenet_lib.rb'
 change_detected = false
-if set_active_customers_id() then
+
+if set_active_ip() then
   puts "changes in active users detected"
   change_detected = true
 end

@@ -33,7 +33,7 @@ require './freenet_lib.rb'
 #puts get_bytes_start("2")
 #puts get_bytes_ordered("2")
 
-ip = "192.168.2.164"
+ip = "192.168.2.176"
 #puts set_bytes_ordered("2", 0)
 #puts check_byte_account("2")
 #puts get_active_customers_id()
@@ -84,5 +84,23 @@ mbytes = 100
 #get_ip_value(ip, verible, con=nil)
 #puts get_fairnat_kbit(ip)
 #puts get_fairnat_kbit_start(ip)
-puts make_fairnat_users(triger_slow=nil, triger_mid=nil, iptables_data_file=nil, force=false)
+#puts make_fairnat_users(triger_slow=nil, triger_mid=nil, iptables_data_file=nil, force=false)
+#ip = "192.168.2.111"
+#puts get_active_customers_id(con=nil)
+#puts check_ip(ip,active_list)
+#puts set_active_ip(con=nil)
+#filedata = get_iptables_data("#{$workingdir}userusagetest.txt")
+#notip = "192.168.2.250"
+#bytesAllNot(notip,filedata)
+command = "start"
+#x = vuzeControl(command)
+#puts "/n"
+#puts x.lines.count-3
+#vuzeControl("start")
+#sleep 10
+#show = vuzeControl("show")
+#vuzeControl("stop",show)
+#vuzelimit
+#play_sound("./sounds/vuze_active.wav")
+qbtControl(command,show=nil,hostaddress=$vuzehost,user=$vuzeuser,password=$vuzepass)
 

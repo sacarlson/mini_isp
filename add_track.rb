@@ -7,4 +7,8 @@ require './freenet_lib.rb'
 #def ip_add(ip,user_id="0")
 
 ip_add(ARGV[0],ARGV[1])
+sleep 1
+set_active_ip(con=nil)
+sleep 1
+system("sudo /home/sacarlson/masq.sh")
 
