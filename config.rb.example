@@ -3,10 +3,10 @@ $host = 'localhost'
 $user = 'username'
 $password = 'password'
 $database = 'freenet2'
-$workingdir = '/home/sacarlson/ruby/'
+$workingdir = '/home/freenet/ruby/'
 $vuzehost = '192.168.2.250'
-$vuzeuser = 'username'
+$vuzeuser = 'freenet'
 $vuzepass = 'password'
-$vuzebwlimit = 300
+$vuzebwlimit = 20
 
 

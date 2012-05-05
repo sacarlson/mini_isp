@@ -92,7 +92,7 @@ mbytes = 100
 #filedata = get_iptables_data("#{$workingdir}userusagetest.txt")
 #notip = "192.168.2.250"
 #bytesAllNot(notip,filedata)
-command = "start"
+command = "run"
 #x = vuzeControl(command)
 #puts "/n"
 #puts x.lines.count-3

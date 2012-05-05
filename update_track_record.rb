@@ -27,6 +27,6 @@ if make_fairnat_config(triger_slow=360000000, triger_mid=180000000, iptables_dat
   sleep 2 
 end
 if change_detected then
-   system("sudo /home/sacarlson/masq.sh")
+   system("sudo /home/freenet/masq.sh")
 end
 

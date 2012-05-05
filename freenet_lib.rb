@@ -80,8 +80,6 @@ def record_bytes_tx(ip,bytes,con=nil)
   end
 end
 
-
-
 def get_ip_list(con=nil)
   #return list of ip address in ip_link of mysql freenet3
   con = openMysql(con)
@@ -509,6 +507,8 @@ end
 def make_dhcpd_conf(fileout="#{$workingdir}dhcpd.conf")
   dhcp_template_file = "#{$workingdir}dhcpd.conf.template"
   system("cp #{dhcp_template_file} #{fileout}")
+  update_tracker()
+  set_active_ip()
   list = get_whitelist(con=nil)
   list.each do |ip|    
     add_dhcp(ip,fileout)
@@ -538,6 +538,8 @@ host #{user_name}#{lastdigit} {
   option broadcast-address 192.168.2.255;
   option domain-name-servers freenet_dns,opendns1,opendns2;
   option routers freenet_router;
+  filename \"pxelinux.0\";
+  next-server 192.168.2.112;
 }"
  #max-lease-time 300;
 

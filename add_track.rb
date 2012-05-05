@@ -10,5 +10,5 @@ ip_add(ARGV[0],ARGV[1])
 sleep 1
 set_active_ip(con=nil)
 sleep 1
-system("sudo /home/sacarlson/masq.sh")
+system("sudo /home/freenet/masq.sh")
 
