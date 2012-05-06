@@ -1,0 +1,39 @@
+WebChat2.0 (C) Chris Chabot <chabotc@xs4all.nl> 2006-2007
+Released under the GPLv2, See LICENCE for more information.
+
+
+This is a comet / ajax chat application, which uses a custom
+PHP (5.x) backend daemon that connects to a IRC server.
+
+
+To run this application you need a few things:
+
+1) A IRC server configured to allow many(!) connections from
+localhost (or the host where the daemon resides). Normal IRC
+servers are configured to allow only upto 3 connections from
+the same IP address, so you need to change this to the ammount
+of clients you want your webchat able to host (256-1024 is a 
+reasonable number to start with). Also disable ident checking,
+because everything will be comming from localhost, this is
+pointless to do and only makes the process of connecting slower.
+During development i've used hybrid-ircd so if you run into 
+trouble, try using that ircd :-)
+
+2) Run the PHP chat daemon, it functions as the gateway between
+the browser based javascript frontend, and the irc backend, for
+extra paranoia protection, you could run the chat daemon in a 
+chroot envirioment, read one of the many FAQ's available on this 
+topic (it involves making a directory structure, using ldd to see
+what libs your php executable needs, copying those over, plus your
+php cli binary) and then running something like:
+
+# exec /usr/sbin/chroot /var/lib/php-chroot /usr/bin/php -Cq /chat/chat.php
+
+3) A modern browser! The chat application should work with IE6, IE7 
+and firefox.
+
+4) A willingness to accept that this software isn't finished yet :-)
+Feel free to mail sugestions, file bugs, write wiki pages, and send
+patches!
+
+

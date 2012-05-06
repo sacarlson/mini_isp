@@ -1,0 +1,350 @@
+* {
+    margin              : 0;
+    padding             : 0;
+    border				: none;
+    font-family			: Arial, sans-serif, serif;
+    color				: #000000;
+    font-size			: 11px;
+    text-align			: left;
+	text-decoration		: none;
+	vertical-align		: top;
+}
+
+html, body {
+	height				: 100%;
+	width				: 100%;
+	overflow			: hidden;
+	background-color	: #deecfd;
+}
+
+u {
+	text-decoration		: underline;
+}
+
+#header {
+	height				: 22px;
+	padding-left		: 8px;
+	margin-top			: 4px;
+	margin-left			: 4px;
+	margin-right		: 4px;
+	font-size			: 15px;
+	font-weight			: bold;
+	line-height			: 22px;
+	color				: #ffffff;
+	clear				: both;
+	background			: url('/images/top_bg.gif') repeat-x;
+	border				: 1px solid #99bbe8;
+	border-bottom		: none;
+}
+
+#main {
+	background-color	: #deecfd;
+	padding-right		: 4px;
+	padding-left		: 4px;
+	clear				: both;
+}
+
+.sizer {
+	width				: 4px;
+	height				: 100%;
+    background			: url('/images/sizer_handle.gif');
+	background-position	: left;
+	background-repeat	: no-repeat;
+	margin-top			: 1px;
+	float				: right;
+	cursor				: w-resize;
+}
+
+.names {
+	background-color	: #ffffff;
+	float				: right;
+	width				: 200px;
+}
+
+.messages, .names {
+	border				: 1px solid #99bbe8;
+	border-top			: none;
+	background-color	: #ffffff;
+}
+
+.who_ul {
+	list-style-type		: none;
+}
+
+.who_content {
+	overflow			: auto;
+	cursor				: text;
+}
+
+.names li.member {
+	overflow			: hidden;
+	white-space			: nowrap;
+	color				: #000000;
+	list-style-type		: none;
+	list-style-image	: none;
+	display				: block;
+	background-color	: transparent;
+	min-height			: 16px;
+	line-height			: 16px;
+	border-bottom		: 1px solid #e1eefe;
+	cursor				: pointer;
+	padding-left		: 8px;
+	padding-right		: 4px;
+}
+
+.names li.operator {
+	font-weight			: bold;
+}
+
+.names li.voice {
+	 font-style			: italic;
+}
+
+.messages {
+	width				: 200px;
+	cursor				: text;
+}
+
+.messages_content {
+	list-style-type		: none;
+	overflow			: auto;
+}
+
+.messages_content span {
+	margin-right		: 4px;
+}
+
+div.from {
+	line-height			: 16px;
+	width				: 60px;
+	overflow			: hidden;
+	float				: left;
+	clear				: both;
+	text-align			: left;
+	color				: #1D4C8D;
+	margin-right		: 2px;
+}
+
+/* alt: #b5cff3 ? */
+div.message {
+	line-height			: 16px;
+	color				: #1D4C8D;
+	padding-left		: 8px;
+}
+
+span.message {
+	color				: #000000;
+}
+
+span.notice {
+	color				: #1d4c8d;
+}
+
+span.kick {
+	color				: #1d4c8d;
+}
+
+span.part {
+	color				: #1d4c8d;
+}
+
+span.join {
+	color				: #1d4c8d;
+}
+
+span.topic {
+	color				: #1d4c8d;
+}
+
+span.privmsg {
+	color				: #1d4c8d;
+}
+
+.header {
+	height				: 21px;
+	line-height			: 21px;
+	padding-left		: 8px;
+	background-image	: url('/images/header_bg.gif');
+	background-repeat	: repeat-x;
+	color				: #083772;
+	font-weight			: normal;
+	border-bottom		: 1px solid #99bbe8;
+	border-top			: 1px solid #99bbe8;
+	overflow			: hidden;
+	white-space			: nowrap;
+}
+
+.header span {
+	line-height			: 21px;
+	color				: #083772;
+	font-weight			: bold;
+}
+
+.who_title {
+	line-height			: 21px;
+	color				: #15428B;
+	font-weight			: normal;
+	overflow			: hidden;
+	white-space			: nowrap;
+}
+
+.who_sizer {
+    line-height			: 1px;
+    font-size			: 1px;
+    background-image	: url('/images/collapse.gif');
+    width				: 12px;
+    height				: 11px;
+    margin-top			: 5px;
+    margin-right		: 5px;
+    cursor				: pointer;
+    z-index				: 10;
+    float				: right;
+}
+
+#new_channel.channel_button {
+}
+
+#new_channel .tab_center {
+	width				: 12px;
+	padding-left		: 6px;
+}
+
+.list_content {
+	margin				: 8px;
+	padding				: 8px;
+	color				: #083772;
+	line-height			: 18px;
+}
+
+.list_content input	{
+	width				: 560px;
+	border				: 1px solid #99bbe8;
+	color				: #083772;
+	height				: 18px;
+	line-height			: 18px;
+	padding-left		: 4px;
+	padding-top			: 4px;
+}
+
+.list_content img {
+	margin				: 8px;
+	float				: left;
+}
+
+.list_input {
+	color				: #083772;
+}
+
+.list_list {
+	background-color	: white;
+	border				: 1px solid #99bbe8;
+	height				: 318px;
+	overflow			: auto;
+	color				: #083772;
+}
+
+div.channel_list_entry {
+	height				: 16px;
+	line-height			: 16px;
+	white-space			: nowrap;
+	border-bottom		: 1px solid #e1eefe;
+	padding-left		: 4px;
+	overflow			: hidden;
+	cursor				: pointer;
+}
+
+div.channel_list_entry div.channel_list_members {
+	padding-left		: 4px;
+	margin-right		: 4px;
+	float				: left;
+	width				: 20px;
+	border-right		: 1px solid #e1eefe;
+	overflow			: hidden;
+	line-height			: inherit;
+	white-space			: nowrap;
+}
+
+.network_select select, .nickname_input input	{
+	width				: 260px;
+	border				: 1px solid #99bbe8;
+	color				: #083772;
+	height				: 18px;
+	line-height			: 18px;
+	margin-left			: 4px;
+	margin-top			: 4px;
+}
+
+
+.button {
+	width				: 76px;
+	float				: right;
+    font				: normal 11px arial, tahoma, verdana, helvetica;
+    cursor				: pointer;
+    clear				: none;
+    white-space			: nowrap;
+}
+
+.button_left, .button_right {
+    font-size			: 1px;
+    line-height			: 1px;
+}
+
+.button_left {
+	float				: left;
+    width				: 3px;
+    height				: 21px;
+    background			: url('/images/btn-sprite.gif') no-repeat 0px 0px;
+}
+
+.button_right {
+	float				: left;
+    width				: 3px;
+    height				: 21px;
+    background			: url('/images/btn-sprite.gif') no-repeat 0px -21px;
+}
+
+.button_center {
+	width				: 60px;
+	float				: left;
+    background			: url('/images/btn-sprite.gif') repeat-x 0px -42px;
+    height				: 21px;
+    font				: normal 11px "san serif",tahoma,verdana,helvetica;
+    cursor				: pointer;
+    white-space			: nowrap;
+    -moz-user-select	: none;
+    -khtml-user-select	: none;
+}
+
+.button_text  {
+	width				: 55px;
+    vertical-align		: middle;
+    text-align			: center;
+    padding				: 0px 5px;
+    display				: block;
+	padding-top			: 5px;
+}
+
+
+#overlay {
+	position			: absolute;
+	width				: 100%;
+	height				: 100%;
+	top					: 0px;
+	left				: 0px;
+	background-color	: white;
+	zIndex				: 1000;
+}
+
+#send {
+	border				: 1px solid #99bbe8;
+	margin				: 4px;
+	margin-top			: 0px;
+	height				: 45px;
+	clear				: both;
+	overflow			: hidden;
+	white-space			: nowrap;
+}
+
+
+
+

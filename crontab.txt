@@ -1,0 +1,6 @@
+# m h  dom mon dow   command
+1 8 * * * sudo /home/freenet/masq.sh >~/masq.log 2>&1
+1 4  * * * sudo /home/freenet/foropen_new.sh >~/masq2.log 2>&1
+2 * * * * /home/freenet/ruby/update_track_record.rb 
+@reboot sudo /home/freenet/masq.sh >/dev/null 2>&1
+@reboot sudo /var/www/freenet2.surething.biz/webchat2/start_webchat.sh

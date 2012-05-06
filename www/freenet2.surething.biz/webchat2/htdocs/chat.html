@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<!--
+		WebChat2.0 Copyright (C) 2006-2007, Chris Chabot <chabotc@xs4all.nl>
+		Licenced under the GPLv2. For more info see http://www.chabotc.com
+		-->
+		<title>webChat 2.0</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--- Development mode -->
+		<link href="/css/chat.css"   rel="stylesheet" type="text/css" />
+		<link href="/css/window.css" rel="stylesheet" type="text/css" />
+		<link href="/css/editor.css" rel="stylesheet" type="text/css" />
+		<link href="/css/tab.css"    rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="/js/prototype.js"></script>
+		<script type="text/javascript" src="/js/effects.js"></script>
+		<script type="text/javascript" src="/js/dragdrop.js"></script>
+		<script type="text/javascript" src="/js/chat.js"></script>
+		<script type="text/javascript" src="/js/chatChannel.js"></script>
+		<script type="text/javascript" src="/js/chatMembers.js"></script>
+		<script type="text/javascript" src="/js/chatWindow.js"></script>
+		<script type="text/javascript" src="/js/chatListWindow.js"></script>
+		<script type="text/javascript" src="/js/chatConnectWindow.js"></script>
+		<script type="text/javascript" src="/js/chatEditor.js"></script>
+		<!--[if lt IE 7.]>
+		<style>
+		.window_handle {
+			background	: url('/images/dialog_sprite.gif') repeat-x 0px -82px;
+		}
+		.sizer, #editor_resizer {
+			background-image : none;
+			margin  : 0;
+			padding : 0;
+			width   : 1px;
+		}
+		</style>
+		<![endif]-->
+	</head>
+	<body>
+		<div id="header">Web<span style="color:#b5cff3; font-size: 14px;">Chat</span>2.0</div>
+		<div id="toolbar">
+			<div id="new_channel" class="channel_button">
+				<div class="tab_left"></div>
+				<div class="tab_center">+</div>
+				<div class="tab_right"></div>
+			</div>
+		</div>
+		<div id="main"></div>
+		<div id="editor_resizer"></div>
+		<div id="send">
+			<div id="menu_div">
+				<ul id="editor_menu"></ul>
+			</div>
+
+			<div id="editor_div">
+				<iframe id="editor_edit" frameborder="0" scrolling="no" src="/editor_iframe.html"></iframe>
+			</div>
+		</div>
+		<div id="overlay"></div>
+	</body>
+</html>

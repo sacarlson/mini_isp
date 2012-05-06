@@ -1,0 +1,12 @@
+Subject: {AUCTION_OUTBID_SUBJECT}
+Charset: iso-8859-1
+
+Hello {AUCTION_USERNAME},
+
+You have been outbid on "{AUCTION_SITENAME}"
+
+Offer: {AUCTION_OFFER}
+( {U_AUCTION_OFFER} )
+
+
+{AUCTION_EMAIL_SIG}

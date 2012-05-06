@@ -1,0 +1,78 @@
+#toolbar {
+	background			: url('/images/tab_strip_bg.gif') repeat-x;
+	overflow			: hidden;
+	padding-left		: 2px;
+	padding-top			: 2px;
+	margin-left			: 4px;
+	margin-right		: 4px;
+	white-space			: nowrap;
+	height				: 22px;
+	border				: 1px solid #99bbe8;
+	border-bottom		: none;
+}
+
+.channel_button {
+	color				: #15428B;
+	cursor				: pointer;
+	float				: left;
+	height				: 22px;
+	line-height			: 24px;
+	font-weight			: normal;
+	overflow			: hidden;
+	white-space			: nowrap;
+	cursor				: pointer;
+}
+
+.tab_right {
+     background			: transparent url('/images/tab_sprite.gif') no-repeat right -50px;
+     width				: 2px;
+     height				: 22px;
+     float				: left;
+}
+
+.tab_left {
+     background			: transparent url('/images/tab_sprite.gif') no-repeat 0px -150px;
+     width				: 2px;
+     height				: 22px;
+     float				: left;
+}
+
+.tab_center {
+	background			: url('/images/tab_sprite.gif') repeat-x left -50px;
+	width				: 114px;
+	height				: 22px;
+	padding-left		: 4px;
+	text-align			: left;
+	float				: left;
+	color				: #15428B;
+}
+
+.on .tab_right, tab_right:hover {
+     background			: url('/images/tab_sprite.gif') no-repeat scroll right 0px;
+}
+
+.on .tab_left, .tab_left:hover {
+     background			: url('/images/tab_sprite.gif') no-repeat scroll 0px -100px;
+}
+
+.on .tab_center, .tab_center:hover {
+	background			: url('/images/tab_sprite.gif') repeat-x left 0px;
+	color				: #15428B;
+}
+
+.tab_close {
+    line-height			: 1px;
+    font-size			: 1px;
+    background-image	: url('/images/tab_close.gif');
+    width				: 11px;
+    height				: 11px;
+    margin-top			: 6px;
+    margin-right		: 3px;
+    cursor				: pointer;
+    z-index				: 10;
+    float				: right;
+}
+
+.on .tab_close, tab_close:hover {
+	background-image	: url('/images/tab_close_on.gif');
+}

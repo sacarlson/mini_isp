@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.4  (Unix)">
+	<META NAME="AUTHOR" CONTENT="Scott Carlson">
+	<META NAME="CREATED" CONTENT="20100511;13474400">
+	<META NAME="CHANGEDBY" CONTENT="Scott Carlson">
+	<META NAME="CHANGED" CONTENT="20100511;17042200">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 8.5in 11in; margin: 0.79in }
+		P { margin-bottom: 0.08in }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4 STYLE="font-size: 15pt"><B>FreeNet
+manual network switching instructions </B></FONT>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">These
+instructions are for a select group of people that want the ability
+to select the internet provider they want to use over the FreeNet
+network system.   The FreeNet network at the time this was written
+has two completely separate paths to get onto the network.  Normally
+when you hook to FreeNet our system provides you with a path to one
+of these two paths using DHCP FreeNet provides your computer with the
+needed info to make the connection to one of them eather TOT or True
+automaticaly.  FreeNet also auto detects if one of these networks
+fails we will switch all the users onto the remaining working
+Internet path.  However there are times that some people want to
+switch  to eather The TOT network path or the True network path
+manually, in this case this is the information needed to manually
+setup your computer to use one or the other.  Before you do any
+manual IP setup on FreeNet you might want to take a look at the
+FreeNet network usage activity to select what network is being least
+used at the times you plan to use the network.  This can bee seen in
+a graphical  format of bytes/secound verses time at the local FreeNet
+server
+<A HREF="http://surething.biz/cacti/graph_view.php?action=tree&amp;tree_id=1">http://surething.biz/cacti/graph_view.php?action=tree&amp;tree_id=1</A>
+ Both TOT and True usage have graphs there for you to see.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4 STYLE="font-size: 15pt"><B>How
+to find your FreeNet provided IP address</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in"><FONT SIZE=3><SPAN STYLE="font-weight: medium">Before
+you change your gateway address you need to find out what IP address
+FreeNet is giving you in the auto IP mode first.  This can be done by
+going to the command prompt in Vista or Windows XP and entering the
+command  “ipconfig” in the command window.  To bring up a command
+prompt in Windows Vista, </SPAN></FONT>From the Start Menu,
+type&nbsp;<STRONG>Command Prompt</STRONG>&nbsp;in the search field
+then click <STRONG>Command Prompt </STRONG>once it appears.<FONT SIZE=3><SPAN STYLE="font-weight: medium">
+In the command window type “ipconfig” no quotes and look for the
+ipv4 address in one of the many lines of info provided from the
+command entered.  Record this four digit number 192.168.2.XXX address
+to be used in the manual settings bellow.</SPAN></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4 STYLE="font-size: 15pt"><B>To
+manualy switch to the TOT or True ISP provider </B></FONT>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">There
+are four numbers you need to change or setup in your computer to
+manually setup your IP and gateway manually.  Note only the gateway
+address number changes to move from TOT to True.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in"><FONT SIZE=3 STYLE="font-size: 13pt"><B>TOT
+numbers</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">1.
+your IP address:192.168.2.XXX</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">you
+should find out what your IP address is set to in auto mode before
+you change to manual mode.  Your IP address must be the same as auto
+or you will not have Internet access only local access as noted in
+How to find your FreeNet provided IP address above.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">2.
+mask address: 255.255.255.0</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">3.
+gateway address: 192.168.2.253  </FONT>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">4.
+DNS server address: 192.168.2.250</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in"><FONT SIZE=3 STYLE="font-size: 13pt"><B>True
+numbers</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">1.
+your IP address:192.168.2.XXX</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">you
+should find out what your IP address is set to in auto mode before
+you change to manual mode.  Your IP address must be the same as auto
+or you will not have Internet access only local access.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">2.
+mask address: 255.255.255.0</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">3.
+gateway address: 192.168.2.248 </FONT>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">4.
+DNS server address: 192.168.2.250</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4 STYLE="font-size: 15pt"><B>To
+change IP address and gateway in Microsoft Vista</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+1</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Go
+to the Control Panel from the Start menu.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+2</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+&quot;Network and Internet&quot; and then &quot;Network and Sharing
+Center.&quot;</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+3</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+&quot;Manage network connections.&quot;</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+4</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Choose
+which Internet connection you would like to change if you have more
+than one. Right click on it and select &quot;Properties.&quot;</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+5</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+the &quot;Networking&quot; tab.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+6</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Choose
+Internet Protocol Version 4 (TCP/IPv4) .</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+7</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+&quot;Use the following IP Address&quot; to enter your own IP
+settings if you want to have manual control of your address.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+8</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">
+ If you want to reverse and go back to auto mode skip step 7 and do
+this step otherwise skip this step and go to step 9.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"> 
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+&quot;Obtain an IP Address Automatically&quot; to reset your IP
+address automatically, then click OK.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+9</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Enter
+your IP address as you noted it was set when in auto mode. into the
+boxes marked &quot;IP Address,&quot; for &quot;Subnet Mask&quot; use
+255.255.255.0  and &quot;Default gateway.&quot; use  192.168.2.253</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0in"><FONT SIZE=4 STYLE="font-size: 15pt"><B>Change
+your DNS Server Settings</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+1</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">For
+automatic setting or reversing manual settings</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+&quot;Obtain DNS Server Address Automatically&quot; and then click
+&quot;OK.&quot;</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">skip
+this and go to step 2  if going to manual settings</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+2</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">For
+manual settings start here.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Click
+&quot;Use the following DNS Server addresses&quot; to change your DNS
+Server settings manually.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+3</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Type
+your primary DNS Server address into the box that says &quot;Preferred
+DNS Server.&quot;</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">enter
+192.168.2.250 for the FreeNet DNS server or you can use opendns
+server numbers to bypass the FreeNet DNS server with  208.67.222.222
+or others if you know of any others.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Step
+4</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt"></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">Type
+your secondary DNS Server address into the box that says &quot;Alternate
+DNS Server.&quot;</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">here
+again you might want to use the opendns server as a backup instead of
+the primary 208.67.222.222 or can just leave blank or swap this with
+the 192.168.2.250 FreeNet address</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0in; font-weight: medium"><FONT SIZE=3 STYLE="font-size: 13pt">For
+other operating system instructions please contact Scotty for more
+details.</FONT></P>
+</BODY>
+</HTML>

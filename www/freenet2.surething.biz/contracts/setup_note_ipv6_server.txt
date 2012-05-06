@@ -1,0 +1,19 @@
+notes on ipv6 only network install and setup
+
+apt-get install miredo
+will setup ipv6 tunnel to ipv6 broker
+
+apt-get install radvd
+modify or create /etc/radvd.conf as seen here at /home/sacarlson/etc/radvd.conf
+
+apt-get install totd
+modify or create /etc/totd.conf as seen here at /home/sacarlson/etc/totd.conf
+
+download and compile ptrtd-0.5.2.tar.gz
+
+to start run script /home/sacarlson/start_ipv6_server.sh
+to stop run script /home/sacarlson/stop_ipv6_server.sh
+
+see these sites for more info:
+http://www.join.uni-muenster.de/Dokumente/Howtos/Howto_TRT.php?lang=en#Voraussetzungen
+http://ipv6.bzzt.net/

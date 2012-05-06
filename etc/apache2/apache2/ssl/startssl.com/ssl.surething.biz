@@ -1,0 +1,16 @@
+NameVirtualHost *:443
+<VirtualHost *:443>
+   ServerName freenet4.surething.biz
+   ServerAdmin webmaster@localhost
+   SSLEngine on
+   SSLProtocol all -SSLv2
+   SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM
+   SSLCertificateFile /etc/apache2/ssl/startssl.com/freenet4.surething.biz.crt
+   SSLCertificateKeyFile /etc/apache2/ssl/startssl.com/freenet4.surething.biz.key
+   SSLCertificateChainFile /etc/apache2/ssl/startssl.com/sub.class1.server.ca.pem
+   SSLCACertificateFile /etc/apache2/ssl/startssl.com/ca.pem 
+   DocumentRoot /var/www/freenet/
+</VirtualHost>
+
+
+

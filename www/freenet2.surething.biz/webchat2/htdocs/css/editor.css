@@ -1,0 +1,144 @@
+#editor_resizer {
+	height				: 4px;
+	margin-left			: 4px;
+	margin-right		: 4px;
+    background			: transparent url('/images/sizer_handle_s.gif');
+	background-position	: center center;
+	background-repeat	: no-repeat;
+	cursor				: s-resize;
+}
+
+#editor_menu {
+	margin-left			: 0;
+	padding-left		: 0;
+	height				: 21px;
+	line-height			: 21px;
+}
+
+#editor_menu li {
+	float				: left;
+	margin				: 0;
+	margin-left			: 2px;
+	margin-right		: 1px;
+	margin-top			: 2px;
+	padding				: 0;
+	font-weight			: bold;
+	list-style-type		: none;
+	cursor				: pointer;
+	display				: block;
+	height				: 18px;
+}
+
+#editor_menu li.over {
+	margin-top			: 1px;
+	margin-left			: 1px;
+	margin-right		: 0px;
+	border-left			: 1px solid #e0edff;
+	border-top			: 1px solid #e0edff;
+	border-right		: 1px solid #99bbe8;
+	border-bottom		: 1px solid #99bbe8;
+}
+
+#editor_menu li.down {
+	margin-top			: 1px;
+	margin-left			: 1px;
+	margin-right		: 0px;
+	border-left			: 1px solid #99bbe8;
+	border-top			: 1px solid #99bbe8;
+	border-right		: 1px solid #e0edff;
+	border-bottom		: 1px solid #e0edff;
+}
+
+#menu_div {
+	clear				: both;
+	height				: 22px;
+	line-height			: 22px;
+	background-image	: url('/images/header_bg.gif');
+	background-repeat	: repeat-x;
+}
+
+.editor_popup {
+	background-color 	: #bad2f6;
+	color    			: #2d5593;
+	overflow 			: hidden;
+	position 			: absolute;
+	z-index  			: 1010;
+	width				: 116px;
+	height				: 80px;
+	border				: 1px solid #99bbe8;
+	padding				: 2px;
+}
+
+.editor_popup div {
+	opacity				: 1;
+	-moz-opacity		: 1;
+	filter				: alpha(opacity=100);
+	zoom				: 1;
+}
+
+.editor_popup div, .editor_popup img {
+	cursor				: pointer;
+}
+
+#menu_div .editor_bold, #menu_div .editor_italic, #menu_div .editor_underline, #menu_div .editor_forecolor, #menu_div .editor_backcolor {
+	width				: 18px;
+	height				: 18px;
+	background-image	: url('/images/toolbar.gif');
+}
+
+#menu_div .editor_smile {
+	width				: 18px;
+	height				: 18px;
+	background			: url('/images/smilies/biggrin.gif') no-repeat 50% 50%;
+}
+
+#menu_div .editor_bold {
+	background-position	: 0px 50%;
+}
+
+#menu_div .editor_italic {
+	background-position	: -18px 50%;
+}
+
+#menu_div .editor_underline {
+	background-position	: -36px 50%;
+}
+
+#menu_div .editor_forecolor {
+	background-position	: -90px 50%;
+}
+
+#menu_div .editor_backcolor {
+	background-position	: -108px 50%;
+}
+
+#editor_div {
+	clear				: both;
+	height				: 23px;
+	cursor				: text;
+}
+
+#editor_edit {
+	background-color	: #ffffff;
+	border-top			: 1px solid #99bbe8;
+	width				: 420px;
+	height				: 23px;
+	clear				: both;
+	margin				: 0;
+	padding				: 0;
+	overflow			: hidden;
+	cursor				: text;
+}
+
+.editor_smilie {
+	float				: left;
+	margin				: 2px;
+}
+
+.editor_color {
+	height				: 15px;
+	width				: 15px;
+	float				: left;
+	margin				: 2px;
+	border				: 2px solid #ffffff;
+}

@@ -1,0 +1,118 @@
+.window {
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	clear    			: both;
+	background-color 	: #deecfd;
+	color    			: #083772;
+	overflow 			: auto;
+	position 			: absolute;
+	z-index  			: 100;
+	top		 			: 20px;
+	left    			: 20px;
+}
+
+.window_handle {
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	height				: 26px;
+	line-height			: 26px;
+	color				: #083772;
+	font-weight			: bold;
+	clear				: both;
+}
+
+.window_handle .window_handle_center {
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	height				: 26px;
+    background			: url('/images/dialog_sprite.gif') repeat-x 0px -82px;
+    color				: #083772;
+    text-weight			: bold;
+    overflow			: hidden;
+    clear				: none;
+}
+
+.window_handle .window_handle_left {
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	float				: left;
+	height				: 26px;
+    background			: url('/images/dialog_sprite.gif') no-repeat 0px -41px;
+    width				: 3px;
+}
+
+.window_handle .window_handle_right {
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	float				: right;
+	height				: 26px;
+    background			: url('/images/dialog_sprite.gif') no-repeat right 0px;
+    width				: 3px;
+}
+
+.window_close {
+	zoom				: 1;
+	float				: right;
+	cursor				: pointer;
+	margin-right		: 4px;
+	margin-top			: 4px;
+	width				: 19px;
+	height				: 19px;
+	background-image	: url('/images/window_close.gif');
+	background-repeat	: no-repeat;
+}
+
+.window_close:hover {
+	background-image	: url('/images/window_close_on.gif');
+}
+
+.window_content {
+	background-image	: url('/images/dialog_center.gif');
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	clear				: both;
+	background-color	: transparent;
+	overflow			: auto;
+	border-left			: 1px solid #7f95b1;
+	border-right		: 1px solid #7f95b1;
+	border-bottom		: 1px solid #7f95b1;
+}
+
+.window_sizer {
+	opacity				: .85;
+	-moz-opacity		: .85;
+	filter				: alpha(opacity=80);
+	zoom				: 1;
+	position			: absolute;
+	bottom				: 0px;
+	right				: 0px;
+	z-index				: 110;
+	background-image	: url('/images/sizer.gif');
+	width				: 10px;
+	height				: 10px;
+	background-position	: center;
+	background-color	: transparent;
+	cursor				: pointer;
+}
+
+.window_title {
+	opacity				: 1;
+	-moz-opacity		: 1;
+	filter				: alpha(opacity=100);
+	zoom				: 1;
+	margin-left			: 4px;
+	font-weight			: bold;
+	color				: #15428B;
+}

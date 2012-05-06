@@ -1,0 +1,14 @@
+$ORIGIN .
+$TTL 38400	; 10 hours 40 minutes
+freenet.surething.biz	IN SOA	ns1.freenet.surething.biz. root.freenet.surething.biz. (
+				2008030529 ; serial
+				10800      ; refresh (3 hours)
+				3600       ; retry (1 hour)
+				604800     ; expire (1 week)
+				38400      ; minimum (10 hours 40 minutes)
+				)
+			NS	ns1.freenet.surething.biz.
+$TTL 3500	; 58 minutes 20 seconds
+			A	192.168.2.250
+$ORIGIN freenet.surething.biz.
+*			A	192.168.2.250

@@ -1,0 +1,66 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 2 (0x2)
+        Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=TL, ST=BKK, L=Pattaya, O=OpenVPN-freeNET, CN=192.168.2.240/emailAddress=sacarlson@ipipi.com
+        Validity
+            Not Before: Jan  4 06:16:49 2008 GMT
+            Not After : Jan  1 06:16:49 2018 GMT
+        Subject: C=TL, ST=BKK, O=OpenVPN-freeNET, CN=client1/emailAddress=sacarlson@ipipi.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (1024 bit)
+                Modulus (1024 bit):
+                    00:be:77:d3:d6:e4:9b:73:aa:15:9e:90:c9:96:e1:
+                    8f:d7:b2:97:40:d6:e4:ee:a1:82:dc:e5:71:e0:03:
+                    fd:32:32:24:12:64:c5:5b:12:87:dc:15:23:8f:59:
+                    d6:a6:52:26:8d:d4:58:fc:e7:c3:76:28:04:ae:23:
+                    c9:d1:bc:8d:d8:69:b9:c1:0f:be:90:76:42:b3:43:
+                    c2:77:4f:6e:44:09:fe:5d:68:c1:c2:02:45:72:8b:
+                    a1:e1:cf:55:ac:80:f7:21:d7:e9:91:0a:95:3f:90:
+                    f2:bc:2e:e4:18:89:83:ba:2c:96:91:68:f8:d6:3a:
+                    db:16:92:2c:3f:bd:35:0f:cf
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Comment: 
+                OpenSSL Generated Certificate
+            X509v3 Subject Key Identifier: 
+                7A:D0:FE:D2:3A:BB:7C:BA:3C:31:6F:77:B1:16:37:7F:F6:68:E9:E6
+            X509v3 Authority Key Identifier: 
+                keyid:70:5D:49:64:23:E7:44:3E:66:36:15:B8:69:B8:93:F3:D6:9E:28:16
+                DirName:/C=TL/ST=BKK/L=Pattaya/O=OpenVPN-freeNET/CN=192.168.2.240/emailAddress=sacarlson@ipipi.com
+                serial:E7:D5:65:88:68:9B:76:BE
+
+    Signature Algorithm: md5WithRSAEncryption
+        88:c3:b3:d7:97:22:a8:77:73:bd:0f:f4:a0:54:e5:4a:64:d3:
+        33:ee:9b:77:c9:17:dd:59:07:c9:fe:4b:c0:15:d2:a0:fd:00:
+        0f:85:68:77:72:b5:dc:40:0f:30:f7:90:c2:3e:72:4e:75:00:
+        04:25:1e:74:f8:af:95:99:e2:ad:a1:f8:85:c0:f4:28:65:77:
+        6f:96:68:e5:fd:16:49:95:02:bd:7e:25:3d:f5:9e:fe:57:d3:
+        cc:0e:dc:1b:25:35:66:b7:f0:92:c1:98:15:2a:ca:eb:e2:01:
+        ca:0a:66:01:18:ed:ae:9e:44:a3:b2:51:11:de:37:7b:e4:fc:
+        b2:8e
+-----BEGIN CERTIFICATE-----
+MIIDfjCCAuegAwIBAgIBAjANBgkqhkiG9w0BAQQFADCBgzELMAkGA1UEBhMCVEwx
+DDAKBgNVBAgTA0JLSzEQMA4GA1UEBxMHUGF0dGF5YTEYMBYGA1UEChMPT3BlblZQ
+Ti1mcmVlTkVUMRYwFAYDVQQDEw0xOTIuMTY4LjIuMjQwMSIwIAYJKoZIhvcNAQkB
+FhNzYWNhcmxzb25AaXBpcGkuY29tMB4XDTA4MDEwNDA2MTY0OVoXDTE4MDEwMTA2
+MTY0OVowazELMAkGA1UEBhMCVEwxDDAKBgNVBAgTA0JLSzEYMBYGA1UEChMPT3Bl
+blZQTi1mcmVlTkVUMRAwDgYDVQQDEwdjbGllbnQxMSIwIAYJKoZIhvcNAQkBFhNz
+YWNhcmxzb25AaXBpcGkuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+
+d9PW5JtzqhWekMmW4Y/XspdA1uTuoYLc5XHgA/0yMiQSZMVbEofcFSOPWdamUiaN
+1Fj858N2KASuI8nRvI3YabnBD76QdkKzQ8J3T25ECf5daMHCAkVyi6Hhz1WsgPch
+1+mRCpU/kPK8LuQYiYO6LJaRaPjWOtsWkiw/vTUPzwIDAQABo4IBFzCCARMwCQYD
+VR0TBAIwADAsBglghkgBhvhCAQ0EHxYdT3BlblNTTCBHZW5lcmF0ZWQgQ2VydGlm
+aWNhdGUwHQYDVR0OBBYEFHrQ/tI6u3y6PDFvd7EWN3/2aOnmMIG4BgNVHSMEgbAw
+ga2AFHBdSWQj50Q+ZjYVuGm4k/PWnigWoYGJpIGGMIGDMQswCQYDVQQGEwJUTDEM
+MAoGA1UECBMDQktLMRAwDgYDVQQHEwdQYXR0YXlhMRgwFgYDVQQKEw9PcGVuVlBO
+LWZyZWVORVQxFjAUBgNVBAMTDTE5Mi4xNjguMi4yNDAxIjAgBgkqhkiG9w0BCQEW
+E3NhY2FybHNvbkBpcGlwaS5jb22CCQDn1WWIaJt2vjANBgkqhkiG9w0BAQQFAAOB
+gQCIw7PXlyKod3O9D/SgVOVKZNMz7pt3yRfdWQfJ/kvAFdKg/QAPhWh3crXcQA8w
+95DCPnJOdQAEJR50+K+VmeKtofiFwPQoZXdvlmjl/RZJlQK9fiU99Z7+V9PMDtwb
+JTVmt/CSwZgVKsrr4gHKCmYBGO2unkSjslER3jd75Pyyjg==
+-----END CERTIFICATE-----

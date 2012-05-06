@@ -1,0 +1,85 @@
+[2007/09/27 - 09:07:01] tornado-start : Ubuntu.torrent
+[2007/09/27 - 09:07:03] recalc sharekill for Ubuntu.torrent
+[2007/09/27 - 09:07:03] seed forever
+[2007/09/27 - 09:07:03] executing command : 
+cd '/var/www/download/sacarlson/'; HOME='/var/www/download/'; export HOME; nohup /usr/bin/python -OO '/home/oldbox/torrentflux-b4rt_1.0-beta1/html/bin/clients/tornado/tftornado.py' 'False' '0' 'sacarlson' '/var/www/download/.transfers/Ubuntu.torrent' --responsefile '/var/www/download/.transfers/Ubuntu.torrent' --display_interval 1 --max_download_rate '0' --max_upload_rate '10' --max_uploads '4' --minport '49160' --maxport '49300' --rerequest_interval '1800' --super_seeder '0' --max_connections '40' 1>> '/var/www/download/.transfers/Ubuntu.torrent.log' 2>> '/var/www/download/.transfers/Ubuntu.torrent.log' &
+[2007/09/27 - 09:07:05] tornado starting up :
+[2007/09/27 - 09:07:05]  - torrentfile : /var/www/download/.transfers/Ubuntu.torrent
+[2007/09/27 - 09:07:05]  - userName : sacarlson
+[2007/09/27 - 09:07:05]  - transferStatFile : /var/www/download/.transfers/Ubuntu.torrent.stat
+[2007/09/27 - 09:07:05]  - transferCommandFile : /var/www/download/.transfers/Ubuntu.torrent.cmd
+[2007/09/27 - 09:07:05]  - transferLogFile : /var/www/download/.transfers/Ubuntu.torrent.log
+[2007/09/27 - 09:07:05]  - transferPidFile : /var/www/download/.transfers/Ubuntu.torrent.pid
+[2007/09/27 - 09:07:05]  - autoDie : False
+[2007/09/27 - 09:07:05]  - shareKill : 0
+[2007/09/27 - 09:07:05]  - minport : 49160
+[2007/09/27 - 09:07:05]  - maxport : 49300
+[2007/09/27 - 09:07:05]  - max_upload_rate : 10
+[2007/09/27 - 09:07:05]  - max_download_rate : 0
+[2007/09/27 - 09:07:05]  - min_uploads : 4
+[2007/09/27 - 09:07:05]  - max_uploads : 4
+[2007/09/27 - 09:07:05]  - min_peers : 20
+[2007/09/27 - 09:07:05]  - max_initiate : 40
+[2007/09/27 - 09:07:05]  - max_connections : 40
+[2007/09/27 - 09:07:05]  - super_seeder : 0
+[2007/09/27 - 09:07:05]  - security : 1
+[2007/09/27 - 09:07:05]  - auto_kick : 1
+[2007/09/27 - 09:07:05]  - crypto_allowed : 0
+[2007/09/27 - 09:07:05]  - crypto_only : 0
+[2007/09/27 - 09:07:05]  - crypto_stealth : 0
+[2007/09/27 - 09:07:05]  - priority : 
+[2007/09/27 - 09:07:05]  - alloc_type : normal
+[2007/09/27 - 09:07:05]  - alloc_rate : 2.0
+[2007/09/27 - 09:07:05]  - buffer_reads : 1
+[2007/09/27 - 09:07:05]  - write_buffer_size : 4
+[2007/09/27 - 09:07:05]  - check_hashes : 1
+[2007/09/27 - 09:07:05]  - max_files_open : 50
+[2007/09/27 - 09:07:05]  - upnp_nat_access : 1
+[2007/09/27 - 09:07:05] writing pid-file : /var/www/download/.transfers/Ubuntu.torrent.pid (13159)
+[2007/09/27 - 09:07:06] tornado up and running.
+[2007/09/27 - 09:22:29] Processing command-file /var/www/download/.transfers/Ubuntu.torrent.cmd...
+[2007/09/27 - 09:22:29] command: stop-request, setting shutdown-flag...
+[2007/09/27 - 09:22:29] initializing shutdown...
+[2007/09/27 - 09:22:29] tornado shutting down...
+[2007/09/27 - 09:22:29] removing pid-file : /var/www/download/.transfers/Ubuntu.torrent.pid
+[2007/09/27 - 09:22:29] tornado exit.
+[2007/09/27 - 09:22:42] tornado-start : Ubuntu.torrent
+[2007/09/27 - 09:22:42] recalc sharekill for Ubuntu.torrent
+[2007/09/27 - 09:22:42] seed forever
+[2007/09/27 - 09:22:43] executing command : 
+cd '/var/www/download/sacarlson/'; HOME='/var/www/download/'; export HOME; nohup /usr/bin/python -OO '/home/oldbox/torrentflux-b4rt_1.0-beta1/html/bin/clients/tornado/tftornado.py' 'False' '0' 'sacarlson' '/var/www/download/.transfers/Ubuntu.torrent' --responsefile '/var/www/download/.transfers/Ubuntu.torrent' --display_interval 1 --max_download_rate '0' --max_upload_rate '10' --max_uploads '4' --minport '49160' --maxport '49300' --rerequest_interval '1800' --super_seeder '0' --max_connections '40' 1>> '/var/www/download/.transfers/Ubuntu.torrent.log' 2>> '/var/www/download/.transfers/Ubuntu.torrent.log' &
+[2007/09/27 - 09:22:44] tornado starting up :
+[2007/09/27 - 09:22:44]  - torrentfile : /var/www/download/.transfers/Ubuntu.torrent
+[2007/09/27 - 09:22:44]  - userName : sacarlson
+[2007/09/27 - 09:22:44]  - transferStatFile : /var/www/download/.transfers/Ubuntu.torrent.stat
+[2007/09/27 - 09:22:44]  - transferCommandFile : /var/www/download/.transfers/Ubuntu.torrent.cmd
+[2007/09/27 - 09:22:44]  - transferLogFile : /var/www/download/.transfers/Ubuntu.torrent.log
+[2007/09/27 - 09:22:44]  - transferPidFile : /var/www/download/.transfers/Ubuntu.torrent.pid
+[2007/09/27 - 09:22:44]  - autoDie : False
+[2007/09/27 - 09:22:44]  - shareKill : 0
+[2007/09/27 - 09:22:44]  - minport : 49160
+[2007/09/27 - 09:22:44]  - maxport : 49300
+[2007/09/27 - 09:22:44]  - max_upload_rate : 10
+[2007/09/27 - 09:22:44]  - max_download_rate : 0
+[2007/09/27 - 09:22:44]  - min_uploads : 4
+[2007/09/27 - 09:22:44]  - max_uploads : 4
+[2007/09/27 - 09:22:44]  - min_peers : 20
+[2007/09/27 - 09:22:44]  - max_initiate : 40
+[2007/09/27 - 09:22:44]  - max_connections : 40
+[2007/09/27 - 09:22:44]  - super_seeder : 0
+[2007/09/27 - 09:22:44]  - security : 1
+[2007/09/27 - 09:22:44]  - auto_kick : 1
+[2007/09/27 - 09:22:44]  - crypto_allowed : 0
+[2007/09/27 - 09:22:44]  - crypto_only : 0
+[2007/09/27 - 09:22:44]  - crypto_stealth : 0
+[2007/09/27 - 09:22:44]  - priority : 
+[2007/09/27 - 09:22:44]  - alloc_type : normal
+[2007/09/27 - 09:22:44]  - alloc_rate : 2.0
+[2007/09/27 - 09:22:44]  - buffer_reads : 1
+[2007/09/27 - 09:22:44]  - write_buffer_size : 4
+[2007/09/27 - 09:22:44]  - check_hashes : 1
+[2007/09/27 - 09:22:44]  - max_files_open : 50
+[2007/09/27 - 09:22:44]  - upnp_nat_access : 1
+[2007/09/27 - 09:22:44] writing pid-file : /var/www/download/.transfers/Ubuntu.torrent.pid (13587)
+[2007/09/27 - 09:22:45] tornado up and running.
+[2007/09/27 - 09:52:49] error: rejected by tracker - Tracker error 3

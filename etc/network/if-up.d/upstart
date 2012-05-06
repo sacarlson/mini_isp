@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+initctl emit net-device-up \
+	"IFACE=$IFACE" \
+	"LOGICAL=$LOGICAL" \
+	"ADDRFAM=$ADDRFAM" \
+	"METHOD=$METHOD"

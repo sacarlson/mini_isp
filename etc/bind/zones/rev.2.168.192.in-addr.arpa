@@ -1,0 +1,12 @@
+//replace example.com with yoour domain name, ns1 with your DNS server name.
+// The number before IN PTR example.com is the machine address of the DNS server. in my case, it’s 1, as my IP address is 192.168.0.1.
+@ IN SOA ns1.freenet2.selfip.com. admin.freenet2.selfip.com. (
+2007031001;
+28800;
+604800;
+604800;
+86400
+)
+
+IN NS ns1.freenet2.selfip.com.
+112 IN PTR freenet2.selfip.com 

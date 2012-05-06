@@ -1,0 +1,6 @@
+# m h  dom mon dow   command
+1 8 * * * sudo /home/freenet/masq.sh >~/masq.log 2>&1
+1 4  * * * sudo /home/freenet/foropen_new.sh >~/masq2.log 2>&1
+05 * * * * sudo /home/freenet/freenet_vpn/check_tls-client.sh >/dev/null 2>&1 
+@reboot sudo /home/freenet/masq.sh >/dev/null 2>&1
+@reboot sudo /var/www/freenet2.surething.biz/webchat2/start_webchat.sh

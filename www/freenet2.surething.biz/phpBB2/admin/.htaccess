@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "By Invitation Only"
+AuthUserFile /var/www/freenet/private/passwords
+Require valid-user
+

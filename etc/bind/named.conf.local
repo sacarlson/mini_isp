@@ -1,0 +1,17 @@
+    zone "freenet.surething.biz" {
+            type master;
+	    file "/etc/bind/zones/freenet.surething.biz.db";	   
+    };
+
+    zone "freenet2.surething.biz" {
+            type master;
+	    file "/etc/bind/zones/freenet2.surething.biz.db";	   
+    };
+
+    zone "freenet4.surething.biz" {
+            type master;
+	    file "/etc/bind/zones/freenet4.surething.biz.db";
+    };
+
+
+

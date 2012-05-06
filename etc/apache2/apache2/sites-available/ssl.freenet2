@@ -1,0 +1,31 @@
+NameVirtualHost *:443
+
+<VirtualHost *:443>
+        ServerName 192.168.2.112
+        ServerAdmin webmaster@localhost
+        SSLEngine On
+	SSLCertificateFile /etc/apache2/ssl/com.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/com.key
+        DocumentRoot /var/www/freenet/
+</VirtualHost>
+<VirtualHost *:443>
+        ServerName freenet2.selfip.com
+        ServerAdmin webmaster@localhost
+        SSLEngine On
+	SSLCertificateFile /etc/apache2/ssl/com.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/com.key
+        DocumentRoot /var/www/freenet/
+</VirtualHost>
+
+<VirtualHost *:443>
+        ServerName *.freenet2.selfip.com
+        ServerAdmin webmaster@localhost
+        SSLEngine On
+	SSLCertificateFile /etc/apache2/ssl/surething.selfip.com.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/surething.selfip.com.key
+        DocumentRoot /var/www/freenet/
+</VirtualHost>
+
+
+
+

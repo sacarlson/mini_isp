@@ -1,0 +1,16 @@
+127.0.0.1	localhost
+127.0.1.1	sacarlson-30gdisk	
+192.168.2.112	freenet2 graybox freenet_dns freenet_router loghost 
+192.168.2.252	router
+192.168.2.250   bigboy 
+192.168.2.5	dlink
+208.67.222.222  opendns1
+208.67.220.220  opendns2
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts

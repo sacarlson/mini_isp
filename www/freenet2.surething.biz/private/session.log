@@ -1,0 +1,7 @@
+Note: codes 1 login ok, 0 no user with this name, -1 bad password but user exist, -2 account expired, 
+  -3 for customers IP address not assigned and already account exists, -5 for customers ip address passed invalid number 
+Scott : test7 : mypassword : 0 : 192.168.2.192 : April 26, 2009, 1:44 pm 
+Paul : pbao@poly.usf.edu : password : -2 : 192.168.2.179 : May 6, 2009, 10:09 am 
+ge : pbao@lakeland.usf.edu : password : -3 : 192.168.2.179 : May 6, 2009, 10:11 am 
+ : sdy512 : anotherpw : 0 : 192.168.2.175 : May 15, 2009, 7:38 pm 
+

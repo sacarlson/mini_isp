@@ -1,0 +1,491 @@
+##################################################################################### 
+##
+## MOD Title: 		AUCTION MOD 1.3m 
+## MOD Author: 		FR (www.phpbb-auction.com)
+## MOD Description: 	-
+## MOD Version: 	1.3m
+## 
+## Installation Level: 	(Middle) 
+## Installation Time:	till your done
+##
+## Requirements:	A running phpBB 2.0.x (lastest version recommended)
+##			GD 1.8.x - 2.0 or higher (require for auto-thumbnail
+##			HTTP File Upload Enabled
+##
+## Tested with:		__________
+##
+## Files To Edit: 	viewonline.php
+##			viewtopic.php
+##			admin/index.php
+##			includes/usercp_viewprofile.php
+##			includes/page_header.php
+##			language/lang_english/lang_admin.php
+##			language/lang_english/lang_main.php
+##			templates/subSilver/subSilver.cfg
+##			templates/subSilver/overall_header.tpl
+##			templates/subSilver/viewtopic_body.tpl
+##			templates/subSilver/profile_view_body.tpl
+##
+## Included Files: 	to much to mention
+##
+##################################################################################### 
+##
+## Before Adding This MOD To Your Forum, You Should Back Up All Files 
+## Related To This MOD 
+##
+#####################################################################################
+##
+## For Security Purposes, you should check www.phpbb-auction.com for news and patches 
+##
+##################################################################################### 
+##
+## Author Notes:
+##
+##
+##################################################################################### 
+##
+##   This hack is released under the GPL License. 
+##   This hack can be freely used, but not distributed, without permission. 
+##   Intellectual Property is retained by the author listed above.
+##
+#####################################################################################
+
+#
+# If you have the phpbb-auction 1.2m installed you should use the update.txt
+# document.
+#
+
+#
+#-----[ COPY ]-------------------------------------------------------
+#
+# Upload all files in directory "phpbb_root" with their structure to your 
+# phpBB root directory
+#
+# Remember to upload all the language files and template files to all your
+# language packs and template directories
+#
+# If you use FTP please remember to use ASCII mode for text files (*.php, *.tpl)
+# and BINARY mode for image files (*.jpg, *.gif)
+# Fortunately good FTP clients today can auto-detect the mode for your files
+
+
+
+#
+#-----[ ACTION ]--------------------------------------
+# Require for Unix-like host (you can use your FTP client to do this)
+#
+# CHMOD 777 auction/upload/
+# CHMOD 777 auction/upload/cache/
+# CHMOD 777 auction/upload/main/
+# CHMOD 777 auction/upload/main/watermark/
+# CHMOD 777 auction/upload/mini/
+# CHMOD 777 auction/upload/tmp/
+# CHMOD 777 auction/upload/wmk/
+# CHMOD 777 auction/upload/watermark/
+# CHMOD 777 auction/upload/wmk/main_watermark.png
+# CHMOD 777 auction/upload/wmk/big_watermark.png
+
+#
+#-----[ ACTION ]--------------------------------------
+# 
+# Run the install_db.php and delete (!!!) the file afterwards
+
+
+////////////////////////////////////////////////////////////////////////////////
+3 - Perform the following filechanges
+////////////////////////////////////////////////////////////////////////////////
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+viewonline.php
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+
+include($phpbb_root_path . 'includes/page_header.'.$phpEx);
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+
+include($phpbb_root_path . 'auction/auction_common.'.$phpEx);
+
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+				case PAGE_FAQ:
+					$location = $lang['Viewing_FAQ'];
+					$location_url = "faq.$phpEx";
+					break;
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+				case AUCTION_ROOM:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_OFFER:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_RATING:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_FAQ:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_MYAUCTION:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_OFFER_VIEW:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_SITEMAP:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+				case AUCTION_PIC_MANAGER:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx";
+					break;
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+admin/index.php
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+require('./pagestart.' . $phpEx);
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+include($phpbb_root_path . 'auction/auction_common.'.$phpEx);
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+# 2 times
+                    case PAGE_FAQ:
+                        $location = $lang['Viewing_FAQ'];
+                        $location_url = "index.$phpEx?pane=right";
+                        break;
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+# 2 times
+				case AUCTION_ROOM:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_OFFER:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_RATING:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_FAQ:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_MYAUCTION:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_OFFER_VIEW:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_SITEMAP:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+				case AUCTION_PIC_MANAGER:
+					$location = $lang['Auction'];
+					$location_url = "auction.$phpEx?pane=right";
+					break;
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+/language/lang_english/lang_admin.php
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+$lang['Styles'] = 'Styles Admin';
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+$lang['Auction'] = 'Auction';
+$lang['a1_configuration'] = 'Configuration';
+$lang['a2_roommangement'] = 'Manage Rooms';
+$lang['a4_coupons'] = 'Manage Coupons';
+$lang['a3_offer'] = 'Manage Offers';
+$lang['a5_ipn_log'] = 'Manage IPN Log';
+$lang['a6_picture_Configuration'] = 'Manage Images';
+$lang['a7_permission'] = 'Manage Permissions';
+$lang['a8_account'] = 'Manage Account';
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+/templates/subSilver/subSilver.cfg
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+$current_template_images = $current_template_path . "/images";
+
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+$images['auction_locked']="$current_template_images/auction_locked.gif";
+$images['auction_open']="$current_template_images/auction_open.gif";
+$images['icon_auction_delete']="$current_template_images/auction_delete.gif";
+$images['icon_auction_move']="$current_template_images/auction_move.gif";
+$images['icon_auction_pic']="$current_template_images/auction_pic.gif";
+$images['icon_auction_no_pic']="$current_template_images/auction_nopic.gif";
+$images['icon_auction_down']="$current_template_images/auction_down.gif";
+$images['icon_auction_up']="$current_template_images/auction_up.gif";
+$images['icon_auction_feature']="$current_template_images/auction_feature.gif";
+$images['icon_rating1']="$current_template_images/rating/1.gif";
+$images['icon_rating2']="$current_template_images/rating/2.gif";
+$images['icon_rating3']="$current_template_images/rating/3.gif";
+$images['icon_rating4']="$current_template_images/rating/4.gif";
+$images['icon_auction_watch']="$current_template_images/auction_add.gif";
+$images['icon_auction_user_rating'] = "$current_template_images/{LANG}/icon_auction_user_rating.gif";
+$images['newoffer'] = "$current_template_images/{LANG}/newoffer.gif";
+$images['direct_sell'] = "$current_template_images/{LANG}/auction_buy_now.gif";
+$images['vote_left'] = "$current_template_images/vote_lcap.gif";
+$images['vote_right'] = "$current_template_images/vote_rcap.gif";
+$images['auction_vote_right'] = "$current_template_images/auction_voting_barb.gif";
+$images['auction_vote'] = "$current_template_images/auction_voting_bar.gif";
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+/language/lang_english/lang_main.php
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+
+$lang['datetime']['Dec'] = 'Dec';
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+// Auction
+$lang['Auction'] = 'Auction';
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+/templates/subSilver/overall_header.tpl
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+
+<a href="{U_GROUP_CP}" class="mainmenu"><img src="templates/subSilver/images/icon_mini_groups.gif" width="12" height="13" border="0" alt="{L_USERGROUPS}" hspace="3" />{L_USERGROUPS}</a>  
+
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+&nbsp;&nbsp;<a href="{U_AUCTION}" class="mainmenu"><img src="templates/subSilver/images/icon_mini_auction.gif" width="12" height="13" border="0" alt="{L_AUCTION}" hspace="3" />{L_AUCTION}</a> 
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+includes/page_header.php
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+'L_FAQ' => $lang['FAQ'],
+
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+'L_AUCTION' => $lang['Auction'],
+
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+'U_FAQ' => append_sid('faq.'.$phpEx),
+
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+'U_AUCTION' => append_sid('auction.'.$phpEx),
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+viewtopic.php
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+
+include($phpbb_root_path . 'includes/bbcode.'.$phpEx);
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+// Start Include language file
+$language = $board_config['default_lang'];
+if( !file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_auction.'.$phpEx) )
+     {
+          $language = 'english';
+     }
+include($phpbb_root_path . 'language/lang_' . $language . '/lang_auction.' . $phpEx);
+// end include language file
+
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+
+		'L_MINI_POST_ALT' => $mini_post_alt,
+
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+'AUCTION_USER_RATING' => "<a href=" . append_sid("auction_rating.php?mode=view&" . POST_USERS_URL . "=" .$poster_id ) . "><img src=" . $images['icon_auction_user_rating'] . " alt='Feedback Rating' border='0' /></a>",
+'L_VIEW_AUCTION_USER_RATING' => $lang['auction_user_rating'],
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+includes/usercp_viewprofile.php
+
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+if ( !defined('IN_PHPBB') )
+     {
+          die("Hacking attempt");
+          exit;
+}
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+// Start Include language file
+$language = $board_config['default_lang'];
+if( !file_exists($phpbb_root_path . 'language/lang_' . $language . '/lang_auction.'.$phpEx) )
+     {
+          $language = 'english';
+     }
+include($phpbb_root_path . 'language/lang_' . $language . '/lang_auction.' . $phpEx);
+// end include language file
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+
+'AVATAR_IMG' => $avatar_img,
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+'AUCTION_USER_RATING' => "<a href=\"" . append_sid("auction_rating.php?mode=view&" . POST_USERS_URL . "=" . $profiledata['user_id'] ) . "\"><img src=\"" . $images['icon_auction_user_rating'] . "\" alt=\"" . $lang['auction_user_rating'] . "\" title=\"" . $lang['auction_user_rating'] . "\" border=\"0\" /></a>",
+'L_VIEW_AUCTION_USER_RATING' => $lang['auction_user_rating'],
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+/templates/subSilver/viewtopic_body.tpl
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+{postrow.MSN_IMG}
+
+#
+#-----[ AFTER,ADD ]------------------------------------------ 
+#
+
+// Goes in same line before {postrow.MSN_IMG}
+{postrow.AUCTION_USER_RATING}
+
+
+#
+#-----[ OPEN ]------------------------------------------ 
+#
+
+/templates/subSilver/profile_view_body.tpl
+
+#
+#-----[ FIND ]------------------------------------------ 
+#
+<tr>
+     <td valign="middle" nowrap="nowrap" align="right"><span class="gen">{L_AIM}:</span></td>
+     <td class="row1" valign="middle"><span class="gen">{AIM_IMG}</span></td>
+</tr>
+
+#
+#-----[ AFTER, ADD ]------------------------------------------
+#
+<tr>
+     <td valign="middle" nowrap="nowrap" align="right"><span class="gen">{L_VIEW_AUCTION_USER_RATING}:</span></td>
+     <td class="row1" valign="middle"><span class="gen">{AUCTION_USER_RATING}</span></td>
+</tr>
+
+#
+#-----[ SAVE/CLOSE ALL FILES ]------------------------------------------
+#
+
+##################################################################################### 
+
+## Further Information 
+##
+## Thats it! You are through. If you have any questions dont hesitate to use the 
+## Support Forums on www.phpbb-auction.com.  If you want to use the payment methods 
+## you should read the documentation for it on the projects website.
+## Greetings and have fun with phpbb-Auction
+## FR
+## EoM 
+
+#####################################################################################

@@ -1,0 +1,71 @@
+<!-- Install Instructions for the JSON AJAX Web Chat Tutorial Written By Ryan Smith of 345 Technical -->
+<html>
+	<head>
+		<title>JSON AJAX Driven Chat - Install Instructions.</title>
+		<style type="text/css" media="screen">
+			BODY {
+				font-size: 10px;
+				font-family: verdana, arial, sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Installing the JSON AJAX Driven Chat Application.</h2>
+		<p>This document describes how to install the sample JSON AJAX Driven Chat application on your local machine.  To find 
+		detailed information on how this application works please visit: <br />
+		<a href="http://www.dynamicajax.com/fr/JSON_AJAX_Web_Chat-271_290_324.html">http://www.dynamicajax.com/fr/JSON_AJAX_Web_Chat-271_290_324.html</a> or for an 
+		XML based version:<br />
+		<a href="http://www.dynamicajax.com/fr/AJAX_Driven_Web_Chat-271_290_291.html">http://www.dynamicajax.com/fr/AJAX_Driven_Web_Chat-271_290_291.html</a></p>
+		<p>You can also download the code for this application there.</p>
+		<p style="font-size: 9px; font-style: italic;">All code is provided AS-IS. This code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+		without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  You may use this code in your own applications, but I would
+		love it if you would provide a link back to <a href="http://www.DynamicAJAX.com">http://www.DynamicAJAX.com</a> so that others can find my site and
+		hopefully make use of this code and tutorial.</p>
+		<h3>Requirements:</h3>
+		<ul>
+			<li>
+				Webserver with PHP installed (Tested for IIS and Apache, PHP 4.3.x, PHP 5.x)<br />
+				<a href="http://httpd.apache.org/">Download Apache</a><br />
+				<a href="http://www.php.net">Download PHP</a>
+			</li>
+			<li>
+				MySQL (Tested under 4.3.9)<br />
+				<i>You can use a different database if you would like, but you will need to change the database.php abstraction file
+				to match your database connection settings.</i><br />
+				<a href="http://www.mysql.com">Download MySQL</a>
+			</li>
+		</ul>
+		<h3>Contents of this Tutorial</h3>
+		<p>You should have recieved this file in a ZIP that contains all the necessary files to run the Chat application on you machine.  If you do not have
+		any of the files listed below, you can download the tutorial from <a href="http://www.dynamicajax.com/fr/JSON_AJAX_Web_Chat-271_290_324.html">Dynamic AJAX</a></p>
+		<ul>
+			<li>readme.html (this file)</li>
+			<li>chat.html</li>
+			<li>chat.sql</li>
+			<li>database.php</li>
+			<li>getChat.php</li>
+		</ul>
+		<h3>Installation</h3>
+		<p>Installing the Dynamic Chat application is pretty straight forward.  The only piece that requires any effort is setting up the database.  If you have
+		any expirence with using MySQL on the web, this should be extreamly easy.  You can either create a new database, or use an existing database for the Chat
+		application.  If you are using an existing database for the chat application, simply run the chat.sql script on your database to create the database tables.
+		Do this either in your favorite MySQL tool, or through the MySQL command prompt with:<br />
+		&nbsp;&nbsp;source c:\path to chat\chat.sql</p>
+		<p>If you are creating a new database for the chat application, create a new database with:<br />
+		<pre class="mysql"><span style="color: #993333; font-weight: bold;">CREATE DATABASE</span> chat;</pre></p>
+		<p>Be sure to grant access to the chat database.  This code requires the old password format for PHP to be able to connect to MySQL.</p>
+		<p> <pre class="mysql"><span style="color: #993333; font-weight: bold;">GRANT</span> ALL ON chat.* TO myLogin IDENTIFIED <span style="color: #993333; font-weight: bold;">BY</span> <span style="color: #ff0000;">'myPassword'</span>;
+<span style="color: #993333; font-weight: bold;">USE</span> mysql;
+<span style="color: #993333; font-weight: bold;">UPDATE</span> user <span style="color: #993333; font-weight: bold;">SET</span> password = old_password<span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'myPassword'</span><span style="color: #66cc66;">&#41;</span> <span style="color: #993333; font-weight: bold;">WHERE</span> user = <span style="color: #ff0000;">'myLogin'</span>;
+<span style="color: #993333; font-weight: bold;">FLUSH PRIVILEGES</span>;
+<span style="color: #993333; font-weight: bold;">COMMIT</span>;</pre></p>
+		<p>Once you have created the database tables all that is left is to set the correct connection information in database.php</p>
+		<p><pre class="php"><span style="color: #000000; font-weight: bold;">function</span> db_connect<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$server</span> = <span style="color: #ff0000;">'your server'</span>, <span style="color: #0000ff;">$username</span> = <span style="color: #ff0000;">'your db user name'</span>, 
+	<span style="color: #0000ff;">$password</span> = <span style="color: #ff0000;">'your db password'</span>, <span style="color: #0000ff;">$database</span> = <span style="color: #ff0000;">'your database name'</span>, <span style="color: #0000ff;">$link</span> = <span style="color: #ff0000;">'db_link'</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span></pre></p>
+	<p>You can now simply place chat.html, database.php, and getChat.php into one of your websites directory and browse to chat.html.</p>
+	<p>Open up two different browser instances to see the Chat Application in action!</p>
+	<p>Hopefully this tutorial will give you a good introduction to AJAX technologies.  If you have any questions or comments about this application, please write
+	me at <a href="mailto:ryan@stupid-penguin.com?subject=JSON%20AJAX%20Chat%20Feedback">ryan@stupid-penguin.com</a>, and visit <a href="http://www.dynamicAJAX.com">http://www.DynamicAJAX.com</a>
+	for updates to the tutorial and other great AJAX resources.</p>
+	</body>
+</html>

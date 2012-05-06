@@ -1,0 +1,27 @@
+NameVirtualHost *:80
+<VirtualHost *:80>
+        CustomLog /var/log/apache2/access.log combined
+        ServerAdmin webmaster@localhost
+        ServerName freenet4.surething.biz
+        DocumentRoot /var/www/freenet
+</VirtualHost>
+<VirtualHost *:80>
+        CustomLog /var/log/apache2/access.log combined
+        ServerAdmin webmaster@localhost
+        ServerName 192.168.2.112
+        DocumentRoot /var/www/
+</VirtualHost>
+<VirtualHost *:80>
+        CustomLog /var/log/apache2/access.log combined
+        ServerAdmin webmaster@localhost
+        ServerName localhost
+        DocumentRoot /var/www/
+</VirtualHost>
+
+<VirtualHost *:80>
+        CustomLog /var/log/apache2/access.log combined
+        ServerAdmin webmaster@localhost
+        ServerName freenet2.selfip.com 
+        DocumentRoot /var/www
+</VirtualHost>
+
