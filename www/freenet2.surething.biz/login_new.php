@@ -6,7 +6,7 @@ if ($_GET['login']) {
 
 
 
-//	include('login.php');
+        include('config.php');
 	include('checkacc.php');
 	 session_start();
  if (strlen($_SESSION['customer_ip'])<7){
@@ -18,13 +18,13 @@ if ($_GET['login']) {
 //echo "ip = $ip <br>";	
 
 
-	$mysql_database		= "freenet2";			// mysql database
+//	$mysql_database		= "freenet2";			// mysql database
 
-	$mysql_hostname		= "localhost";			// mysql hostname
+//	$mysql_hostname		= "localhost";			// mysql hostname
 
-	$mysql_username		= "sacarlson";				// mysql username
+//	$mysql_username		= "sacarlson";				// mysql username
 
-	$mysql_password		= "password";			// mysql password
+//	$mysql_password		= "password";			// mysql password
 
 
 

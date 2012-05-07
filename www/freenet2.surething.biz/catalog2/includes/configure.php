@@ -1,6 +1,8 @@
 <?php
-  define('HTTP_SERVER', 'http://freenet2.surething.biz');
-  define('HTTPS_SERVER', 'http://freenet2.surething.biz');
+  // moved parts of configure.php values seen commented out to ../../config.php
+  include(dirname(__FILE__) . '/../../config.php');
+  //define('HTTP_SERVER', 'http://freenet2.surething.biz');
+  //define('HTTPS_SERVER', 'http://freenet2.surething.biz');
   define('ENABLE_SSL', false);
   define('HTTP_COOKIE_DOMAIN', '');
   define('HTTPS_COOKIE_DOMAIN', '');
@@ -16,16 +18,15 @@
   define('DIR_WS_CLASSES', DIR_WS_INCLUDES . 'classes/');
   define('DIR_WS_MODULES', DIR_WS_INCLUDES . 'modules/');
   define('DIR_WS_LANGUAGES', DIR_WS_INCLUDES . 'languages/');
-
   define('DIR_WS_DOWNLOAD_PUBLIC', 'pub/');
-  define('DIR_FS_CATALOG', '/var/www/freenet/catalog2/');
+  //define('DIR_FS_CATALOG', '/var/www/freenet2.surething.biz/catalog2/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
 
-  define('DB_SERVER', 'localhost');
-  define('DB_SERVER_USERNAME', 'sacarlson');
-  define('DB_SERVER_PASSWORD', 'password');
-  define('DB_DATABASE', 'freenet2');
+  //define('DB_SERVER', 'localhost');
+  //define('DB_SERVER_USERNAME', 'sacarlson');
+  //define('DB_SERVER_PASSWORD', 'password');
+  //define('DB_DATABASE', 'freenet2');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', 'mysql');
   define('ENTRY_STREET_ADDRESS_DEFAULT', '482 Moo 10 Soi 13 (PBC)');
