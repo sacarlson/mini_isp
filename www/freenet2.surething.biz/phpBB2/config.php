@@ -1,6 +1,6 @@
 <?php
 // moved comented configs to ../config.php
-include('../config.php');
+include(dirname(__FILE__) . '/../config.php');
 // phpBB 2.x auto-generated config file
 // Do not change anything in this file!
 
