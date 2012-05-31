@@ -1,0 +1,266 @@
+install and configure daloradius  with coova-chilli  on ubuntu 10.04
+assumes you have ubuntu with lamp appache installed  
+for details see https://help.ubuntu.com/community/CategoryNetworking/daloRADIUS
+
+sudo apt-get install php5-gd
+sudo apt-get install php-pear
+sudo apt-get install php-db
+sudo apt-get install freeradius
+sudo apt-get install freeradius-mysql
+
+
+      daloRADIUS homepage is hosted on sourceforge at the address of http://sourceforge.net/projects/daloradius/ and you may get the latest release from there if you haven't already done so.
+
+       wget http://sourceforge.net/projects/daloradius/files/daloradius/daloradius-0.9-8/daloradius-0.9-8.tar.gz/download
+
+      extract the daloradius.tar.gz archive to /var/www
+
+       tar -zxvf daloradius-0.9-8.tar.gz
+
+       mv daloradius-0.9-8 daloradius
+
+       sudo cp daloradius/ /var/www -R
+sudo chmod 644 /var/www/daloradius/library/daloradius.conf.php
+
+cd /var/www/daloradius/contrib/db/
+
+mysql -u root -p
+Enter password:mysqladminsecret
+mysql> CREATE DATABASE radius;
+mysql> quit
+
+
+FreeRADIUS 2.X
+
+    * If you are working with FreeRADIUS 2.X (Ubuntu 10.04) then:
+
+       mysql -u root -p radius < fr2-mysql-daloradius-and-freeradius.sql
+
+Database Connection Setup
+
+Now, simply adjust the MySQL database information in daloRADIUS's config file.
+
+cd /var/www/daloradius/library/
+
+sudo nano -w daloradius.conf.php
+
+FreeRADIUS 2.X
+
+    * If you are working with FreeRADIUS 2.X (Ubuntu 10.04) then:
+
+       $configValues['FREERADIUS_VERSION'] = '2';
+
+       $configValues['CONFIG_DB_PASS'] = 'password';
+
+       $configValues['CONFIG_DB_TBL_RADUSERGROUP'] = 'radusergroup';
+
+browser: 
+http://localhost/daloradius/
+default:
+username: administrator
+password: radius
+newpass: scottc
+
+config>maintenance>testuser conectivity
+testing123
+/var/www/daloradius/update.php
+radclient: dict_init: Couldn't open dictionary "/usr/local/etc/raddb/dictionary": Permission denied
+sudo chmod +r /usr/local/etc/raddb/dictionary
+radtest sacarlson scottc localhost 1812 testing123
+now segmentation faults when I run radtest or radclient
+this might be ipv6 problem?
+will try radtest sacarlson scottc 127.0.0.1 1812 testing123
+
+did apt-get purge all radius packages of version 2.1.8
+added ppa radius version 2.1.12
+
+now at sudo freeradius -X
+rlm_eap: SSL error error:0200100D:system library:fopen:Permission denied
+rlm_eap_tls: Error reading private key file /etc/freeradius/certs/server.key
+rlm_eap: Failed to initialize type tls
+/etc/freeradius/eap.conf[17]: Instantiation failed for module "eap"
+/etc/freeradius/sites-enabled/default[310]: Failed to load module "eap".
+/etc/freeradius/sites-enabled/default[252]: Errors parsing authenticate section.
+
+to get to work had to: chown root:freerad -R /etc/ssl/private
+
+still has Segmentation fault problem in freeradius with this version also
+ 
+rad_recv: Access-Request packet from host 127.0.0.1 port 45923, id=227, length=56
+	User-Name = "test"
+	User-Password = "test"
+	NAS-IP-Address = 192.168.2.250
+	NAS-Port = 0
+# Executing section authorize from file /etc/freeradius/sites-enabled/default
++- entering group authorize {...}
+Segmentation fault
+
+next try git compiled version:
+compiled https://github.com/alandekok/freeradius-server 
+commitish 565d7006b14b03ea379ccca31742d1c838119948
+cd ./radius/freeradius-server
+./configure
+make
+make install
+/usr/local/sbin/radiusd -X
+now get this error:
+/usr/local/sbin/radiusd: error while loading shared libraries: libfreeradius-radius-3.0.0.so: cannot open shared object file: No such file or directory
+   
+try debian method
+apt-get install libpam0g-dev libsasl2-dev libiodbc2-dev libperl-dev libpcap-dev libsnmp-dev libpq-dev
+cd ./radius/freeradius-server
+fakeroot dpkg-buildpackage -b -uc
+now I get: 
+modules.c:1484: warning: nested extern declaration of ‘lt_preloaded_symbols’
+make[5]: *** [modules.lo] Error 1
+make[4]: *** [main] Error 2
+make[3]: *** [all] Error 2
+make[2]: *** [src] Error 2
+make[1]: *** [all] Error 2
+make[1]: Leaving directory `/home/sacarlson/radius/freeradius-server'
+make: *** [build-arch-stamp] Error 2
+dpkg-buildpackage: error: debian/rules build gave error exit status 2
+
+tried git checkout d3414efdd24d2ab6888f91cb46c7ab183e69947d ; orgin-stable
+fakeroot dpkg-buildpackage -b -uc
+QUILT_PATCHES=debian/patches quilt --quiltrc /dev/null pop -a -R || test $? = 2 
+Patch rlm_sql.libs.diff does not remove cleanly (refresh it or enforce with -f)
+make: *** [unpatch] Error 1
+
+apt-get install dpatch
+tried git checkout af07ace2815910610c0d39de90e4c0cf0735188d; release 2-1-7
+
+tried git checkout 1d1e9b7372abecfc0942b127e5faf90df547e198; release 2.1.10
+none will compile on ubuntu 10.04 with fakeroot dpkg-buildpackage -b -uc
+
+
+dpkg-buildpackage: error: debian/rules clean gave error exit status 2
+
+start back with packages  still has 2.1.12 ppa setup in repository
+renamed /etc/freeradius to /etc/freeradius.org
+apt-get install freeradius freeradius-mysql
+freeradius-ldap
+
+I don't see any files in /etc/freeradius/modules they should have been installed with freeradius package
+set repository freeradius 2.1.8 non ppa for ubuntu 10.04
+installed
+freeradius
+freeradius-mysql
+freeradius-ldap
+
+edited /etc/freeradius/sql.conf  for sacarlson mysql account info
+
+still: 
+/etc/freeradius/modules/exec[24]: Invalid version in module 'rlm_exec'
+rename /usr/local/etc/raddb to raddb.org
+
+tried I decided to try build of 2.1.10 release on my ubuntu 10.04  with just ./configure; make; I get make[9]: *** No rule to make target `rlm_eap_pwd.h', needed by `rlm_eap_pwd.c'.  Stop.
+(11:04:57 PM) sacarlson: so I guess that version also has problems?
+(11:05:45 PM) sacarlson: also did make clean; before I ran at commitish 1d1e9b7372abecfc0942b127e5faf90df547e198
+
+tried 2.1.11 34c68ba800632ccca564f6bdcb186e32886684c1
+make clean
+.configure
+make
+make[9]: *** No rule to make target `rlm_eap_pwd.h', needed by `rlm_eap_pwd.c'.  Stop.
+
+tried 2.1.11 again this time erased all added files left behind from checkouts of newer versions
+.configure
+make
+looks good so far
+/usr/local/sbin$ sudo ./radiusd -X
+Errors reading /usr/local/etc/raddb: No such file or directory
+I note that this file was here before, I'll try another version
+
+
+**should start here to get it to work without most the problems above********************************************************************
+
+try 2.1.X be9f5b6cf71e21f28ccbb8893085690f89b4f0d4  same method delete all added files in git
+.configure
+make  compiled ok
+sudo make install
+sudo /usr/local/sbin/radiusd -X
+radiusd: error while loading shared libraries: libfreeradius-radius-2.2.0.so: cannot open shared object file: No such file or directory
+sudo /sbin/ldconfig -v 
+now it runs
+had to exit run again to get
+Wed May 16 13:23:41 2012 : Info: Ready to process requests.
+
+edited enable line in /usr/local/etc/radiusd.conf $INCLUDE sql.conf
+edited /usr/local/etc/sql.conf to correct mysql user and password in my database
+
+sudo radtest sacarlson scottc localhost 1812 testing123
+Sending Access-Request of id 116 to 127.0.0.1 port 1812
+	User-Name = "sacarlson"
+	User-Password = "scottc"
+	NAS-IP-Address = 192.168.2.250
+	NAS-Port = 1812
+	Message-Authenticator = 0x00000000000000000000000000000000
+rad_recv: Access-Reject packet from host 127.0.0.1 port 1812, id=116, length=20
+sacarlson@FreeNet:~$
+
+edited /usr/local/etc/raddb/sites-available/inner-tunnel
+uncommented sql in line athenticate{... sql ... }; 
+
+now when I restart radiusd -X 
+Wed May 16 16:10:25 2012 : Error: /usr/local/etc/raddb/sites-enabled/inner-tunnel[131]: Failed to find "sql" in the "modules" section.
+Wed May 16 16:10:25 2012 : Error: /usr/local/etc/raddb/sites-enabled/inner-tunnel[47]: Errors parsing authorize section. 
+
+after reboot
+/usr/local/sbin/radiusd -XX
+Tue May 22 17:56:39 2012 : Debug: Listening on proxy address * port 1814
+Tue May 22 17:56:39 2012 : Info: Ready to process requests.
+
+/usr/local/etc/raddb/dictionary  had to change permisions to allow other read access
+to get http://localhost/daloradius/config-maint-test-user.php  to work
+
+found one more thing that needs to change
+/usr/local/etc/raddb/sites-enabled/default  uncomment sql tags in authorize {...}
+
+now I get:
+ sudo radtest sacarlson scottc localhost 1812 testing123
+Sending Access-Request of id 10 to 127.0.0.1 port 1812
+	User-Name = "sacarlson"
+	User-Password = "password"
+	NAS-IP-Address = 192.168.2.250
+	NAS-Port = 1812
+	Message-Authenticator = 0x00000000000000000000000000000000
+rad_recv: Access-Accept packet from host 127.0.0.1 port 1812, id=10, length=26
+	Session-Timeout = 654780
+
+and works in daloradius>config>maintenance>test user conectivity.
+
+I also had to add user in daloradius to get this to work at management>new user>user name authentication>apply
+
+adding date accounting
+/usr/local/etc/raddb/sites-enabled/default  uncomment sql tags in accounting {...} post-auth {...}
+ 
+new problem:
+ Wed May 23 12:12:16 2012 : Error: Ignoring request to authentication address * port 1812 from unknown client 192.168.2.122 port 55308
+when I try to authenticate from another system to bigboy server.
+to correct this had to add:
+client 192.168.0.0/16 {
+	secret		= testing123
+	shortname	= freenet
+}
+
+to /usr/local/etc/raddb/clients.conf
+radius is now working
+
+had to add to /etc/config/network:  this can be done in the browser also
+config 'interface' 'wan'
+        option 'proto' 'dhcp'
+        option 'ifname' 'eth1'
+
+
+file is missing at /etc/init.d/chilli  found a copy here https://forum.openwrt.org/viewtopic.php?id=31529
+ssh 
+cd /etc/init.d
+wget http://192.168.2.250/chilli.sh;  mv chilli.sh chilli; chmod +x chilli;
+
+I note that we need to set the static ip on the lan side of openwrt to be 192.168.182.1  as that's is used 
+in hotspotlogin.php  unless we later change the hardcoded ip in the file.
+I found the hotspotlogin.php to replace the cgi perl script at https://help.ubuntu.com/community/WifiDocs/ChillispotHotspot
+
+
+

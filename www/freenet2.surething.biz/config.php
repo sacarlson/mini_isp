@@ -1,25 +1,25 @@
 <?php
   //catalog2 configs
   $username="sacarlson";
-  $password="password";
+  $password="scottc";
   $database="freenet2";
   $hostname="localhost";
 
-  define('HTTP_SERVER', 'http://freenet2.surething.biz');
-  define('HTTPS_SERVER', 'http://freenet2.surething.biz');
-  define('HTTP_CATALOG_SERVER', 'http://freenet2.surething.biz');
-  define('HTTPS_CATALOG_SERVER', 'http://freenet2.surething.biz');
+  
+    define('HTTP_SERVER', 'http://freenet.surething.biz');
+    define('HTTPS_SERVER', 'http://freenet.surething.biz');
+    define('HTTP_CATALOG_SERVER', 'http://freenet.surething.biz');
+    define('HTTPS_CATALOG_SERVER', 'http://freenet.surething.biz');
  
-  define('DIR_FS_CATALOG', '/var/www/freenet2.surething.biz/catalog2/');
-  define('DIR_FS_DOCUMENT_ROOT', '/var/www/freenet2.surething.biz/catalog2/');
-  define('DIR_FS_ADMIN', '/var/www/freenet2.surething.biz/catalog2/admin/');
-  define('DIR_FS_CATALOG', '/var/www/freenet2.surething.biz/catalog2/');
+    define('DIR_FS_CATALOG', '/var/www/freenet.surething.biz/catalog2/');
+    define('DIR_FS_DOCUMENT_ROOT', '/var/www/freenet.surething.biz/catalog2/');
+    define('DIR_FS_ADMIN', '/var/www/freenet.surething.biz/catalog2/admin/');
 
-  define('DB_SERVER', $hostname );
-  define('DB_SERVER_USERNAME', $username );
-  define('DB_SERVER_PASSWORD', $password );
-  define('DB_DATABASE', $database );
-
+    define('DB_SERVER', $hostname );
+    define('DB_SERVER_USERNAME', $username );
+    define('DB_SERVER_PASSWORD', $password );
+    define('DB_DATABASE', $database );
+  
   //freenet custom configs
   $mysql_hostname		= $hostname;			// mysql hostname
   $mysql_database		= $database;			// mysql database

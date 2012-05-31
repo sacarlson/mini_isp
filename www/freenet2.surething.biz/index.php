@@ -1,1 +1,1 @@
-index.php.netup
+/var/www/freenet.surething.biz/index.php.netup

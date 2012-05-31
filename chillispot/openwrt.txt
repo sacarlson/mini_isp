@@ -1,0 +1,79 @@
+these test run on virtualbox with openwrt10.03
+download http://downloads.openwrt.org/backfire/10.03.1/x86_generic/openwrt-x86-generic-combined-ext2.vdi
+add it to a new virtualbox as harddisk
+details http://wiki.openwrt.org/doc/howto/virtualbox
+
+defaults to ip 192.168.1.1
+
+login with browser to set password, no password is default with root user
+
+to setup serial com port console pipe from ubuntu
+socat /tmp/openwrt -
+
+I added another network port in browser to be dhcp active, I reversed this to be bridged to eth0 on ubuntu
+will set openwrt ip dynamic for eth1 was last 192.168.2.136
+ubuntu eth2 will be briged to br-lan  and will be static set to 192.168.3.250
+
+eth0 -> br-lan 192.168.182.1 dhcpd active -> interalnet -> lubuntu used as test client
+eth1 -> dhcp-client 192.168.2.136 -> bridged to freeNET on bigboy eth0
+
+I have setup an internal virtualbox netowork to test between lubuntu as a test client
+to connect to openwrt on intnet  with lubuntu set to dhcp auto
+openwrt intnet set to 192.168.182.1  on eth1 that will have dhcpd set active on this port
+
+after coovachilli installer 
+rm /etc/init.d/dnsmasq ; this fixed not being able to ping surething.biz but now fails dhcpd
+
+
+had to add to /etc/config/network:  this can be done in browser above
+config 'interface' 'wan'
+        option 'proto' 'dhcp'
+        option 'ifname' 'eth1'
+
+
+/etc/chili/config almost works
+HS_WANIF=eth1            # WAN Interface toward the Internet 
+HS_LANIF=eth0 # Subscriber Interface for client devices 
+HS_NETWORK=192.168.182.0 # HotSpot Network (must include HS_UAMLISTEN) 
+HS_NETMASK=255.255.255.0 # HotSpot Network Netmask 
+HS_UAMLISTEN=192.168.182.1 # HotSpot IP Address (on subscriber network) 
+HS_UAMPORT=3990 	   # HotSpot Port (on subscriber network)
+HS_UAMUIPORT=4990          # HotSpot UAM "UI" Port (on subscriber network, for embedded portal) 
+HS_NASID=nas01 
+HS_UAMSECRET=uamsecret
+HS_UAMDOMAINS=".paypal.com,.paypalobjects.com,.surething.biz"
+
+HS_DNS1=192.168.2.250        
+HS_DNS2=192.168.2.250
+ 
+HS_RADIUS=192.168.2.250
+HS_RADIUS2=127.0.0.1 
+HS_RADSECRET=testing123 
+HS_UAMALLOW=freenet.surething.biz,192.168.2.0/24 
+
+HS_UAMSERVER=192.168.2.250
+
+HS_UAMFORMAT=http://\$HS_UAMSERVER/hotspotlogin.php                
+
+HS_UAMHOMEPAGE=http://\$HS_UAMLISTEN:\$HS_UAMPORT/prelogin
+
+not sure where to put this yet and it's optional in /etc/firewall.user
+# Always allow these ports on WAN interface for router admin as well 
+iptables -I zone_wan -p tcp --dport 443 -j ACCEPT;
+iptables -I zone_wan -p tcp --dport 80 -j ACCEPT;
+iptables -I zone_wan -p tcp --dport 22 -j ACCEPT;
+#iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE;
+
+with this config I'm getting conflicting ip on eth0 and tun0 at 192.168.182.1
+
+to auto start at power up
+/etc/init.d/chilli enable
+#optional to save memory
+/etc/init.d/dnsmasq disable
+/etc/init.d/uhttpd disable
+
+note: I couldn't get the browser chromium to work with UAM but firefox worked find on Lubuntu 10.04
+
+
+
+

@@ -1,7 +1,7 @@
 #Mini ISP
 Copyright:: Copyright (c) 2012 sacarlson
 
-Mini ISP is a group of integrated programs and infrastructure needed to setup a small prepaid WIFI or wired World Wide Internet network service.  It is designed to be used in short to medium term residence like Hotels or resort apartments where residences want a quick method to connect to the Internet from between 1 day to 3 months or longer.  Mini ISP provides redirected service to unregistered users to enable them to choose and purchase the desired duration of time to be allowed access to the Internet.  After this time window, world Internet service is automatically discontinued until another contract is purchased.
+Mini ISP is a group of integrated programs and infrastructure needed to setup a small prepaid WIFI or wired World Wide Internet network service.  It is designed to be used in short to medium term residence like Hotels or resort apartments where residences want a quick method to connect to the Internet from between 1 day to 3 months or longer.  Mini ISP provides captive portal redirected service to unregistered users and enables them to choose and purchase online the desired duration of time to be allowed access to the Internet.  After this time window, world Internet service is automatically discontinued until another contract is purchased.
 
 ##License:
  GPLv3 see http://www.gnu.org for details
@@ -16,6 +16,7 @@ Mini ISP is a group of integrated programs and infrastructure needed to setup a 
 ##Features:
 
 * Oscommerce driven store to provide automated customer purchase of service contracts.
+* Captive Portal with or without the use of a freeradius server.
 * Customer authentication and time/bandwidth usage accounting for each.
 * Limited services provided to unregistered customers by iptables redirection.
 * Fairnat customer bandwidth limiting with custom per user controllable settings. 
@@ -23,7 +24,8 @@ Mini ISP is a group of integrated programs and infrastructure needed to setup a 
 * Bandwidth usage monitored and reported with Cacti SMTP of each node in network.
 * Direct chat integrated for customer support with webchat2.0.
 * Auto fallback on failure of primary ISP provider to auto redirect all traffic to backup ISP line.
-* Optional VPN services support also available. 
+* Optional VPN services support also available.
+* Added optional support to encorporate Coova Chilli captive portal with freeradius to enable remote site authentication.
 
   See http://freenet.surething.biz to demo a working site.
 

@@ -70,7 +70,7 @@ $database="freenet";
 // this is data to be received from web page
 $customers_email="sacarlson@ipipi.com";
 $customers_password="password";
-$ok = checkacc($customers_email,$customers_password,$username,$password,$database);
+$ok = checkacc($customers_email,$customers_password,$username,$password,$database,$configValues);
 echo "<br> ok = $ok <br>";
 // $ok will return 1 if we have success in password check and account check
 // $ok will return 0 if no user with this name exists
@@ -87,7 +87,7 @@ end example checkacc
 */ 
 
  session_start();
- $ok = checkacc($query_username,$query_password,$mysql_username,$mysql_password,$mysql_database);
+ $ok = checkacc($query_username,$query_password,$mysql_username,$mysql_password,$mysql_database,$configValues);
 
 //echo "ok = $ok <br>";
 

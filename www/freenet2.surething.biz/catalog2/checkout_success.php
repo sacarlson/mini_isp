@@ -104,12 +104,12 @@
   $mysql = new_mysql($username,$password,$database,"localhost");
   $emailaddress = GetEmailAddress((int)$customer_id,$mysql);
   if (strcmp($emailaddress, "nul")<>0){   
-    $ExpireDate = date(" d M Y g:i:sA ",update_account($emailaddress,$mysql));
+    $ExpireDate = date(" d M Y g:i:sA ",update_account($emailaddress,$mysql,$configValues));
     ip_enable($HTTP_SERVER_VARS["REMOTE_ADDR"]);
     $emailaddress = $emailaddress . " ok";
   }
   //$ExpireDate = GetExpireDate((int)$customer_id,$mysql);
-  mysql_close();
+  mysql_close($mysql);
 ?>
             <h3><?php echo TEXT_THANKS_FOR_SHOPPING .'<br> your IP address: ' . $HTTP_SERVER_VARS["REMOTE_ADDR"] . ' <br> for email: ' . $emailaddress .'<br> New Expire Date: ' . $ExpireDate; ?></h3></td>
           </tr>
