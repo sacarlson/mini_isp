@@ -9,18 +9,16 @@ HS_NASID=nas01
 HS_UAMSECRET=uamsecret
 HS_UAMDOMAINS=".paypal.com,.paypalobjects.com,.surething.biz"
 
-HS_DNS1=192.168.2.250        
-HS_DNS2=192.168.2.250
+HS_DNS1=8.8.8.8     
+HS_DNS2=8.8.4.4
  
-HS_RADIUS=192.168.2.250
-HS_RADIUS2=freenet.surething.biz
+HS_RADIUS=chilli.surething.biz
+HS_RADIUS2=freenet.surething.biz 
 HS_RADSECRET=testing123 
-HS_UAMALLOW=freenet.surething.biz,192.168.2.0/24 
-
+HS_UAMALLOW=freenet.surething.biz,192.168.2.0/16 
 HS_UAMSERVER=chilli.surething.biz
 
 HS_UAMFORMAT=http://\$HS_UAMSERVER/hotspotlogin.php                
-
 HS_UAMHOMEPAGE=http://\$HS_UAMLISTEN:\$HS_UAMPORT/prelogin
 
 HS_MACAUTH=on	

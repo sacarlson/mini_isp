@@ -1,11 +1,11 @@
 <?php
 
 
-if (strlen($_SESSION['customer_ip'])<7){
-  //$ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
-  $ip = $_SERVER['REMOTE_ADDR'];
-  $_SESSION['customer_ip'] = $ip;
-}
+//if (strlen($_SESSION['customer_ip'])<7){
+//  //$ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+//  $ip = $_SERVER['REMOTE_ADDR'];
+//  $_SESSION['customer_ip'] = $ip;
+//}
 
 // $_SESSION['code'] and value returned from checkacc()
 // code will return 1 if we have success in password check and account check
@@ -30,8 +30,79 @@ function writelog($string){
   return;
   $f = fopen("/var/www/debug.log", "a");
   fwrite( $f, $string );
+  print($string);
   fclose( $f );
+}
+
+function ip_enable($ip){
+  $IPTABLES="/sbin/iptables";    
+  $command = "sudo ". $IPTABLES . " -t nat -I PREROUTING  -s " . $ip . " -j RETURN ";
+  $result = exec($command);   
+  $command = "sudo ". $IPTABLES . " -I FORWARD -d " . $ip ;
+  $result = exec($command);
+  $command = "sudo ". $IPTABLES . " -I FORWARD -s " . $ip ;
+  $result = exec($command);
 } 
+
+function check_user_already($customers_email,$remote_addr, $mysql){  
+  // will check to see if the first customer in this search has ever had an account with freenet before
+  // by seeing if his present ip in this session exists with a different user.
+  // return 1  if never existed before and all ok for promotion 
+  // if  customer ip has never been set then set it now to present session ip
+  // $remote_addr comes from $HTTP_SERVER_VARS["REMOTE_ADDR"] on the session page
+
+   // check to see if customer has an IP address set in mysql records
+  // if not make sure they don't already have an account as someone else
+  // if no records with this ip then update there ip address in customer account
+  writelog("check_user_already started \n");
+  writelog("remote_addr = " . $remote_addr . "\n");
+  writelog("email = " . $customers_email . "\n");
+  $query="SELECT * FROM customers WHERE customers_email_address='$customers_email'";
+  $result = get_query($query,$mysql); 
+
+  if ($result == 0){
+    //echo "<br> Failed Freenet user not found <br>";
+    mysql_close();
+    $_SESSION['code']=0;
+    writelog("failed user not found code 0\n");
+    return 0;
+  }
+
+  $cust_ip_address=mysql_result($result,0,"customers_ip_address");
+  writelog("cust_ip_address = " . $cust_ip_address . "\n");
+  $strlen = strlen($cust_ip_address);
+  // echo "strlen = $strlen <br>";
+  if (strlen($cust_ip_address)==0){
+    $cust_ip_address = $remote_addr;
+
+    if (strlen($cust_ip_address)<7){
+      // invalid ip address given to check
+      $_SESSION['code']= -5;
+      writelog(" invalid ip address given code -5 \n");
+      return -5;
+    }
+
+    // $cust_ip_address = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+    // echo " ip = $cust_ip_address <br>";
+    $query="SELECT * FROM customers WHERE customers_ip_address='$cust_ip_address'";
+    $result = get_query($query,$mysql);
+    writelog("result 1 = " . $result . "\n");
+    if ($result<>0){
+      // sorry they already have an account they will have to update the other one
+      mysql_close();
+      $_SESSION['code']= -3;
+      writelog("account already exists with this ip code -3 \n");
+      return -3;
+    }
+    $query = "UPDATE customers SET customers_ip_address='$cust_ip_address' WHERE customers_email_address='$customers_email'";
+    get_query($query,$mysql);
+    writelog("new user ok code 1, updated customers_ip_address to " . $cust_ip_address ."\n");
+    return 1;
+  }
+  writelog("this user already has cust_ip_address set code -6 \n");
+  return -6;
+}
+
 
 // added radius support bellow
 function rad_user_exists($username,$configValues){
@@ -159,6 +230,7 @@ function update_account($customers_email,$mysql,$configValues){
     //echo "<br> Failed Freenet customers_email not found <br>";
     mysql_close();
     writelog("customers_email not found \n");
+    writelog("customers_email = " . $customers_email . "\n");
     return 0;
   }
   $expire=mysql_result($result,0,"customers_date_account_expires");
@@ -184,11 +256,13 @@ function update_account($customers_email,$mysql,$configValues){
       mysql_close();
       //$_SESSION['code']= -2;
       writelog(" expired with no promotion \n");
+      writelog("expire = " . $expire . "\n");
       return $expire;
     }
 
     // they just stared a new account so give them the 1 day free package 24 hours  = 86400 secounds
     $newexpire=time()+86400;
+    writelog("newexpire = " . $newexpire . "\n");
     $query = "UPDATE customers SET customers_date_account_expires=FROM_UNIXTIME($newexpire) WHERE customers_email_address='$customers_email'";
     get_query($query,$mysql);
     //mysql_query($query);
@@ -202,7 +276,8 @@ function update_account($customers_email,$mysql,$configValues){
     $_SESSION['code']= 1;
     $_SESSION['loggedin'] = 1;
     mysql_close();
-    rad_update_user($customers_email,$password,$newexpire,$configValues);
+    rad_update_user($customers_email,$password,$newexpire,$configValues);    
+    writelog("newexpire after rad_update_user = " . $newexpire . "\n");
     writelog("update_account completed \n");
     return $newexpire; 
   }

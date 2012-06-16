@@ -9,8 +9,9 @@
 
   Released under the GNU General Public License
 */
-
-define('TEXT_MAIN', '<h1> Welcome to FreeNET </h1> If you are a new user please <a href="http://freenet2.surething.biz/catalog2/create_account.php"><u>create an account</u></a>.  after you have signed up you will automaticaly receive a FREE two day trail package. If you are having problems loging into Freenet please feel free to contact me Scotty  at ph# 086-827-0277.  If you already have an account or just created one, go directly to  <a href="http://freenet2.surething.biz/index.php"><u>Network login page</u></a>');
+$text_main = "<h1> Welcome to FreeNET </h1> If you are a new user please <a href=\"". $HTTP_SERVER . "/catalog2/create_account.php\"><u>create an account</u></a>.  after you have signed up you will automaticaly receive a FREE day (24 hours) trail package to try before you buy. If you are having problems loging into Freenet please feel free to contact me Scotty  at ph# 086-827-0277.  If you already have an account or just created one, go directly to  <a href=\"" . $HTTP_SERVER . "/index.php\"><u>Network login page</u></a>";
+define('TEXT_MAIN', $text_main);
+//define('TEXT_MAIN', '<h1> Welcome to FreeNET </h1> If you are a new user please <a href="http://freenet.surething.biz/catalog2/create_account.php"><u>create an account</u></a>.  after you have signed up you will automaticaly receive a FREE day (24 hours) trail package to try before you buy. If you are having problems loging into Freenet please feel free to contact me Scotty  at ph# 086-827-0277.  If you already have an account or just created one, go directly to  <a href="http://freenet2.surething.biz/index.php"><u>Network login page</u></a>');
 define('TABLE_HEADING_NEW_PRODUCTS', 'New Products For %s');
 define('TABLE_HEADING_UPCOMING_PRODUCTS', 'Upcoming Products');
 define('TABLE_HEADING_DATE_EXPECTED', 'Date Expected');

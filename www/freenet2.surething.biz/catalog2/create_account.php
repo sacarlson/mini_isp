@@ -15,6 +15,9 @@
 // needs to be included earlier to set the success message in the messageStack
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CREATE_ACCOUNT);
 
+  require('../config.php');
+  require('../checkacc.php');
+
   $process = false;
   if (isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
     $process = true;
@@ -249,6 +252,20 @@
 
       $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
       tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+
+      // added by scotty to enable ip of customer if no duplicate ip seen (hacker making 2 accounts)
+      // so they won't have to login after a new account created.
+      mysql_close();
+      $remote_addr = $HTTP_SERVER_VARS["REMOTE_ADDR"];
+      $mysql = new_mysql($username,$password,$database,"localhost");
+      if (check_user_already($email_address,$remote_addr, $mysql) == 1){
+        $expire = update_account($email_address,$mysql,$configValues);  
+        $timenow = time();
+        if ($timenow < $expire){
+          ip_enable($HTTP_SERVER_VARS["REMOTE_ADDR"]);
+        }
+      }      
+      mysql_close();
 
       tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
     }
