@@ -91,7 +91,7 @@
   $mysql = new_mysql($username,$password,$database,"localhost");
   $emailaddress = GetEmailAddress((int)$customer_id,$mysql);
   if (strcmp($emailaddress, "nul")<>0){   
-    $ExpireDate = date(" d M Y g:i:sA ",update_account($emailaddress,$mysql,$configValues));
+    $ExpireDate = date(" d M Y g:i:sA ",update_account($emailaddress,$HTTP_SERVER_VARS["REMOTE_ADDR"],$mysql,$configValues));
     ip_enable($HTTP_SERVER_VARS["REMOTE_ADDR"]);
     $emailaddress = $emailaddress . " ok";
   }

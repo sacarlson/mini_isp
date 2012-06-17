@@ -1,13 +1,80 @@
 <?php
+require('./config.php');
 
 function writelog($string){
-  return;
+  //return;
   $f = fopen("/var/www/debug.log", "a");
   fwrite( $f, $string );
+  print( $string );
   fclose( $f );
 } 
 
 // added radius support bellow
+function returnMacAddress($remoteIp) {
+  exec("/usr/sbin/arp -n",$arpSplitted);
+  $ipFound = false;
+  // Cicle the array to find the match with the remote ip address
+  foreach ($arpSplitted as $value) {
+    // Split every arp line, this is done in case the format of the arp
+    // command output is a bit different than expected
+    $valueSplitted = split(" ",$value);
+    foreach ($valueSplitted as $spLine) {
+      if (preg_match("/$remoteIp/",$spLine)) {
+        $ipFound = true;
+      }
+      // The ip address has been found, now rescan all the string
+      // to get the mac address
+      if ($ipFound) {
+        // Rescan all the string, in case the mac address, in the string
+        // returned by arp, comes before the ip address
+        reset($valueSplitted);
+        foreach ($valueSplitted as $spLine) {
+          $pg = preg_match("/[0-9a-f][0-9a-f][:-]".
+          "[0-9a-f][0-9a-f][:-]".
+          "[0-9a-f][0-9a-f][:-]".
+          "[0-9a-f][0-9a-f][:-]".
+          "[0-9a-f][0-9a-f][:-]".
+          "[0-9a-f][0-9a-f]/i",$spLine);
+          if ($pg) {
+            return $spLine;
+          }
+        }
+      }
+      $ipFound = false;
+    }
+  }
+  return false;
+}
+
+function rad_add_ip($remoteIp,$expiredate,$configValues){
+  //convert $remoteIp to mac and use in rad_add_mac
+  //$password for rad_add_mac here will be hardcoded for now
+  $password="macpass";
+  $mac_addr = returnMacAddress($remoteIp);
+  writelog("rad_add_ip ip = " . $remoteIp . " mac_addr = " . $mac_addr . "\n");
+  writelog("expiredate = ". $expiredate . "\n");
+  if ($mac_addr){
+    rad_add_mac($mac_addr,$password,$expiredate,$configValues);
+  }
+  else{
+    writelog("no mac returned from ip no mac account created\n");
+  }
+}
+
+
+function rad_add_mac($mac_addr,$password,$expiredate,$configValues){
+  // add a mac address authentication entry to radius radcheck table
+  // mac address authentication requires no password from users for auto login
+  // $password is value used in coova-chilli config option HS_MACPASSWD=macpass
+  // $mac_addr format example 00:11:22:33:44:55 or 00-11-22-33-44-55
+  // $expiredate is in timestamp format seconds since Jan 01 1970 like seen from time()
+  // $configValues is from config.php $configValues array values
+  // returns values the same as rad_update_users
+  $new_mac = preg_replace("/:/", "-", $mac_addr);
+  writelog("new_mac = " . $new_mac . "\n");
+  rad_update_user($new_mac,$password,$expiredate,$configValues);
+}
+
 function rad_user_exists($username,$configValues){
   //check to see if username is present in radius radcheck table.
   // return true if exists false if not (returns positive count if true zero if false).
@@ -70,6 +137,23 @@ function rad_update_user($username,$password,$expiredate,$configValues){
   }
 }
 // end added radius support
+
+//$mac_addr = "00-11-22:33:44:55";
+//$password = "macpass";
+$expiredate = 1339837127;
+//$configValues = "";
+//rad_add_mac($mac_addr,$password,$expiredate,$configValues)
+
+$remoteIp = "192.168.2.122";
+//rad_add_ip($remoteIp,$expiredate,$configValues)
+$mac = returnMacAddress($remoteIp);
+print("mac = ". $mac . "\n");
+if ($mac){
+  print "true \n";
+}
+else{
+  print "false \n";
+}
 
 ?>
 

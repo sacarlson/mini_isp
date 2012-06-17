@@ -218,7 +218,7 @@ found one more thing that needs to change
 /usr/local/etc/raddb/sites-enabled/default  uncomment sql tags in authorize {...}
 
 now I get:
- sudo radtest sacarlson scottc localhost 1812 testing123
+ sudo radtest sacarlson password localhost 1812 testing123
 Sending Access-Request of id 10 to 127.0.0.1 port 1812
 	User-Name = "sacarlson"
 	User-Password = "password"
@@ -262,5 +262,11 @@ I note that we need to set the static ip on the lan side of openwrt to be 192.16
 in hotspotlogin.php  unless we later change the hardcoded ip in the file.
 I found the hotspotlogin.php to replace the cgi perl script at https://help.ubuntu.com/community/WifiDocs/ChillispotHotspot
 
+had to add these lines to /etc/chilli/config  to get mac athentication to work
+HS_MACAUTH=on	
+HS_MACREAUTH=on
+HS_MACPASSWD=macpass
 
+mysql radcheck format for mac athentication:
+08-00-27-8B-5F-E5 	Auth-Type 	:= 	Accept
 

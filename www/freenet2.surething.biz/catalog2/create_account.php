@@ -259,7 +259,7 @@
       $remote_addr = $HTTP_SERVER_VARS["REMOTE_ADDR"];
       $mysql = new_mysql($username,$password,$database,"localhost");
       if (check_user_already($email_address,$remote_addr, $mysql) == 1){
-        $expire = update_account($email_address,$mysql,$configValues);  
+        $expire = update_account($email_address,$remote_addr,$mysql,$configValues);  
         $timenow = time();
         if ($timenow < $expire){
           ip_enable($HTTP_SERVER_VARS["REMOTE_ADDR"]);
