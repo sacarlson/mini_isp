@@ -257,7 +257,8 @@
       // so they won't have to login after a new account created.
       mysql_close();
       $remote_addr = $HTTP_SERVER_VARS["REMOTE_ADDR"];
-      $mysql = new_mysql($username,$password,$database,"localhost");
+      //$mysql = new_mysql($username,$password,$database,"localhost");
+      $mysql = new_mysql($mysql_username,$mysql_password,$mysql_database,$mysql_hostname);
       if (check_user_already($email_address,$remote_addr, $mysql) == 1){
         $expire = update_account($email_address,$remote_addr,$mysql,$configValues);  
         $timenow = time();
