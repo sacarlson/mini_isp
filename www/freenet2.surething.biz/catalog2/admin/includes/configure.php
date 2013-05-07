@@ -1,15 +1,13 @@
 <?php
-  // moved parts of configure.php values seen commented out to ../../../config.php
-  include(dirname(__FILE__) . '/../../../config.php');
-  //define('HTTP_SERVER', 'http://freenet2.surething.biz');
-  //define('HTTP_CATALOG_SERVER', 'http://freenet2.surething.biz');
-  //define('HTTPS_CATALOG_SERVER', 'http://freenet2.surething.biz');
+  define('HTTP_SERVER', 'http://freenet.surething.biz');
+  define('HTTP_CATALOG_SERVER', 'http://freenet.surething.biz');
+  define('HTTPS_CATALOG_SERVER', 'http://freenet.surething.biz');
   define('ENABLE_SSL_CATALOG', 'false');
-  //define('DIR_FS_DOCUMENT_ROOT', '/var/www/freenet2.surething.biz/catalog2/');
+  define('DIR_FS_DOCUMENT_ROOT', '/var/www/freenet.surething.biz/catalog2/');
   define('DIR_WS_ADMIN', '/catalog2/admin/');
-  //define('DIR_FS_ADMIN', '/var/www/freenet2.surething.biz/catalog2/admin/');
+  define('DIR_FS_ADMIN', '/var/www/freenet.surething.biz/catalog2/admin/');
   define('DIR_WS_CATALOG', '/catalog2/');
-  //define('DIR_FS_CATALOG', '/var/www/freenet2.surething.biz/catalog2/');
+  define('DIR_FS_CATALOG', '/var/www/freenet.surething.biz/catalog2/');
   define('DIR_WS_IMAGES', 'images/');
   define('DIR_WS_ICONS', DIR_WS_IMAGES . 'icons/');
   define('DIR_WS_CATALOG_IMAGES', DIR_WS_CATALOG . 'images/');
@@ -27,10 +25,11 @@
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
 
-  //define('DB_SERVER', 'localhost');
-  //define('DB_SERVER_USERNAME', 'sacarlson');
-  //define('DB_SERVER_PASSWORD', 'password');
-  //define('DB_DATABASE', 'freenet2');
+  define('DB_SERVER', 'localhost');
+  define('DB_SERVER_USERNAME', 'sacarlson');
+  define('DB_SERVER_PASSWORD', 'password');
+  define('DB_DATABASE', 'freenet3');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', 'mysql');
+  define('CFG_TIME_ZONE', 'Asia/Bangkok');
 ?>

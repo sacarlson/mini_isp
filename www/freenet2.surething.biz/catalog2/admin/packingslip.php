@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2007 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -28,7 +28,7 @@
 <title><?php echo TITLE; ?></title>
 <link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
 </head>
-<body onload="SetFocus();">
+<body>
 <!-- body_text //-->
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
   <tr>
@@ -47,10 +47,10 @@
       <tr>
         <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="main"><b><?php echo ENTRY_SOLD_TO; ?></b></td>
+            <td class="main"><strong><?php echo ENTRY_SOLD_TO; ?></strong></td>
           </tr>
           <tr>
-            <td class="main"><?php echo tep_address_format($order->customer['format_id'], $order->billing, 1, '', '<br>'); ?></td>
+            <td class="main"><?php echo tep_address_format($order->customer['format_id'], $order->billing, 1, '', '<br />'); ?></td>
           </tr>
           <tr>
             <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '5'); ?></td>
@@ -64,10 +64,10 @@
         </table></td>
         <td valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="main"><b><?php echo ENTRY_SHIP_TO; ?></b></td>
+            <td class="main"><strong><?php echo ENTRY_SHIP_TO; ?></strong></td>
           </tr>
           <tr>
-            <td class="main"><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br>'); ?></td>
+            <td class="main"><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'); ?></td>
           </tr>
         </table></td>
       </tr>
@@ -79,7 +79,7 @@
   <tr>
     <td><table border="0" cellspacing="0" cellpadding="2">
       <tr>
-        <td class="main"><b><?php echo ENTRY_PAYMENT_METHOD; ?></b></td>
+        <td class="main"><strong><?php echo ENTRY_PAYMENT_METHOD; ?></strong></td>
         <td class="main"><?php echo $order->info['payment_method']; ?></td>
       </tr>
     </table></td>
@@ -101,7 +101,7 @@
 
       if (isset($order->products[$i]['attributes']) && (sizeof($order->products[$i]['attributes']) > 0)) {
         for ($j=0, $k=sizeof($order->products[$i]['attributes']); $j<$k; $j++) {
-          echo '<br><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'];
+          echo '<br /><nobr><small>&nbsp;<i> - ' . $order->products[$i]['attributes'][$j]['option'] . ': ' . $order->products[$i]['attributes'][$j]['value'];
           echo '</i></small></nobr>';
         }
       }
@@ -115,7 +115,7 @@
   </tr>
 </table>
 <!-- body_text_eof //-->
-<br>
+<br />
 </body>
 </html>
 <?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>

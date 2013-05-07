@@ -56,31 +56,11 @@
       $action = 'verifyEmail';
       break;
   }
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html <?php echo HTML_PARAMS; ?>>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
-<title><?php echo TITLE; ?></title>
-<base href="../../../../">
-<link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
-<script language="javascript" src="includes/general.js"></script>
-</head>
-<body onload="SetFocus();">
-<!-- header //-->
-<?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-<!-- header_eof //-->
 
-<!-- body //-->
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
-<!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
-<!-- left_navigation_eof //-->
-    </table></td>
-<!-- body_text //-->
-    <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+  require(DIR_WS_INCLUDES . 'template_top.php');
+?>
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -96,7 +76,7 @@
     if (isset($result)) {
       if ($pass == true) {
 ?>
-          <p><b><u><?php echo MB_ACTIVATION_ACTIVATE_TITLE; ?></u></b></p>
+          <p><strong><u><?php echo MB_ACTIVATION_ACTIVATE_TITLE; ?></u></strong></p>
           <p><?php echo MB_ACTIVATION_ACTIVATE_TEXT; ?></p>
           <form name="activation" action="<?php echo tep_href_link(FILENAME_MODULES, 'set=payment&module=moneybookers&action=install&active=true&email=' . $HTTP_POST_VARS['mb_email'] . '&custid=' . $result[1]); ?>" method="post">
             <p><input type="submit" value="<?php echo MB_ACTIVATION_CONTINUE_BUTTON; ?>"></p>
@@ -105,7 +85,7 @@
       } else {
 ?>
           <div style="padding: 5px; background-color: #ffcccc;">
-            <p><b><u><?php echo MB_ACTIVATION_NONEXISTING_ACCOUNT_TITLE; ?></u></b></p>
+            <p><strong><u><?php echo MB_ACTIVATION_NONEXISTING_ACCOUNT_TITLE; ?></u></strong></p>
             <p><?php echo MB_ACTIVATION_NONEXISTING_ACCOUNT_TEXT; ?></p>
           </div>
 <?php
@@ -114,7 +94,7 @@
 
     if (!isset($result) || ($pass == false)) {
 ?>
-          <p><b><u><?php echo MB_ACTIVATION_ACCOUNT_TITLE; ?></u></b></p>
+          <p><strong><u><?php echo MB_ACTIVATION_ACCOUNT_TITLE; ?></u></strong></p>
           <p><?php echo MB_ACTIVATION_ACCOUNT_TEXT; ?></p>
           <form name="activation" action="<?php echo tep_href_link('ext/modules/payment/moneybookers/activation.php', 'action=verifyEmail'); ?>" method="post">
             <p><?php echo MB_ACTIVATION_EMAIL_ADDRESS . ' ' . tep_draw_input_field('mb_email', STORE_OWNER_EMAIL_ADDRESS); ?></p>
@@ -125,7 +105,7 @@
   } elseif ($action == 'testSecretWord') {
     if (isset($result) && ($pass == true)) {
 ?>
-          <p><b><u><?php echo MB_ACTIVATION_SECRET_WORD_TITLE; ?></u></b></p>
+          <p><strong><u><?php echo MB_ACTIVATION_SECRET_WORD_TITLE; ?></u></strong></p>
           <p><?php echo MB_ACTIVATION_SECRET_WORD_SUCCESS_TEXT; ?></p>
           <form name="activation" action="<?php echo tep_href_link(FILENAME_MODULES, 'set=payment&module=moneybookers&action=edit'); ?>" method="post">
             <p><input type="submit" value="<?php echo MB_ACTIVATION_CONTINUE_BUTTON; ?>"></p>
@@ -135,13 +115,13 @@
       if ($result == 'VELOCITY_CHECK_EXCEEDED') {
 ?>
           <div style="padding: 5px; background-color: #ff9999;">
-            <p><b><u><?php echo MB_ACTIVATION_SECRET_WORD_ERROR_TITLE; ?></u></b></p>
+            <p><strong><u><?php echo MB_ACTIVATION_SECRET_WORD_ERROR_TITLE; ?></u></strong></p>
             <p><?php echo MB_ACTIVATION_SECRET_WORD_ERROR_EXCEEDED; ?></p>
           </div>
 <?php
       }
 ?>
-          <p><b><u><?php echo MB_ACTIVATION_SECRET_WORD_TITLE; ?></u></b></p>
+          <p><strong><u><?php echo MB_ACTIVATION_SECRET_WORD_TITLE; ?></u></strong></p>
           <p><?php echo MB_ACTIVATION_SECRET_WORD_FAIL_TEXT; ?></p>
           <form name="activation" action="<?php echo tep_href_link(FILENAME_MODULES, 'set=payment&module=moneybookers&action=edit'); ?>" method="post">
             <p><input type="submit" value="<?php echo MB_ACTIVATION_CONTINUE_BUTTON; ?>"></p>
@@ -150,7 +130,7 @@
     }
   } elseif ($action == 'coreRequired') {
 ?>
-          <p><b><u><?php echo MB_ACTIVATION_CORE_REQUIRED_TITLE; ?></u></b></p>
+          <p><strong><u><?php echo MB_ACTIVATION_CORE_REQUIRED_TITLE; ?></u></strong></p>
           <p><?php echo MB_ACTIVATION_CORE_REQUIRED_TEXT; ?></p>
           <form name="activation" action="<?php echo tep_href_link('ext/modules/payment/moneybookers/activation.php'); ?>" method="post">
             <p><input type="submit" value="<?php echo MB_ACTIVATION_CONTINUE_BUTTON; ?>"></p>
@@ -159,21 +139,14 @@
   }
 ?>
           <div style="padding: 5px; background-color: #ffcc99;">
-            <p><b><u><?php echo MB_ACTIVATION_SUPPORT_TITLE; ?></u></b></p>
+            <p><strong><u><?php echo MB_ACTIVATION_SUPPORT_TITLE; ?></u></strong></p>
             <p><?php echo MB_ACTIVATION_SUPPORT_TEXT; ?></p>
           </div>
         </td>
       </tr>
-    </table></td>
-<!-- body_text_eof //-->
-  </tr>
-</table>
-<!-- body_eof //-->
+    </table>
 
-<!-- footer //-->
-<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
-<!-- footer_eof //-->
-<br>
-</body>
-</html>
-<?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
+<?php
+  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  require(DIR_WS_INCLUDES . 'application_bottom.php');
+?>

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2007 osCommerce
+  Copyright (c) 2012 osCommerce
 
   Released under the GNU General Public License
 */
@@ -40,6 +40,10 @@
       if (substr($url, 0, strlen(HTTP_SERVER)) == HTTP_SERVER) { // NONSSL url
         $url = HTTPS_SERVER . substr($url, strlen(HTTP_SERVER)); // Change it to SSL
       }
+    }
+
+    if ( strpos($url, '&amp;') !== false ) {
+      $url = str_replace('&amp;', '&', $url);
     }
 
     header('Location: ' . $url);
@@ -479,11 +483,11 @@
 
     if ($html) {
 // HTML Mode
-      $HR = '<hr>';
-      $hr = '<hr>';
+      $HR = '<hr />';
+      $hr = '<hr />';
       if ( ($boln == '') && ($eoln == "\n") ) { // Values not specified, use rational defaults
-        $CR = '<br>';
-        $cr = '<br>';
+        $CR = '<br />';
+        $cr = '<br />';
         $eoln = $cr;
       } else { // Use values supplied
         $CR = $eoln . $boln;
@@ -666,7 +670,7 @@
 // Turn the flag off for future iterations
           $flag = 'off';
 
-          $objects[] = trim($pieces[$k]);
+          $objects[] = trim(preg_replace('/"/', ' ', $pieces[$k]));
 
           for ($j=0; $j<count($post_objects); $j++) {
             $objects[] = $post_objects[$j];
@@ -1014,7 +1018,7 @@
     } else {
       $greeting_string = sprintf(TEXT_GREETING_GUEST, tep_href_link(FILENAME_LOGIN, '', 'SSL'), tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
     }
-
+   $greeting_string = '<h1> '. $greeting_string . '.  First time customers will need to create an account, after creation of a new account you will be provided a FREE 24 hour free trail auto deposited to your account before a purchase is needed.  If you already have an account and would like to check your expire date then <a href="http://freenet.surething.biz"><u>log yourself in here </u></a> where it will display your expire date and status.  If you find you are expired you can purchase yourself another one or more of the contracts below</h1>'; 
     return $greeting_string;
   }
 
@@ -1082,7 +1086,7 @@
     for ($i=0, $n=sizeof($modules_array); $i<$n; $i++) {
       $class = substr($modules_array[$i], 0, strrpos($modules_array[$i], '.'));
 
-      if (is_object($GLOBALS[$class])) {
+      if (isset($GLOBALS[$class]) && is_object($GLOBALS[$class])) {
         if ($GLOBALS[$class]->enabled) {
           $count++;
         }
@@ -1101,25 +1105,46 @@
   }
 
   function tep_create_random_value($length, $type = 'mixed') {
-    if ( ($type != 'mixed') && ($type != 'chars') && ($type != 'digits')) return false;
+    if ( ($type != 'mixed') && ($type != 'chars') && ($type != 'digits')) $type = 'mixed';
 
-    $rand_value = '';
-    while (strlen($rand_value) < $length) {
-      if ($type == 'digits') {
-        $char = tep_rand(0,9);
-      } else {
-        $char = chr(tep_rand(0,255));
-      }
-      if ($type == 'mixed') {
-        if (preg_match('/^[a-z0-9]$/i', $char)) $rand_value .= $char;
-      } elseif ($type == 'chars') {
-        if (preg_match('/^[a-z]$/i', $char)) $rand_value .= $char;
-      } elseif ($type == 'digits') {
-        if (preg_match('/^[0-9]$/i', $char)) $rand_value .= $char;
-      }
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $digits = '0123456789';
+
+    $base = '';
+
+    if ( ($type == 'mixed') || ($type == 'chars') ) {
+      $base .= $chars;
     }
 
-    return $rand_value;
+    if ( ($type == 'mixed') || ($type == 'digits') ) {
+      $base .= $digits;
+    }
+
+    $value = '';
+
+    if (!class_exists('PasswordHash')) {
+      include(DIR_WS_CLASSES . 'passwordhash.php');
+    }
+
+    $hasher = new PasswordHash(10, true);
+
+    do {
+      $random = base64_encode($hasher->get_random_bytes($length));
+
+      for ($i = 0, $n = strlen($random); $i < $n; $i++) {
+        $char = substr($random, $i, 1);
+
+        if ( strpos($base, $char) !== false ) {
+          $value .= $char;
+        }
+      }
+    } while ( strlen($value) < $length );
+
+    if ( strlen($value) > $length ) {
+      $value = substr($value, 0, $length);
+    }
+
+    return $value;
   }
 
   function tep_array_to_string($array, $exclude = '', $equals = '=', $separator = '&') {
@@ -1232,8 +1257,11 @@
     static $seeded;
 
     if (!isset($seeded)) {
-      mt_srand((double)microtime()*1000000);
       $seeded = true;
+
+      if ( (PHP_VERSION < '4.2.0') ) {
+        mt_srand((double)microtime()*1000000);
+      }
     }
 
     if (isset($min) && isset($max)) {

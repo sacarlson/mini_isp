@@ -5,19 +5,13 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2007 osCommerce
+  Copyright (c) 2012 osCommerce
 
   Released under the GNU General Public License
 */
 
   include('includes/application_top.php');
-  $ip = $HTTP_SERVER_VARS["REMOTE_ADDR"];
-  $client = gethostbyaddr($HTTP_SERVER_VARS["REMOTE_ADDR"]);
-  $str = preg_split("/\./", $client);
-  $i = count($str);
-  $x = $i - 1;
-  $n = $i - 2;
-  $isp = $str[$n] . "." . $str[$x];
+
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot(array('mode' => 'SSL', 'page' => FILENAME_CHECKOUT_PAYMENT));
@@ -124,9 +118,7 @@
                           'date_purchased' => 'now()', 
                           'orders_status' => $order->info['order_status'], 
                           'currency' => $order->info['currency'], 
-                          'currency_value' => $order->info['currency_value'],
- 			  'ipaddy' => $ip,
-                          'ipisp' => $isp);
+                          'currency_value' => $order->info['currency_value']);
   tep_db_perform(TABLE_ORDERS, $sql_data_array);
   $insert_id = tep_db_insert_id();
   for ($i=0, $n=sizeof($order_totals); $i<$n; $i++) {
@@ -149,8 +141,6 @@
 
 // initialized for the email confirmation
   $products_ordered = '';
-  $subtotal = 0;
-  $total_tax = 0;
 
   for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
 // Stock Update - Joao Correia
@@ -165,9 +155,9 @@
                             WHERE p.products_id = '" . tep_get_prid($order->products[$i]['id']) . "'";
 // Will work with only one option for downloadable products
 // otherwise, we have to build the query dynamically with a loop
-        $products_attributes = $order->products[$i]['attributes'];
+        $products_attributes = (isset($order->products[$i]['attributes'])) ? $order->products[$i]['attributes'] : '';
         if (is_array($products_attributes)) {
-          $stock_query_raw .= " AND pa.options_id = '" . $products_attributes[0]['option_id'] . "' AND pa.options_values_id = '" . $products_attributes[0]['value_id'] . "'";
+          $stock_query_raw .= " AND pa.options_id = '" . (int)$products_attributes[0]['option_id'] . "' AND pa.options_values_id = '" . (int)$products_attributes[0]['value_id'] . "'";
         }
         $stock_query = tep_db_query($stock_query_raw);
       } else {
@@ -181,7 +171,7 @@
         } else {
           $stock_left = $stock_values['products_quantity'];
         }
-        tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . $stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+        tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
         if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
           tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
         }
@@ -213,16 +203,16 @@
                                from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_OPTIONS_VALUES . " poval, " . TABLE_PRODUCTS_ATTRIBUTES . " pa 
                                left join " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " pad
                                 on pa.products_attributes_id=pad.products_attributes_id
-                               where pa.products_id = '" . $order->products[$i]['id'] . "' 
-                                and pa.options_id = '" . $order->products[$i]['attributes'][$j]['option_id'] . "' 
+                               where pa.products_id = '" . (int)$order->products[$i]['id'] . "' 
+                                and pa.options_id = '" . (int)$order->products[$i]['attributes'][$j]['option_id'] . "' 
                                 and pa.options_id = popt.products_options_id 
-                                and pa.options_values_id = '" . $order->products[$i]['attributes'][$j]['value_id'] . "' 
+                                and pa.options_values_id = '" . (int)$order->products[$i]['attributes'][$j]['value_id'] . "' 
                                 and pa.options_values_id = poval.products_options_values_id 
-                                and popt.language_id = '" . $languages_id . "' 
-                                and poval.language_id = '" . $languages_id . "'";
+                                and popt.language_id = '" . (int)$languages_id . "' 
+                                and poval.language_id = '" . (int)$languages_id . "'";
           $attributes = tep_db_query($attributes_query);
         } else {
-          $attributes = tep_db_query("select popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_OPTIONS_VALUES . " poval, " . TABLE_PRODUCTS_ATTRIBUTES . " pa where pa.products_id = '" . $order->products[$i]['id'] . "' and pa.options_id = '" . $order->products[$i]['attributes'][$j]['option_id'] . "' and pa.options_id = popt.products_options_id and pa.options_values_id = '" . $order->products[$i]['attributes'][$j]['value_id'] . "' and pa.options_values_id = poval.products_options_values_id and popt.language_id = '" . $languages_id . "' and poval.language_id = '" . $languages_id . "'");
+          $attributes = tep_db_query("select popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_OPTIONS_VALUES . " poval, " . TABLE_PRODUCTS_ATTRIBUTES . " pa where pa.products_id = '" . (int)$order->products[$i]['id'] . "' and pa.options_id = '" . (int)$order->products[$i]['attributes'][$j]['option_id'] . "' and pa.options_id = popt.products_options_id and pa.options_values_id = '" . (int)$order->products[$i]['attributes'][$j]['value_id'] . "' and pa.options_values_id = poval.products_options_values_id and popt.language_id = '" . (int)$languages_id . "' and poval.language_id = '" . (int)$languages_id . "'");
         }
         $attributes_values = tep_db_fetch_array($attributes);
 
@@ -246,10 +236,6 @@
       }
     }
 //------insert customer choosen option eof ----
-    $total_weight += ($order->products[$i]['qty'] * $order->products[$i]['weight']);
-    $total_tax += tep_calculate_tax($total_products_price, $products_tax) * $order->products[$i]['qty'];
-    $total_cost += $total_products_price;
-
     $products_ordered .= $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . ' (' . $order->products[$i]['model'] . ') = ' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . $products_ordered_attributes . "\n";
   }
 
@@ -285,7 +271,7 @@
                     EMAIL_SEPARATOR . "\n";
     $payment_class = $$payment;
     $email_order .= $order->info['payment_method'] . "\n\n";
-    if ($payment_class->email_footer) { 
+    if (isset($payment_class->email_footer)) {
       $email_order .= $payment_class->email_footer . "\n\n";
     }
   }

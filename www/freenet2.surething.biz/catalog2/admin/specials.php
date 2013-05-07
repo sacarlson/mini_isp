@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -28,9 +28,7 @@
         $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
         $products_price = tep_db_prepare_input($HTTP_POST_VARS['products_price']);
         $specials_price = tep_db_prepare_input($HTTP_POST_VARS['specials_price']);
-        $day = tep_db_prepare_input($HTTP_POST_VARS['day']);
-        $month = tep_db_prepare_input($HTTP_POST_VARS['month']);
-        $year = tep_db_prepare_input($HTTP_POST_VARS['year']);
+        $expdate = tep_db_prepare_input($HTTP_POST_VARS['expdate']);
 
         if (substr($specials_price, -1) == '%') {
           $new_special_insert_query = tep_db_query("select products_id, products_price from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
@@ -41,13 +39,11 @@
         }
 
         $expires_date = '';
-        if (tep_not_null($day) && tep_not_null($month) && tep_not_null($year)) {
-          $expires_date = $year;
-          $expires_date .= (strlen($month) == 1) ? '0' . $month : $month;
-          $expires_date .= (strlen($day) == 1) ? '0' . $day : $day;
+        if (tep_not_null($expdate)) {
+          $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
         }
 
-        tep_db_query("insert into " . TABLE_SPECIALS . " (products_id, specials_new_products_price, specials_date_added, expires_date, status) values ('" . (int)$products_id . "', '" . tep_db_input($specials_price) . "', now(), '" . tep_db_input($expires_date) . "', '1')");
+        tep_db_query("insert into " . TABLE_SPECIALS . " (products_id, specials_new_products_price, specials_date_added, expires_date, status) values ('" . (int)$products_id . "', '" . tep_db_input($specials_price) . "', now(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", '1')");
 
         tep_redirect(tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page']));
         break;
@@ -55,20 +51,16 @@
         $specials_id = tep_db_prepare_input($HTTP_POST_VARS['specials_id']);
         $products_price = tep_db_prepare_input($HTTP_POST_VARS['products_price']);
         $specials_price = tep_db_prepare_input($HTTP_POST_VARS['specials_price']);
-        $day = tep_db_prepare_input($HTTP_POST_VARS['day']);
-        $month = tep_db_prepare_input($HTTP_POST_VARS['month']);
-        $year = tep_db_prepare_input($HTTP_POST_VARS['year']);
+        $expdate = tep_db_prepare_input($HTTP_POST_VARS['expdate']);
 
         if (substr($specials_price, -1) == '%') $specials_price = ($products_price - (($specials_price / 100) * $products_price));
 
         $expires_date = '';
-        if (tep_not_null($day) && tep_not_null($month) && tep_not_null($year)) {
-          $expires_date = $year;
-          $expires_date .= (strlen($month) == 1) ? '0' . $month : $month;
-          $expires_date .= (strlen($day) == 1) ? '0' . $day : $day;
+        if (tep_not_null($expdate)) {
+          $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
         }
 
-        tep_db_query("update " . TABLE_SPECIALS . " set specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = now(), expires_date = '" . tep_db_input($expires_date) . "' where specials_id = '" . (int)$specials_id . "'");
+        tep_db_query("update " . TABLE_SPECIALS . " set specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = now(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . " where specials_id = '" . (int)$specials_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . '&sID=' . $specials_id));
         break;
@@ -81,39 +73,11 @@
         break;
     }
   }
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html <?php echo HTML_PARAMS; ?>>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
-<title><?php echo TITLE; ?></title>
-<link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
-<script language="javascript" src="includes/general.js"></script>
-<?php
-  if ( ($action == 'new') || ($action == 'edit') ) {
-?>
-<link rel="stylesheet" type="text/css" href="includes/javascript/calendar.css">
-<script language="JavaScript" src="includes/javascript/calendarcode.js"></script>
-<?php
-  }
-?>
-</head>
-<body onload="SetFocus();">
-<div id="popupcalendar" class="text"></div>
-<!-- header //-->
-<?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-<!-- header_eof //-->
 
-<!-- body //-->
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
-<!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
-<!-- left_navigation_eof //-->
-    </table></td>
-<!-- body_text //-->
-    <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+  require(DIR_WS_INCLUDES . 'template_top.php');
+?>
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -145,7 +109,7 @@
     }
 ?>
       <tr><form name="new_special" <?php echo 'action="' . tep_href_link(FILENAME_SPECIALS, tep_get_all_get_params(array('action', 'info', 'sID')) . 'action=' . $form_action, 'NONSSL') . '"'; ?> method="post"><?php if ($form_action == 'update') echo tep_draw_hidden_field('specials_id', $HTTP_GET_VARS['sID']); ?>
-        <td><br><table border="0" cellspacing="0" cellpadding="2">
+        <td><br /><table border="0" cellspacing="0" cellpadding="2">
           <tr>
             <td class="main"><?php echo TEXT_SPECIALS_PRODUCT; ?>&nbsp;</td>
             <td class="main"><?php echo (isset($sInfo->products_name)) ? $sInfo->products_name . ' <small>(' . $currencies->format($sInfo->products_price) . ')</small>' : tep_draw_products_pull_down('products_id', 'style="font-size:10px"', $specials_array); echo tep_draw_hidden_field('products_price', (isset($sInfo->products_price) ? $sInfo->products_price : '')); ?></td>
@@ -156,15 +120,23 @@
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_SPECIALS_EXPIRES_DATE; ?>&nbsp;</td>
-            <td class="main"><?php echo tep_draw_input_field('day', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 8, 2) : ''), 'size="2" maxlength="2" class="cal-TextBox"') . tep_draw_input_field('month', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 5, 2) : ''), 'size="2" maxlength="2" class="cal-TextBox"') . tep_draw_input_field('year', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) : ''), 'size="4" maxlength="4" class="cal-TextBox"'); ?><a class="so-BtnLink" href="javascript:calClick();return false;" onmouseover="calSwapImg('BTN_date', 'img_Date_OVER',true);" onmouseout="calSwapImg('BTN_date', 'img_Date_UP',true);" onclick="calSwapImg('BTN_date', 'img_Date_DOWN');showCalendar('new_special','dteWhen','BTN_date');return false;"><?php echo tep_image(DIR_WS_IMAGES . 'cal_date_up.gif', 'Calendar', '22', '17', 'align="absmiddle" name="BTN_date"'); ?></a></td>
+            <td class="main"><?php echo tep_draw_input_field('expdate', (tep_not_null($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'id="expdate"') . ' <small>(YYYY-MM-DD)</small>'; ?></td>
           </tr>
-        </table></td>
+        </table>
+
+<script type="text/javascript">
+$('#expdate').datepicker({
+  dateFormat: 'yy-mm-dd'
+});
+</script>
+
+        </td>
       </tr>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
           <tr>
-            <td class="main"><br><?php echo TEXT_SPECIALS_PRICE_TIP; ?></td>
-            <td class="smallText" align="right" valign="top"><br><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . (isset($HTTP_GET_VARS['sID']) ? '&sID=' . $HTTP_GET_VARS['sID'] : ''))); ?></td>
+            <td class="main"><br /><?php echo TEXT_SPECIALS_PRICE_TIP; ?></td>
+            <td class="smallText" align="right" valign="top"><br /><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . (isset($HTTP_GET_VARS['sID']) ? '&sID=' . $HTTP_GET_VARS['sID'] : ''))); ?></td>
           </tr>
         </table></td>
       </form></tr>
@@ -238,26 +210,26 @@
 
   switch ($action) {
     case 'delete':
-      $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_DELETE_SPECIALS . '</b>');
+      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_SPECIALS . '</strong>');
 
       $contents = array('form' => tep_draw_form('specials', FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . '&sID=' . $sInfo->specials_id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<br><b>' . $sInfo->products_name . '</b>');
-      $contents[] = array('align' => 'center', 'text' => '<br>' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . '&sID=' . $sInfo->specials_id)));
+      $contents[] = array('text' => '<br /><strong>' . $sInfo->products_name . '</strong>');
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . '&sID=' . $sInfo->specials_id)));
       break;
     default:
       if (is_object($sInfo)) {
-        $heading[] = array('text' => '<b>' . $sInfo->products_name . '</b>');
+        $heading[] = array('text' => '<strong>' . $sInfo->products_name . '</strong>');
 
         $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . '&sID=' . $sInfo->specials_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page'] . '&sID=' . $sInfo->specials_id . '&action=delete')));
-        $contents[] = array('text' => '<br>' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($sInfo->specials_date_added));
+        $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($sInfo->specials_date_added));
         $contents[] = array('text' => '' . TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($sInfo->specials_last_modified));
-        $contents[] = array('align' => 'center', 'text' => '<br>' . tep_info_image($sInfo->products_image, $sInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT));
-        $contents[] = array('text' => '<br>' . TEXT_INFO_ORIGINAL_PRICE . ' ' . $currencies->format($sInfo->products_price));
+        $contents[] = array('align' => 'center', 'text' => '<br />' . tep_info_image($sInfo->products_image, $sInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT));
+        $contents[] = array('text' => '<br />' . TEXT_INFO_ORIGINAL_PRICE . ' ' . $currencies->format($sInfo->products_price));
         $contents[] = array('text' => '' . TEXT_INFO_NEW_PRICE . ' ' . $currencies->format($sInfo->specials_new_products_price));
         $contents[] = array('text' => '' . TEXT_INFO_PERCENTAGE . ' ' . number_format(100 - (($sInfo->specials_new_products_price / $sInfo->products_price) * 100)) . '%');
 
-        $contents[] = array('text' => '<br>' . TEXT_INFO_EXPIRES_DATE . ' <b>' . tep_date_short($sInfo->expires_date) . '</b>');
+        $contents[] = array('text' => '<br />' . TEXT_INFO_EXPIRES_DATE . ' <strong>' . tep_date_short($sInfo->expires_date) . '</strong>');
         $contents[] = array('text' => '' . TEXT_INFO_STATUS_CHANGE . ' ' . tep_date_short($sInfo->date_status_change));
       }
       break;
@@ -275,15 +247,9 @@
           </tr>
         </table></td>
       </tr>
-    </table></td>
-<!-- body_text_eof //-->
-  </tr>
-</table>
-<!-- body_eof //-->
+    </table>
 
-<!-- footer //-->
-<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
-<!-- footer_eof //-->
-</body>
-</html>
-<?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
+<?php
+  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  require(DIR_WS_INCLUDES . 'application_bottom.php');
+?>

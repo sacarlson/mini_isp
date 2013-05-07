@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2008 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -325,30 +325,11 @@
   } else {
     $messageStack->add(ERROR_BACKUP_DIRECTORY_DOES_NOT_EXIST, 'error');
   }
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html <?php echo HTML_PARAMS; ?>>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
-<title><?php echo TITLE; ?></title>
-<link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
-<script language="javascript" src="includes/general.js"></script>
-</head>
-<body onload="SetFocus();">
-<!-- header //-->
-<?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-<!-- header_eof //-->
 
-<!-- body //-->
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
-<!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
-<!-- left_navigation_eof //-->
-    </table></td>
-<!-- body_text //-->
-    <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+  require(DIR_WS_INCLUDES . 'template_top.php');
+?>
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -434,54 +415,54 @@
 
   switch ($action) {
     case 'backup':
-      $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_NEW_BACKUP . '</b>');
+      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_BACKUP . '</strong>');
 
       $contents = array('form' => tep_draw_form('backup', FILENAME_BACKUP, 'action=backupnow'));
       $contents[] = array('text' => TEXT_INFO_NEW_BACKUP);
 
-      $contents[] = array('text' => '<br>' . tep_draw_radio_field('compress', 'no', true) . ' ' . TEXT_INFO_USE_NO_COMPRESSION);
-      if (file_exists(LOCAL_EXE_GZIP)) $contents[] = array('text' => '<br>' . tep_draw_radio_field('compress', 'gzip') . ' ' . TEXT_INFO_USE_GZIP);
+      $contents[] = array('text' => '<br />' . tep_draw_radio_field('compress', 'no', true) . ' ' . TEXT_INFO_USE_NO_COMPRESSION);
+      if (file_exists(LOCAL_EXE_GZIP)) $contents[] = array('text' => '<br />' . tep_draw_radio_field('compress', 'gzip') . ' ' . TEXT_INFO_USE_GZIP);
       if (file_exists(LOCAL_EXE_ZIP)) $contents[] = array('text' => tep_draw_radio_field('compress', 'zip') . ' ' . TEXT_INFO_USE_ZIP);
 
       if ($dir_ok == true) {
-        $contents[] = array('text' => '<br>' . tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS);
+        $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br /><br />*' . TEXT_INFO_BEST_THROUGH_HTTPS);
       } else {
-        $contents[] = array('text' => '<br>' . tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS);
+        $contents[] = array('text' => '<br />' . tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br /><br />*' . TEXT_INFO_BEST_THROUGH_HTTPS);
       }
 
-      $contents[] = array('align' => 'center', 'text' => '<br>' . tep_draw_button(IMAGE_BACKUP, 'copy', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_BACKUP, 'copy', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP)));
       break;
     case 'restore':
-      $heading[] = array('text' => '<b>' . $buInfo->date . '</b>');
+      $heading[] = array('text' => '<strong>' . $buInfo->date . '</strong>');
 
       $contents[] = array('text' => tep_break_string(sprintf(TEXT_INFO_RESTORE, DIR_FS_BACKUP . (($buInfo->compression != TEXT_NO_EXTENSION) ? substr($buInfo->file, 0, strrpos($buInfo->file, '.')) : $buInfo->file), ($buInfo->compression != TEXT_NO_EXTENSION) ? TEXT_INFO_UNPACK : ''), 35, ' '));
-      $contents[] = array('align' => 'center', 'text' => '<br>' . tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file . '&action=restorenow'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file . '&action=restorenow'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file)));
       break;
     case 'restorelocal':
-      $heading[] = array('text' => '<b>' . TEXT_INFO_HEADING_RESTORE_LOCAL . '</b>');
+      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_RESTORE_LOCAL . '</strong>');
 
       $contents = array('form' => tep_draw_form('restore', FILENAME_BACKUP, 'action=restorelocalnow', 'post', 'enctype="multipart/form-data"'));
-      $contents[] = array('text' => TEXT_INFO_RESTORE_LOCAL . '<br><br>' . TEXT_INFO_BEST_THROUGH_HTTPS);
-      $contents[] = array('text' => '<br>' . tep_draw_file_field('sql_file'));
+      $contents[] = array('text' => TEXT_INFO_RESTORE_LOCAL . '<br /><br />' . TEXT_INFO_BEST_THROUGH_HTTPS);
+      $contents[] = array('text' => '<br />' . tep_draw_file_field('sql_file'));
       $contents[] = array('text' => TEXT_INFO_RESTORE_LOCAL_RAW_FILE);
-      $contents[] = array('align' => 'center', 'text' => '<br>' . tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP)));
       break;
     case 'delete':
-      $heading[] = array('text' => '<b>' . $buInfo->date . '</b>');
+      $heading[] = array('text' => '<strong>' . $buInfo->date . '</strong>');
 
       $contents = array('form' => tep_draw_form('delete', FILENAME_BACKUP, 'file=' . $buInfo->file . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_DELETE_INTRO);
-      $contents[] = array('text' => '<br><b>' . $buInfo->file . '</b>');
-      $contents[] = array('align' => 'center', 'text' => '<br>' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file)));
+      $contents[] = array('text' => '<br /><strong>' . $buInfo->file . '</strong>');
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file)));
       break;
     default:
       if (isset($buInfo) && is_object($buInfo)) {
-        $heading[] = array('text' => '<b>' . $buInfo->date . '</b>');
+        $heading[] = array('text' => '<strong>' . $buInfo->date . '</strong>');
 
         $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file . '&action=restore')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link(FILENAME_BACKUP, 'file=' . $buInfo->file . '&action=delete')));
-        $contents[] = array('text' => '<br>' . TEXT_INFO_DATE . ' ' . $buInfo->date);
+        $contents[] = array('text' => '<br />' . TEXT_INFO_DATE . ' ' . $buInfo->date);
         $contents[] = array('text' => TEXT_INFO_SIZE . ' ' . $buInfo->size);
-        $contents[] = array('text' => '<br>' . TEXT_INFO_COMPRESSION . ' ' . $buInfo->compression);
+        $contents[] = array('text' => '<br />' . TEXT_INFO_COMPRESSION . ' ' . $buInfo->compression);
       }
       break;
   }
@@ -498,16 +479,9 @@
           </tr>
         </table></td>
       </tr>
-    </table></td>
-<!-- body_text_eof //-->
-  </tr>
-</table>
-<!-- body_eof //-->
+    </table>
 
-<!-- footer //-->
-<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
-<!-- footer_eof //-->
-<br>
-</body>
-</html>
-<?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
+<?php
+  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  require(DIR_WS_INCLUDES . 'application_bottom.php');
+?>

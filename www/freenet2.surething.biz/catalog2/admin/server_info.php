@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2008 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -83,29 +83,11 @@
       $info = tep_get_system_information();
       break;
   }
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html <?php echo HTML_PARAMS; ?>>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
-<title><?php echo TITLE; ?></title>
-<link rel="stylesheet" type="text/css" href="includes/stylesheet.css">
-</head>
-<body onload="SetFocus();">
-<!-- header //-->
-<?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-<!-- header_eof //-->
 
-<!-- body //-->
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="1" cellpadding="1" class="columnLeft">
-<!-- left_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_left.php'); ?>
-<!-- left_navigation_eof //-->
-    </table></td>
-<!-- body_text //-->
-    <td width="100%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+  require(DIR_WS_INCLUDES . 'template_top.php');
+?>
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -148,36 +130,36 @@
           <tr>
             <td><table border="0" cellspacing="0" cellpadding="3">
               <tr>
-                <td class="smallText"><b><?php echo TITLE_SERVER_HOST; ?></b></td>
+                <td class="smallText"><strong><?php echo TITLE_SERVER_HOST; ?></strong></td>
                 <td class="smallText"><?php echo $server['host'] . ' (' . gethostbyname($server['host']) . ')'; ?></td>
-                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo TITLE_DATABASE_HOST; ?></b></td>
+                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo TITLE_DATABASE_HOST; ?></strong></td>
                 <td class="smallText"><?php echo DB_SERVER . ' (' . gethostbyname(DB_SERVER) . ')'; ?></td>
               </tr>
               <tr>
-                <td class="smallText"><b><?php echo TITLE_SERVER_OS; ?></b></td>
+                <td class="smallText"><strong><?php echo TITLE_SERVER_OS; ?></strong></td>
                 <td class="smallText"><?php echo $info['system']['os'] . ' ' . $info['system']['kernel']; ?></td>
-                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo TITLE_DATABASE; ?></b></td>
+                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo TITLE_DATABASE; ?></strong></td>
                 <td class="smallText"><?php echo 'MySQL ' . $info['mysql']['version']; ?></td>
               </tr>
               <tr>
-                <td class="smallText"><b><?php echo TITLE_SERVER_DATE; ?></b></td>
+                <td class="smallText"><strong><?php echo TITLE_SERVER_DATE; ?></strong></td>
                 <td class="smallText"><?php echo $info['system']['date']; ?></td>
-                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><?php echo TITLE_DATABASE_DATE; ?></b></td>
+                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo TITLE_DATABASE_DATE; ?></strong></td>
                 <td class="smallText"><?php echo $info['mysql']['date']; ?></td>
               </tr>
               <tr>
-                <td class="smallText"><b><?php echo TITLE_SERVER_UP_TIME; ?></b></td>
+                <td class="smallText"><strong><?php echo TITLE_SERVER_UP_TIME; ?></strong></td>
                 <td colspan="3" class="smallText"><?php echo $info['system']['uptime']; ?></td>
               </tr>
               <tr>
                 <td colspan="4"><?php echo tep_draw_separator('pixel_trans.gif', '1', '5'); ?></td>
               </tr>
               <tr>
-                <td class="smallText"><b><?php echo TITLE_HTTP_SERVER; ?></b></td>
+                <td class="smallText"><strong><?php echo TITLE_HTTP_SERVER; ?></strong></td>
                 <td colspan="3" class="smallText"><?php echo $info['system']['http_server']; ?></td>
               </tr>
               <tr>
-                <td class="smallText"><b><?php echo TITLE_PHP_VERSION; ?></b></td>
+                <td class="smallText"><strong><?php echo TITLE_PHP_VERSION; ?></strong></td>
                 <td colspan="3" class="smallText"><?php echo $info['php']['version'] . ' (' . TITLE_ZEND_VERSION . ' ' . $info['php']['zend'] . ')'; ?></td>
               </tr>
             </table></td>
@@ -229,16 +211,9 @@ hr {display: none;}
 <?php
   }
  ?>
-    </table></td>
-<!-- body_text_eof //-->
-  </tr>
-</table>
-<!-- body_eof //-->
+    </table>
 
-<!-- footer //-->
-<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
-<!-- footer_eof //-->
-<br>
-</body>
-</html>
-<?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
+<?php
+  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  require(DIR_WS_INCLUDES . 'application_bottom.php');
+?>

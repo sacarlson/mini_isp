@@ -20,6 +20,8 @@ define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'm/d/Y'); // this is used for date()
 define('PHP_DATE_TIME_FORMAT', 'm/d/Y H:i:s'); // this is used for date()
 define('DATE_TIME_FORMAT', DATE_FORMAT_SHORT . ' %H:%M:%S');
+define('JQUERY_DATEPICKER_I18N_CODE', ''); // leave empty for en_US; see http://jqueryui.com/demos/datepicker/#localization
+define('JQUERY_DATEPICKER_FORMAT', 'mm/dd/yy'); // see http://docs.jquery.com/UI/Datepicker/formatDate
 
 ////
 // Return date in raw format
@@ -65,13 +67,6 @@ define('BOX_CONFIGURATION_STORE_LOGO', 'Store Logo');
 
 // modules box text in includes/boxes/modules.php
 define('BOX_HEADING_MODULES', 'Modules');
-define('BOX_MODULES_PAYMENT', 'Payment');
-define('BOX_MODULES_SHIPPING', 'Shipping');
-define('BOX_MODULES_ORDER_TOTAL', 'Order Total');
-define('BOX_MODULES_ACTION_RECORDER', 'Action Recorder');
-define('BOX_MODULES_HEADER_TAGS', 'Header Tags');
-define('BOX_MODULES_SOCIAL_BOOKMARKS', 'Social Bookmarks');
-define('BOX_MODULES_ADMIN_DASHBOARD', 'Admin Dashboard');
 
 // categories box text in includes/boxes/catalog.php
 define('BOX_HEADING_CATALOG', 'Catalog');
@@ -261,24 +256,24 @@ define('ICON_WARNING', 'Warning');
 
 // constants for use in tep_prev_next_display function
 define('TEXT_RESULT_PAGE', 'Page %s of %d');
-define('TEXT_DISPLAY_NUMBER_OF_BANNERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> banners)');
-define('TEXT_DISPLAY_NUMBER_OF_COUNTRIES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> countries)');
-define('TEXT_DISPLAY_NUMBER_OF_CUSTOMERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> customers)');
-define('TEXT_DISPLAY_NUMBER_OF_CURRENCIES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> currencies)');
-define('TEXT_DISPLAY_NUMBER_OF_ENTRIES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> entries)');
-define('TEXT_DISPLAY_NUMBER_OF_LANGUAGES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> languages)');
-define('TEXT_DISPLAY_NUMBER_OF_MANUFACTURERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> manufacturers)');
-define('TEXT_DISPLAY_NUMBER_OF_NEWSLETTERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> newsletters)');
-define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> orders)');
-define('TEXT_DISPLAY_NUMBER_OF_ORDERS_STATUS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> orders status)');
-define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> products)');
-define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS_EXPECTED', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> products expected)');
-define('TEXT_DISPLAY_NUMBER_OF_REVIEWS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> product reviews)');
-define('TEXT_DISPLAY_NUMBER_OF_SPECIALS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> products on special)');
-define('TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> tax classes)');
-define('TEXT_DISPLAY_NUMBER_OF_TAX_ZONES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> tax zones)');
-define('TEXT_DISPLAY_NUMBER_OF_TAX_RATES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> tax rates)');
-define('TEXT_DISPLAY_NUMBER_OF_ZONES', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> zones)');
+define('TEXT_DISPLAY_NUMBER_OF_BANNERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> banners)');
+define('TEXT_DISPLAY_NUMBER_OF_COUNTRIES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> countries)');
+define('TEXT_DISPLAY_NUMBER_OF_CUSTOMERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> customers)');
+define('TEXT_DISPLAY_NUMBER_OF_CURRENCIES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> currencies)');
+define('TEXT_DISPLAY_NUMBER_OF_ENTRIES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> entries)');
+define('TEXT_DISPLAY_NUMBER_OF_LANGUAGES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> languages)');
+define('TEXT_DISPLAY_NUMBER_OF_MANUFACTURERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> manufacturers)');
+define('TEXT_DISPLAY_NUMBER_OF_NEWSLETTERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> newsletters)');
+define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> orders)');
+define('TEXT_DISPLAY_NUMBER_OF_ORDERS_STATUS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> orders status)');
+define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> products)');
+define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS_EXPECTED', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> products expected)');
+define('TEXT_DISPLAY_NUMBER_OF_REVIEWS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> product reviews)');
+define('TEXT_DISPLAY_NUMBER_OF_SPECIALS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> products on special)');
+define('TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> tax classes)');
+define('TEXT_DISPLAY_NUMBER_OF_TAX_ZONES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> tax zones)');
+define('TEXT_DISPLAY_NUMBER_OF_TAX_RATES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> tax rates)');
+define('TEXT_DISPLAY_NUMBER_OF_ZONES', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> zones)');
 
 define('PREVNEXT_BUTTON_PREV', '&lt;&lt;');
 define('PREVNEXT_BUTTON_NEXT', '&gt;&gt;');

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -48,7 +48,7 @@
     }
 
     if (isset($HTTP_GET_VARS['keywords'])) {
-      $keywords = $HTTP_GET_VARS['keywords'];
+      $keywords = tep_db_prepare_input($HTTP_GET_VARS['keywords']);
     }
 
     $date_check_error = false;
@@ -130,20 +130,10 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="0">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE_2; ?></td>
-            <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_IMAGES . 'table_background_browse.gif', HEADING_TITLE_2, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-      </tr>
-      <tr>
-        <td>
+<h1><?php echo HEADING_TITLE_2; ?></h1>
+
+<div class="contentContainer">
+
 <?php
 // create column list
   $define_list = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
@@ -281,39 +271,39 @@
     $where_str .= " group by p.products_id, tr.tax_priority";
   }
 
-  if ( (!isset($HTTP_GET_VARS['sort'])) || (!preg_match('/[1-8][ad]/i', $HTTP_GET_VARS['sort'])) || (substr($HTTP_GET_VARS['sort'], 0, 1) > sizeof($column_list)) ) {
+  if ( (!isset($HTTP_GET_VARS['sort'])) || (!preg_match('/^[1-8][ad]$/', $HTTP_GET_VARS['sort'])) || (substr($HTTP_GET_VARS['sort'], 0, 1) > sizeof($column_list)) ) {
     for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
       if ($column_list[$i] == 'PRODUCT_LIST_NAME') {
         $HTTP_GET_VARS['sort'] = $i+1 . 'a';
-        $order_str = ' order by pd.products_name';
+        $order_str = " order by pd.products_name";
         break;
       }
     }
   } else {
     $sort_col = substr($HTTP_GET_VARS['sort'], 0 , 1);
     $sort_order = substr($HTTP_GET_VARS['sort'], 1);
-    $order_str = ' order by ';
+
     switch ($column_list[$sort_col-1]) {
       case 'PRODUCT_LIST_MODEL':
-        $order_str .= "p.products_model " . ($sort_order == 'd' ? "desc" : "") . ", pd.products_name";
+        $order_str = " order by p.products_model " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
       case 'PRODUCT_LIST_NAME':
-        $order_str .= "pd.products_name " . ($sort_order == 'd' ? "desc" : "");
+        $order_str = " order by pd.products_name " . ($sort_order == 'd' ? 'desc' : '');
         break;
       case 'PRODUCT_LIST_MANUFACTURER':
-        $order_str .= "m.manufacturers_name " . ($sort_order == 'd' ? "desc" : "") . ", pd.products_name";
+        $order_str = " order by m.manufacturers_name " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
       case 'PRODUCT_LIST_QUANTITY':
-        $order_str .= "p.products_quantity " . ($sort_order == 'd' ? "desc" : "") . ", pd.products_name";
+        $order_str = " order by p.products_quantity " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
       case 'PRODUCT_LIST_IMAGE':
-        $order_str .= "pd.products_name";
+        $order_str = " order by pd.products_name";
         break;
       case 'PRODUCT_LIST_WEIGHT':
-        $order_str .= "p.products_weight " . ($sort_order == 'd' ? "desc" : "") . ", pd.products_name";
+        $order_str = " order by p.products_weight " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
       case 'PRODUCT_LIST_PRICE':
-        $order_str .= "final_price " . ($sort_order == 'd' ? "desc" : "") . ", pd.products_name";
+        $order_str = " order by final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
     }
   }
@@ -322,15 +312,13 @@
 
   require(DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
 ?>
-        </td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-      </tr>
-      <tr>
-        <td class="smallText"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link(FILENAME_ADVANCED_SEARCH, tep_get_all_get_params(array('sort', 'page')), 'NONSSL', true, false)); ?></td>
-      </tr>
-    </table>
+
+  <br />
+
+  <div class="buttonSet">
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link(FILENAME_ADVANCED_SEARCH, tep_get_all_get_params(array('sort', 'page')), 'NONSSL', true, false)); ?>
+  </div>
+</div>
 
 <?php
   require(DIR_WS_INCLUDES . 'template_bottom.php');

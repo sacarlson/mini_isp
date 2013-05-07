@@ -21,11 +21,12 @@
     exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory. Please use PHP 4.3+ if register_globals cannot be enabled on the server.');
   }
 
-// Set the local configuration parameters - mainly for developers
-  if (file_exists('includes/local/configure.php')) include('includes/local/configure.php');
-
-// include server parameters
-  require('includes/configure.php');
+// load server configuration parameters
+  if (file_exists('includes/local/configure.php')) { // for developers
+    include('includes/local/configure.php');
+  } else {
+    include('includes/configure.php');
+  }
 
   if (strlen(DB_SERVER) < 1) {
     if (is_dir('install')) {
@@ -57,9 +58,6 @@
 // include the list of project database tables
   require(DIR_WS_INCLUDES . 'database_tables.php');
 
-// customization for the design layout
-  define('BOX_WIDTH', 125); // how wide the boxes should be in pixels (default: 125)
-
 // include the database functions
   require(DIR_WS_FUNCTIONS . 'database.php');
 
@@ -73,16 +71,18 @@
   }
 
 // if gzip_compression is enabled, start to buffer the output
-  if ( (GZIP_COMPRESSION == 'true') && ($ext_zlib_loaded = extension_loaded('zlib')) && (PHP_VERSION >= '4') ) {
+  if ( (GZIP_COMPRESSION == 'true') && ($ext_zlib_loaded = extension_loaded('zlib')) && !headers_sent() ) {
     if (($ini_zlib_output_compression = (int)ini_get('zlib.output_compression')) < 1) {
-      if (PHP_VERSION >= '4.0.4') {
-        ob_start('ob_gzhandler');
-      } else {
-        include(DIR_WS_FUNCTIONS . 'gzip_compression.php');
-        ob_start();
-        ob_implicit_flush();
+      if (PHP_VERSION < '5.4' || PHP_VERSION > '5.4.5') { // see PHP bug 55544
+        if (PHP_VERSION >= '4.0.4') {
+          ob_start('ob_gzhandler');
+        } elseif (PHP_VERSION >= '4.0.1') {
+          include(DIR_WS_FUNCTIONS . 'gzip_compression.php');
+          ob_start();
+          ob_implicit_flush();
+        }
       }
-    } else {
+    } elseif (function_exists('ini_set')) {
       ini_set('zlib.output_compression_level', GZIP_LEVEL);
     }
   }
@@ -287,7 +287,7 @@
     if (isset($HTTP_GET_VARS['currency']) && $currencies->is_set($HTTP_GET_VARS['currency'])) {
       $currency = $HTTP_GET_VARS['currency'];
     } else {
-      $currency = (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
+      $currency = ((USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && $currencies->is_set(LANGUAGE_CURRENCY)) ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
     }
   }
 
@@ -333,7 +333,14 @@
                               break;
       // customer adds a product from the products page
       case 'add_product' :    if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
-                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $HTTP_POST_VARS['id']))+1, $HTTP_POST_VARS['id']);
+                                $attributes = isset($HTTP_POST_VARS['id']) ? $HTTP_POST_VARS['id'] : '';
+                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $attributes))+1, $attributes);
+                              }
+                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
+                              break;
+      // customer removes a product from their shopping cart
+      case 'remove_product' : if (isset($HTTP_GET_VARS['products_id'])) {
+                                $cart->remove($HTTP_GET_VARS['products_id']);
                               }
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
@@ -359,10 +366,10 @@
                                 }
                                 if (!is_array($notify)) $notify = array($notify);
                                 for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
-                                  $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $notify[$i] . "' and customers_id = '" . $customer_id . "'");
+                                  $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$notify[$i] . "' and customers_id = '" . (int)$customer_id . "'");
                                   $check = tep_db_fetch_array($check_query);
                                   if ($check['count'] < 1) {
-                                    tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . $notify[$i] . "', '" . $customer_id . "', now())");
+                                    tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . (int)$notify[$i] . "', '" . (int)$customer_id . "', now())");
                                   }
                                 }
                                 tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
@@ -372,10 +379,10 @@
                               }
                               break;
       case 'notify_remove' :  if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['products_id'])) {
-                                $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $HTTP_GET_VARS['products_id'] . "' and customers_id = '" . $customer_id . "'");
+                                $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 $check = tep_db_fetch_array($check_query);
                                 if ($check['count'] > 0) {
-                                  tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . $HTTP_GET_VARS['products_id'] . "' and customers_id = '" . $customer_id . "'");
+                                  tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 }
                                 tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
                               } else {

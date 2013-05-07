@@ -21,11 +21,12 @@
     exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory. Please use PHP 4.3+ if register_globals cannot be enabled on the server.');
   }
 
-// Set the local configuration parameters - mainly for developers
-  if (file_exists('includes/local/configure.php')) include('includes/local/configure.php');
-
-// Include application configuration parameters
-  require('includes/configure.php');
+// load server configuration parameters
+  if (file_exists('includes/local/configure.php')) { // for developers
+    include('includes/local/configure.php');
+  } else {
+    include('includes/configure.php');
+  }
 
 // Define the project version --- obsolete, now retrieved with tep_get_version()
   define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
@@ -47,9 +48,6 @@
 
 // include the list of project database tables
   require(DIR_WS_INCLUDES . 'database_tables.php');
-
-// customization for the design layout
-  define('BOX_WIDTH', 125); // how wide the boxes should be in pixels (default: 125)
 
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
@@ -217,15 +215,9 @@
     $current_category_id = 0;
   }
 
-// default open navigation box
-  if (!tep_session_is_registered('selected_box')) {
-    tep_session_register('selected_box');
-    $selected_box = 'configuration';
-  }
-
-  if (isset($HTTP_GET_VARS['selected_box'])) {
-    $selected_box = $HTTP_GET_VARS['selected_box'];
-  }
+// initialize configuration modules
+  require(DIR_WS_CLASSES . 'cfg_modules.php');
+  $cfgModules = new cfg_modules();
 
 // the following cache blocks are used in the Tools->Cache section
 // ('language' in the filename is automatically replaced by available languages)

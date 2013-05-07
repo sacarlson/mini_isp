@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2007 osCommerce
+  Copyright (c) 2012 osCommerce
 
   Released under the GNU General Public License
 */
@@ -29,6 +29,10 @@
 
     if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) {
       tep_redirect(tep_href_link(FILENAME_DEFAULT, '', 'NONSSL', false));
+    }
+
+    if ( strpos($url, '&amp;') !== false ) {
+      $url = str_replace('&amp;', '&', $url);
     }
 
     header('Location: ' . $url);
@@ -410,11 +414,11 @@
 
     if ($html) {
 // HTML Mode
-      $HR = '<hr>';
-      $hr = '<hr>';
+      $HR = '<hr />';
+      $hr = '<hr />';
       if ( ($boln == '') && ($eoln == "\n") ) { // Values not specified, use rational defaults
-        $CR = '<br>';
-        $cr = '<br>';
+        $CR = '<br />';
+        $cr = '<br />';
         $eoln = $cr;
       } else { // Use values supplied
         $CR = $eoln . $boln;
@@ -751,6 +755,18 @@
   }
 
 ////
+// Sets the status of a review
+  function tep_set_review_status($reviews_id, $status) {
+    if ($status == '1') {
+      return tep_db_query("update " . TABLE_REVIEWS . " set reviews_status = '1', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
+    } elseif ($status == '0') {
+      return tep_db_query("update " . TABLE_REVIEWS . " set reviews_status = '0', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
+    } else {
+      return -1;
+    }
+  }
+
+////
 // Sets the status of a product on special
   function tep_set_specials_status($specials_id, $status) {
     if ($status == '1') {
@@ -779,11 +795,11 @@
     for ($i=0, $n=sizeof($select_array); $i<$n; $i++) {
       $name = ((tep_not_null($key)) ? 'configuration[' . $key . ']' : 'configuration_value');
 
-      $string .= '<br><input type="radio" name="' . $name . '" value="' . $select_array[$i] . '"';
+      $string .= '<br /><input type="radio" name="' . $name . '" value="' . $select_array[$i] . '"';
 
-      if ($key_value == $select_array[$i]) $string .= ' CHECKED';
+      if ($key_value == $select_array[$i]) $string .= ' checked="checked"';
 
-      $string .= '> ' . $select_array[$i];
+      $string .= ' /> ' . $select_array[$i];
     }
 
     return $string;
@@ -795,9 +811,9 @@
     reset($select_array);
     while (list($key, $value) = each($select_array)) {
       if (is_int($key)) $key = $value;
-      $string .= '<br><input type="radio" name="configuration[' . $key_name . ']" value="' . $key . '"';
-      if ($key_value == $key) $string .= ' CHECKED';
-      $string .= '> ' . $value;
+      $string .= '<br /><input type="radio" name="configuration[' . $key_name . ']" value="' . $key . '"';
+      if ($key_value == $key) $string .= ' checked="checked"';
+      $string .= ' /> ' . $value;
     }
 
     return $string;
@@ -811,7 +827,7 @@
     $db_query = tep_db_query("select now() as datetime");
     $db = tep_db_fetch_array($db_query);
 
-    list($system, $host, $kernel) = preg_split('/[\s,]+/', @exec('uname -a'), 5);
+    @list($system, $host, $kernel) = preg_split('/[\s,]+/', @exec('uname -a'), 5);
 
     $data = array();
 
@@ -890,9 +906,9 @@
       for ($j=0, $k=sizeof($calculated_category_path[$i]); $j<$k; $j++) {
         $calculated_category_path_string .= $calculated_category_path[$i][$j]['text'] . '&nbsp;&gt;&nbsp;';
       }
-      $calculated_category_path_string = substr($calculated_category_path_string, 0, -16) . '<br>';
+      $calculated_category_path_string = substr($calculated_category_path_string, 0, -16) . '<br />';
     }
-    $calculated_category_path_string = substr($calculated_category_path_string, 0, -4);
+    $calculated_category_path_string = substr($calculated_category_path_string, 0, -6);
 
     if (strlen($calculated_category_path_string) < 1) $calculated_category_path_string = TEXT_TOP;
 
@@ -906,9 +922,9 @@
       for ($j=0, $k=sizeof($calculated_category_path[$i]); $j<$k; $j++) {
         $calculated_category_path_string .= $calculated_category_path[$i][$j]['id'] . '_';
       }
-      $calculated_category_path_string = substr($calculated_category_path_string, 0, -1) . '<br>';
+      $calculated_category_path_string = substr($calculated_category_path_string, 0, -1) . '<br />';
     }
-    $calculated_category_path_string = substr($calculated_category_path_string, 0, -4);
+    $calculated_category_path_string = substr($calculated_category_path_string, 0, -6);
 
     if (strlen($calculated_category_path_string) < 1) $calculated_category_path_string = TEXT_TOP;
 
@@ -949,6 +965,22 @@
       if (file_exists(DIR_FS_CATALOG_IMAGES . $product_image['products_image'])) {
         @unlink(DIR_FS_CATALOG_IMAGES . $product_image['products_image']);
       }
+    }
+
+    $product_images_query = tep_db_query("select image from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_id . "'");
+    if (tep_db_num_rows($product_images_query)) {
+      while ($product_images = tep_db_fetch_array($product_images_query)) {
+        $duplicate_image_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_IMAGES . " where image = '" . tep_db_input($product_images['image']) . "'");
+        $duplicate_image = tep_db_fetch_array($duplicate_image_query);
+
+        if ($duplicate_image['total'] < 2) {
+          if (file_exists(DIR_FS_CATALOG_IMAGES . $product_images['image'])) {
+            @unlink(DIR_FS_CATALOG_IMAGES . $product_images['image']);
+          }
+        }
+      }
+
+      tep_db_query("delete from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_id . "'");
     }
 
     tep_db_query("delete from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "'");
@@ -1309,9 +1341,12 @@
   function tep_rand($min = null, $max = null) {
     static $seeded;
 
-    if (!$seeded) {
-      mt_srand((double)microtime()*1000000);
+    if (!isset($seeded)) {
       $seeded = true;
+
+      if ( (PHP_VERSION < '4.2.0') ) {
+        mt_srand((double)microtime()*1000000);
+      }
     }
 
     if (isset($min) && isset($max)) {

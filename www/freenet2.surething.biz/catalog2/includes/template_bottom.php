@@ -10,21 +10,36 @@
   Released under the GNU General Public License
 */
 ?>
-<!-- body_text_eof //-->
-    </td>
-    <td width="<?php echo BOX_WIDTH; ?>" valign="top"><table border="0" width="<?php echo BOX_WIDTH; ?>" cellspacing="0" cellpadding="2">
-<!-- right_navigation //-->
-<?php require(DIR_WS_INCLUDES . 'column_right.php'); ?>
-<!-- right_navigation_eof //-->
-    </table></td>
-  </tr>
-</table>
-<!-- body_eof //-->
 
-<!-- footer //-->
+</div> <!-- bodyContent //-->
+
+<?php
+  if ($oscTemplate->hasBlocks('boxes_column_left')) {
+?>
+
+<div id="columnLeft" class="grid_<?php echo $oscTemplate->getGridColumnWidth(); ?> pull_<?php echo $oscTemplate->getGridContentWidth(); ?>">
+  <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
+</div>
+
+<?php
+  }
+
+  if ($oscTemplate->hasBlocks('boxes_column_right')) {
+?>
+
+<div id="columnRight" class="grid_<?php echo $oscTemplate->getGridColumnWidth(); ?>">
+  <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
+</div>
+
+<?php
+  }
+?>
+
 <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
-<!-- footer_eof //-->
 
-<br>
+</div> <!-- bodyWrapper //-->
+
+<?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
+
 </body>
 </html>

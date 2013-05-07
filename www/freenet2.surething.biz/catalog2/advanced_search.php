@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -19,8 +19,8 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-<script language="javascript" src="includes/general.js"></script>
-<script language="javascript"><!--
+<script type="text/javascript" src="includes/general.js"></script>
+<script type="text/javascript"><!--
 function check_form() {
   var error_message = "<?php echo JS_ERROR; ?>";
   var error_found = false;
@@ -33,13 +33,13 @@ function check_form() {
   var pfrom_float;
   var pto_float;
 
-  if ( ((keywords == '') || (keywords.length < 1)) && ((dfrom == '') || (dfrom == '<?php echo DOB_FORMAT_STRING; ?>') || (dfrom.length < 1)) && ((dto == '') || (dto == '<?php echo DOB_FORMAT_STRING; ?>') || (dto.length < 1)) && ((pfrom == '') || (pfrom.length < 1)) && ((pto == '') || (pto.length < 1)) ) {
+  if ( ((keywords == '') || (keywords.length < 1)) && ((dfrom == '') || (dfrom.length < 1)) && ((dto == '') || (dto.length < 1)) && ((pfrom == '') || (pfrom.length < 1)) && ((pto == '') || (pto.length < 1)) ) {
     error_message = error_message + "* <?php echo ERROR_AT_LEAST_ONE_INPUT; ?>\n";
     error_field = document.advanced_search.keywords;
     error_found = true;
   }
 
-  if ((dfrom.length > 0) && (dfrom != '<?php echo DOB_FORMAT_STRING; ?>')) {
+  if (dfrom.length > 0) {
     if (!IsValidDate(dfrom, '<?php echo DOB_FORMAT_STRING; ?>')) {
       error_message = error_message + "* <?php echo ERROR_INVALID_FROM_DATE; ?>\n";
       error_field = document.advanced_search.dfrom;
@@ -47,7 +47,7 @@ function check_form() {
     }
   }
 
-  if ((dto.length > 0) && (dto != '<?php echo DOB_FORMAT_STRING; ?>')) {
+  if (dto.length > 0) {
     if (!IsValidDate(dto, '<?php echo DOB_FORMAT_STRING; ?>')) {
       error_message = error_message + "* <?php echo ERROR_INVALID_TO_DATE; ?>\n";
       error_field = document.advanced_search.dto;
@@ -55,7 +55,7 @@ function check_form() {
     }
   }
 
-  if ((dfrom.length > 0) && (dfrom != '<?php echo DOB_FORMAT_STRING; ?>') && (IsValidDate(dfrom, '<?php echo DOB_FORMAT_STRING; ?>')) && (dto.length > 0) && (dto != '<?php echo DOB_FORMAT_STRING; ?>') && (IsValidDate(dto, '<?php echo DOB_FORMAT_STRING; ?>'))) {
+  if ((dfrom.length > 0) && (IsValidDate(dfrom, '<?php echo DOB_FORMAT_STRING; ?>')) && (dto.length > 0) && (IsValidDate(dto, '<?php echo DOB_FORMAT_STRING; ?>'))) {
     if (!CheckDateRange(document.advanced_search.dfrom, document.advanced_search.dto)) {
       error_message = error_message + "* <?php echo ERROR_TO_DATE_LESS_THAN_FROM_DATE; ?>\n";
       error_field = document.advanced_search.dto;
@@ -98,8 +98,6 @@ function check_form() {
     error_field.focus();
     return false;
   } else {
-    RemoveFormatString(document.advanced_search.dfrom, "<?php echo DOB_FORMAT_STRING; ?>");
-    RemoveFormatString(document.advanced_search.dto, "<?php echo DOB_FORMAT_STRING; ?>");
     return true;
   }
 }
@@ -109,106 +107,82 @@ function popupWindow(url) {
 }
 //--></script>
 
-    <?php echo tep_draw_form('advanced_search', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'onSubmit="return check_form(this);"') . tep_hide_session_id(); ?><table border="0" width="100%" cellspacing="0" cellpadding="0">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE_1; ?></td>
-            <td class="pageHeading" align="right"><?php echo tep_image(DIR_WS_IMAGES . 'table_background_browse.gif', HEADING_TITLE_1, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-      </tr>
+<h1><?php echo HEADING_TITLE_1; ?></h1>
+
 <?php
   if ($messageStack->size('search') > 0) {
-?>
-      <tr>
-        <td><?php echo $messageStack->output('search'); ?></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-      </tr>
-<?php
+    echo $messageStack->output('search');
   }
 ?>
-      <tr>
-        <td>
-<?php
-  $info_box_contents = array();
-  $info_box_contents[] = array('text' => HEADING_SEARCH_CRITERIA);
 
-  new infoBoxHeading($info_box_contents, true, true);
+<?php echo tep_draw_form('advanced_search', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'onsubmit="return check_form(this);"') . tep_hide_session_id(); ?>
 
-  $info_box_contents = array();
-  $info_box_contents[] = array('text' => tep_draw_input_field('keywords', '', 'style="width: 100%"'));
-  $info_box_contents[] = array('align' => 'right', 'text' => tep_draw_checkbox_field('search_in_description', '1') . ' ' . TEXT_SEARCH_IN_DESCRIPTION);
+<div class="contentContainer">
+  <h2><?php echo HEADING_SEARCH_CRITERIA; ?></h2>
 
-  new infoBox($info_box_contents);
-?>
-        </td>
+  <div class="contentText">
+    <div>
+      <?php echo tep_draw_input_field('keywords', '', 'style="width: 100%"') . tep_draw_hidden_field('search_in_description', '1'); ?>
+    </div>
+
+    <br />
+
+    <div>
+      <span><?php echo '<a href="' . tep_href_link(FILENAME_POPUP_SEARCH_HELP) . '" target="_blank" onclick="$(\'#helpSearch\').dialog(\'open\'); return false;">' . TEXT_SEARCH_HELP_LINK . '</a>'; ?></span>
+      <span style="float: right;"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'search', null, 'primary'); ?></span>
+    </div>
+
+    <div id="helpSearch" title="<?php echo HEADING_SEARCH_HELP; ?>">
+      <p><?php echo TEXT_SEARCH_HELP; ?></p>
+    </div>
+
+<script type="text/javascript">
+$('#helpSearch').dialog({
+  autoOpen: false,
+  buttons: {
+    Ok: function() {
+      $(this).dialog('close');
+    }
+  }
+});
+</script>
+
+    <br />
+
+    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <tr>
+        <td class="fieldKey"><?php echo ENTRY_CATEGORIES; ?></td>
+        <td class="fieldValue"><?php echo tep_draw_pull_down_menu('categories_id', tep_get_categories(array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES)))); ?></td>
       </tr>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td class="fieldKey">&nbsp;</td>
+        <td class="smallText"><?php echo tep_draw_checkbox_field('inc_subcat', '1', true) . ' ' . ENTRY_INCLUDE_SUBCATEGORIES; ?></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td class="smallText"><?php echo '<a href="javascript:popupWindow(\'' . tep_href_link(FILENAME_POPUP_SEARCH_HELP) . '\')">' . TEXT_SEARCH_HELP_LINK . '</a>'; ?></td>
-            <td class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'search', null, 'primary'); ?></td>
-          </tr>
-        </table></td>
+        <td class="fieldKey"><?php echo ENTRY_MANUFACTURERS; ?></td>
+        <td class="fieldValue"><?php echo tep_draw_pull_down_menu('manufacturers_id', tep_get_manufacturers(array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS)))); ?></td>
       </tr>
       <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
+        <td class="fieldKey"><?php echo ENTRY_PRICE_FROM; ?></td>
+        <td class="fieldValue"><?php echo tep_draw_input_field('pfrom'); ?></td>
       </tr>
       <tr>
-        <td><table border="0" width="100%" cellspacing="1" cellpadding="2" class="infoBox">
-          <tr class="infoBoxContents">
-            <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_CATEGORIES; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_pull_down_menu('categories_id', tep_get_categories(array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES)))); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey">&nbsp;</td>
-                <td class="smallText"><?php echo tep_draw_checkbox_field('inc_subcat', '1', true) . ' ' . ENTRY_INCLUDE_SUBCATEGORIES; ?></td>
-              </tr>
-              <tr>
-                <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_MANUFACTURERS; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_pull_down_menu('manufacturers_id', tep_get_manufacturers(array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS)))); ?></td>
-              </tr>
-              <tr>
-                <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_PRICE_FROM; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_input_field('pfrom'); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_PRICE_TO; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_input_field('pto'); ?></td>
-              </tr>
-              <tr>
-                <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '100%', '10'); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_DATE_FROM; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_input_field('dfrom', DOB_FORMAT_STRING, 'onFocus="RemoveFormatString(this, \'' . DOB_FORMAT_STRING . '\')"'); ?></td>
-              </tr>
-              <tr>
-                <td class="fieldKey"><?php echo ENTRY_DATE_TO; ?></td>
-                <td class="fieldValue"><?php echo tep_draw_input_field('dto', DOB_FORMAT_STRING, 'onFocus="RemoveFormatString(this, \'' . DOB_FORMAT_STRING . '\')"'); ?></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table></td>
+        <td class="fieldKey"><?php echo ENTRY_PRICE_TO; ?></td>
+        <td class="fieldValue"><?php echo tep_draw_input_field('pto'); ?></td>
       </tr>
-    </table></form>
+      <tr>
+        <td class="fieldKey"><?php echo ENTRY_DATE_FROM; ?></td>
+        <td class="fieldValue"><?php echo tep_draw_input_field('dfrom', '', 'id="dfrom"'); ?><script type="text/javascript">$('#dfrom').datepicker({dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>', changeMonth: true, changeYear: true, yearRange: '-10:+0'});</script></td>
+      </tr>
+      <tr>
+        <td class="fieldKey"><?php echo ENTRY_DATE_TO; ?></td>
+        <td class="fieldValue"><?php echo tep_draw_input_field('dto', '', 'id="dto"'); ?><script type="text/javascript">$('#dto').datepicker({dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>', changeMonth: true, changeYear: true, yearRange: '-10:+0'});</script></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</form>
 
 <?php
   require(DIR_WS_INCLUDES . 'template_bottom.php');

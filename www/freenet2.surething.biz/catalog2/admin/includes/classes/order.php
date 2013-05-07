@@ -24,7 +24,7 @@
     }
 
     function query($order_id) {
-      $order_query = tep_db_query("select customers_name, customers_company, customers_street_address, customers_suburb, customers_city, customers_postcode, customers_state, customers_country, customers_telephone, customers_email_address, customers_address_format_id, delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city, delivery_postcode, delivery_state, delivery_country, delivery_address_format_id, billing_name, billing_company, billing_street_address, billing_suburb, billing_city, billing_postcode, billing_state, billing_country, billing_address_format_id, payment_method, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased, orders_status, ipaddy, ipisp, last_modified from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
+      $order_query = tep_db_query("select customers_name, customers_company, customers_street_address, customers_suburb, customers_city, customers_postcode, customers_state, customers_country, customers_telephone, customers_email_address, customers_address_format_id, delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city, delivery_postcode, delivery_state, delivery_country, delivery_address_format_id, billing_name, billing_company, billing_street_address, billing_suburb, billing_city, billing_postcode, billing_state, billing_country, billing_address_format_id, payment_method, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased, orders_status, last_modified from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
       $order = tep_db_fetch_array($order_query);
 
       $totals_query = tep_db_query("select title, text from " . TABLE_ORDERS_TOTAL . " where orders_id = '" . (int)$order_id . "' order by sort_order");
@@ -54,9 +54,7 @@
                               'country' => $order['customers_country'],
                               'format_id' => $order['customers_address_format_id'],
                               'telephone' => $order['customers_telephone'],
-                              'email_address' => $order['customers_email_address'],
-			      'ipaddy' => $order['ipaddy'],
-                              'ipisp' => $order['ipisp']);
+                              'email_address' => $order['customers_email_address']);
 
       $this->delivery = array('name' => $order['delivery_name'],
                               'company' => $order['delivery_company'],

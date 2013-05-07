@@ -2,7 +2,7 @@
   //catalog2 configs
   $username="sacarlson";
   $password="scottc";
-  $database="freenet2";
+  $database="freenet3";
   $hostname="localhost";
 
   
